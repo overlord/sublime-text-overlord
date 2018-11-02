@@ -178,7 +178,7 @@ class overlord_copy_as_html(sublime_plugin.TextCommand):
 	# ------------------------------
 	def run(self, edit):
 		# ------------------------------
-		self.config = sublime.load_settings("copy_as_html.sublime-settings")
+		self.config = sublime.load_settings("sublime_overlord_copy_as_html.sublime-settings")
 		window = sublime.active_window()
 		view = window.active_view() if window != None else None
 		if view is None or view.id() != self.view.id():

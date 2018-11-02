@@ -46,18 +46,19 @@
 						"children":
 						[
 							{ "caption": "-" },
-							{ "caption": "README.md",                 "command": "open_file", "args": { "file": "${packages}/sublime_overlord/README.md" } },
+							{ "caption": "README.md",                 "command": "open_file",     "args": { "file": "${packages}/sublime_overlord/README.md" } },
 							{ "caption": "-", "id": "settings" },
-							{ "caption": "Settings - Сopy As Html",   "command": "open_file", "args": { "file": "${packages}/sublime_overlord_settings/copy_as_html.sublime-settings" } },
-							{ "caption": "Settings - Overlord",       "command": "open_file", "args": { "file": "${packages}/sublime_overlord_settings/overlord.sublime-settings" } },
-							{ "caption": "Settings - Switch Project", "command": "open_file", "args": { "file": "${packages}/sublime_overlord_settings/switch_project.sublime-settings" } },
+							{ "caption": "Settings - Сopy As Html",   "command": "edit_settings", "args": { "base_file": "${packages}/sublime_overlord/settings/sublime_overlord_copy_as_html.sublime-settings", "default": "{\n$0\n}\n" } },
+							{ "caption": "Settings - Overlord",       "command": "open_file",     "args": { "file": "${packages}/sublime_overlord_settings/overlord.sublime-settings" } },
+							{ "caption": "Settings - Switch Project", "command": "open_file",     "args": { "file": "${packages}/sublime_overlord_settings/switch_project.sublime-settings" } },
 							{ "caption": "-", "id": "keymap" },
-							{ "caption": "Key Bindings – Default",    "command": "open_file", "args": { "file": "${packages}/sublime_overlord_settings/Default.sublime-keymap" } },
+							{ "caption": "Key Bindings – Default",    "command": "open_file",     "args": { "file": "${packages}/sublime_overlord_settings/Default.sublime-keymap" } },
 							{ "caption": "-", "id": "menu" },
-							{ "caption": "Main Menu – Default",       "command": "open_file", "args": { "file": "${packages}/sublime_overlord/Main.sublime-menu" } },
-							{ "caption": "Context Menu – Default",    "command": "open_file", "args": { "file": "${packages}/sublime_overlord/Context.sublime-menu" } },
-							{ "caption": "Tab Context – Default",     "command": "open_file", "args": { "file": "${packages}/sublime_overlord/Tab Context.sublime-menu" } },
-							{ "caption": "Commands – Default",        "command": "open_file", "args": { "file": "${packages}/sublime_overlord/Default.sublime-commands" } }
+							{ "caption": "Main Menu – Default",       "command": "open_file",     "args": { "file": "${packages}/sublime_overlord/settings/Main.sublime-menu" } },
+							{ "caption": "Context Menu – Default",    "command": "open_file",     "args": { "file": "${packages}/sublime_overlord/settings/Context.sublime-menu" } },
+							{ "caption": "Tab Context – Default",     "command": "open_file",     "args": { "file": "${packages}/sublime_overlord/settings/Tab Context.sublime-menu" } },
+							{ "caption": "Commands – Default",        "command": "open_file",     "args": { "file": "${packages}/sublime_overlord/settings/Default.sublime-commands" } },
+							{ "caption": "Side Bar – Default",        "command": "open_file",     "args": { "file": "${packages}/sublime_overlord/settings/Side Bar.sublime-menu" } }
 						]
 					}
 				]

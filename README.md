@@ -4,15 +4,15 @@ Essential Sublime Text toolbox **v.0.1**
 
 ## New Syntaxes
 
-See examples [here](https://bitbucket.org/DarkOverlord/sublime_overlord/src/default/README_syntaxes.md)
+See examples [here](https://bitbucket.org/DarkOverlord/sublime_overlord/src/master/README_syntaxes.md)
 
-- **SQL Ex.tmLanguage**
+- **SQL Ex.sublime-syntax**
 	- optimal for Oracle PL/SQL script files
 	- fix for `ctrl+r` hotkey (in package files)
 
-		![sql_ex_ctrl_r](https://bytebucket.org/DarkOverlord/sublime_overlord/raw/default/images/sql_ex_ctrl_r.png)
+		![sql_ex_ctrl_r](https://bytebucket.org/DarkOverlord/sublime_overlord/raw/master/images/sql_ex_ctrl_r.png)
 
-	- fix multiline dynamic-sql highlight, see examples [here](https://bitbucket.org/DarkOverlord/sublime_overlord/src/default/README_syntaxes.md)
+	- fix multiline dynamic-sql highlight, see examples [here](https://bitbucket.org/DarkOverlord/sublime_overlord/src/master/README_syntaxes.md)
 
 - **Highlighted Text.tmLanguage**
 	- bring some highlight into plain-text file
@@ -39,7 +39,7 @@ See examples [here](https://bitbucket.org/DarkOverlord/sublime_overlord/src/defa
 - **overlord_align_table**
 	- By default aligns tab-separated table by spaces and vertical | columns separator
 
-	![overlord_align_table](https://bytebucket.org/DarkOverlord/sublime_overlord/raw/default/images/align_table.gif)
+	![overlord_align_table](https://bytebucket.org/DarkOverlord/sublime_overlord/raw/master/images/align_table.gif)
 
 - **overlord_auto_indent**
 	- Based on <https://github.com/alek-sys/sublimetext_indentxml>
@@ -101,7 +101,7 @@ See examples [here](https://bitbucket.org/DarkOverlord/sublime_overlord/src/defa
 - **overlord_tab**
 	- Aligns selected cursor positions verticaly by tabs or spaces
 
-	![overlord_tab](https://bytebucket.org/DarkOverlord/sublime_overlord/raw/default/images/overlord_tab.gif)
+	![overlord_tab](https://bytebucket.org/DarkOverlord/sublime_overlord/raw/master/images/overlord_tab.gif)
 
 - **overlord_total_recall**
 
@@ -132,7 +132,9 @@ See examples [here](https://bitbucket.org/DarkOverlord/sublime_overlord/src/defa
 ### switch_default_project.sublime-settings
 
 ```
-"path_blocks" := [:string]
+"path_blocks" := [:path_block]
+
+:path_block := [:string]
 ```
 
 ## Links
@@ -140,4 +142,3 @@ See examples [here](https://bitbucket.org/DarkOverlord/sublime_overlord/src/defa
 - [Sublime Overlord Main](https://bitbucket.org/DarkOverlord/sublime_overlord)
 - [Sublime Overlord FORIS Package](https://bitbucket.org/DarkOverlord/sublime_overlord_foris) (private)
 - [Sublime Overlord Settings Package](https://bitbucket.org/DarkOverlord/sublime_overlord_settings) (private)
-

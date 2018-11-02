@@ -1,0 +1,8 @@
+{
+	"color_scheme": "Packages/sublime_overlord/themes/Visual Studio Ex.tmTheme",
+	// "color_scheme": "Packages/sublime_overlord/themes/Solarized Ex (light).tmTheme",
+	"font_size": 8,
+	// "include_file_name": true,
+	// "tab_size": 2,
+	"white_bgcolor": "#FFFFFF"
+}
