@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>fileTypes</key>
+	<array>
+		<string>chord</string>
+		<string>accord</string>
+	</array>
+	<key>foldingStartMarker</key>
+	<string>\s*\(\s*$</string>
+	<key>foldingStopMarker</key>
+	<string>^\s*\)</string>
+	<key>keyEquivalent</key>
+	<string>^~S</string>
+	<key>name</key>
+	<string>Chorder</string>
+
+	<key>patterns</key>
+	<array>
+		<dict comment="chord names">
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>constant.character.source.chorder</string>
+				</dict>
+				<key>2</key>
+					<dict>
+					<key>name</key>
+					<string>constant.other.source.chorder</string>
+				</dict>
+			</dict>
+			<key>match</key>
+			<string>(?:^|\b)(A|B|C|D|E|F|G|H)((?:m|b|\#|sus|aug|2|7|9|12)*)(?:$|\s)</string>
+		</dict>
+		<dict comment="splitters">
+			<key>match</key>
+			<string>(?i)[\+=-]{3,}</string>
+			<key>name</key>
+			<string>comment.line.source.chorder</string>
+		</dict>
+		<dict comment="square braced text">
+			<key>match</key>
+			<string>(\[)(.*?)(\])</string>
+			<key>name</key>
+			<string>entity.name.section.source.chorder</string>
+		</dict>
+		<dict comment="curly braced text">
+			<key>match</key>
+			<string>(\{)(.*?)(\})</string>
+			<key>name</key>
+			<string>entity.name.section.source.chorder</string>
+		</dict>
+	</array>
+
+	<key>scopeName</key>
+	<string>source.chorder</string>
+	<key>uuid</key>
+	<string>D799DB09-D48C-457A-8B5D-2779406A486E</string>
+</dict>
+</plist>

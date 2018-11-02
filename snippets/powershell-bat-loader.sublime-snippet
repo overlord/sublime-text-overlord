@@ -1,0 +1,16 @@
+<snippet>
+	<content><![CDATA[
+<# batch file posh loader
+@cls
+@echo Starting powershell...
+@powershell.exe -command " iex ([System.IO.File]::ReadAllText('%0'))"
+@pause
+@goto :EOF
+#>
+${1}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>posh</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

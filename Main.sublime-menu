@@ -1,0 +1,122 @@
+[
+	{
+		"caption": "File",
+		"mnemonic": "F",
+		"id": "file",
+		"children":
+		[
+			{ "caption": "-", "id": "close" },
+			{ "caption": "Close All Files Without Save", "command": "overlord_close_all_force" },
+			{ "caption": "-" },
+			{ "command": "overlord_file_attribute_manager", "args": { "mode": "toggle", "attribute": "writable" } }
+		]
+	},
+	{
+		"caption": "View",
+		"mnemonic": "V",
+		"id": "view",
+		"children":
+		[
+			{
+				"caption": "Indentation",
+				"mnemonic": "I",
+				"id": "indentation",
+				"children":
+				[
+					{ "caption": "-" , "id": "view-indentation-end", },
+				]
+			},
+		]
+	},
+	{
+		"caption": "Preferences",
+		"mnemonic": "n",
+		"id": "preferences",
+		"children":
+		[
+			{ "caption": "-" },
+			{
+				"caption": "Package Settings",
+				"mnemonic": "P",
+				"id": "package-settings",
+				"children":
+				[
+					{
+						"caption": "Sublime Overlord",
+						"children":
+						[
+							{ "caption": "-" },
+							{ "caption": "README.md",                 "command": "open_file", "args": { "file": "${packages}/sublime_overlord/README.md" } },
+							{ "caption": "-", "id": "settings" },
+							{ "caption": "Settings - Сopy As Html",   "command": "open_file", "args": { "file": "${packages}/sublime_overlord_settings/copy_as_html.sublime-settings" } },
+							{ "caption": "Settings - Overlord",       "command": "open_file", "args": { "file": "${packages}/sublime_overlord_settings/overlord.sublime-settings" } },
+							{ "caption": "Settings - Switch Project", "command": "open_file", "args": { "file": "${packages}/sublime_overlord_settings/switch_project.sublime-settings" } },
+							{ "caption": "-", "id": "keymap" },
+							{ "caption": "Key Bindings – Default",    "command": "open_file", "args": { "file": "${packages}/sublime_overlord_settings/Default.sublime-keymap" } },
+							{ "caption": "-", "id": "menu" },
+							{ "caption": "Main Menu – Default",       "command": "open_file", "args": { "file": "${packages}/sublime_overlord/Main.sublime-menu" } },
+							{ "caption": "Context Menu – Default",    "command": "open_file", "args": { "file": "${packages}/sublime_overlord/Context.sublime-menu" } },
+							{ "caption": "Tab Context – Default",     "command": "open_file", "args": { "file": "${packages}/sublime_overlord/Tab Context.sublime-menu" } },
+							{ "caption": "Commands – Default",        "command": "open_file", "args": { "file": "${packages}/sublime_overlord/Default.sublime-commands" } }
+						]
+					}
+				]
+			}
+		]
+	},
+	{
+		"caption": "Overlord",
+		"mnemonic": "O",
+		"id": "overlord",
+		"children":
+		[
+			{
+				"caption": "Open Recently Closed File...", "command": "overlord_open_recently_closed_file"
+			},
+			{ "caption": "-" },
+			{
+				"caption": "Project Ex",
+				"children": [
+					{ "caption": "Open Project...",                    "command": "overlord_switch_project" },
+					{ "caption": "Open Project in new instance...",    "command": "overlord_switch_project", "args": { "in_new_instance": true } },
+					{ "caption": "Open file in other project path...", "command": "overlord_switch_project_file" }
+				]
+			},
+			{
+				"caption": "Replace",
+				"children": [
+					{ "caption": "Replace here...",                    "command": "overlord_replace", "args": { "scratch": false } },
+					{ "caption": "Replace to scratch...",              "command": "overlord_replace", "args": { "scratch": true } },
+					{ "caption": "Replace in all open files...",       "command": "overlord_replace", "args": { "scratch": false, "in_all_open_files": true } },
+					{ "caption": "-" },
+					{ "command": "overlord_replace", "args": { "config_path": "${packages}/sublime_overlord_settings/sql-remove-square-brackets.replace", "scratch": false } },
+					{ "command": "overlord_replace", "args": { "config_path": "${packages}/sublime_overlord_settings/rotate-cyrillic.replace" } },
+					{ "command": "overlord_replace", "args": { "config_path": "${packages}/sublime_overlord_settings/stack-trace.replace" } }
+				]
+			},
+			{ "caption": "-" },
+			{ "caption": "Insert numbers",             "command": "overlord_number_items" },
+			{ "caption": "Insert timestamp",           "command": "overlord_insert_timestamp" },
+			{ "caption": "Clear trailing whitespaces", "command": "overlord_clear_regions" },
+			{ "caption": "Auto Indent (XML/JSON)",     "command": "overlord_auto_indent" },
+			{ "caption": "Align Table",                "command": "overlord_align_table" },
+			{ "caption": "Copy Open Files Path",       "command": "overlord_copy_open_file_path" },
+			{ "caption": "Copy Open Files To...",      "command": "overlord_copy_open_file_to" },
+			{ "caption": "-" },
+			{
+				"caption": "Other",
+				"children" : [
+					{                                          "command": "overlord_diff" },
+					{                                          "command": "overlord_diff",                   "args": { "tool": "TortoiseSVN" } },
+					{ "caption": "Mark Selected",              "command": "overlord_mark_region",            "args": { "command": "add" } },
+					{ "caption": "Unmark Selected",            "command": "overlord_mark_region",            "args": { "command": "remove" } },
+					{ "caption": "Convert: to camelCase",      "command": "overlord_to_camel_case" },
+					{                                          "command": "overlord_file_attribute_manager", "args": { "mode": "toggle", "attribute": "writable" } },
+					{ "caption": "Download selected urls...",  "command": "overlord_download_files" },
+					{ "caption": "Calc elapsed time",          "command": "overlord_calc_elapsed" },
+				]
+			},
+			{ "caption": "-", "id": "end" }
+		]
+	}
+]

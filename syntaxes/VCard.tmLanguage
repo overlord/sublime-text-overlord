@@ -1,0 +1,80 @@
+﻿<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>fileTypes</key>
+	<array>
+		<string>vcard</string>
+	</array>
+
+	<key>foldingStartMarker</key>
+	<string>(?i)begin:vcard</string>
+
+	<key>foldingStopMarker</key>
+	<string>(?i)end:vcard</string>
+
+	<key>keyEquivalent</key>
+	<string>^~S</string>
+
+	<key>name</key>
+	<string>VCARD</string>
+
+	<key>patterns</key>
+	<array>
+
+		<!-- start/end of vcard -->
+		<dict>
+			<key>begin</key>
+			<string>(?i)BEGIN:VCARD</string>
+			<key>beginCaptures</key>
+			<dict><key>0</key><dict><key>name</key><string>keyword.other.vcard</string></dict></dict>
+			<key>end</key>
+			<string>(?i)END:VCARD</string>
+			<key>endCaptures</key>
+			<dict><key>0</key><dict><key>name</key><string>keyword.other.vcard</string></dict></dict>
+			<key>patterns</key>
+			<array><dict><key>include</key><string>$self</string></dict></array>
+		</dict>
+
+		<!-- named attributes -->
+		<dict>
+			<key>name</key>
+			<string>constant.language.source.vcard</string>
+			<key>match</key>
+			<string>(?ix)^
+				(item\d+\.)? # item prefix
+				(
+					(adr|agent|bday|categories|class|email|fn|geo|key|label|logo|mailer|note|nickname|n|org|photo|prodid|rev|role|sort-string|sound|tel|title|tz|uid|url|version) | # named attributes
+					(x-[a-z\-]+) # extended 'X-blah-blah' attributes
+				)
+			</string>
+		</dict>
+
+		<!-- value/type parameters -->
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key><dict><key>name</key><string>variable.parameter.source.vcard</string></dict>
+				<key>2</key><dict><key>name</key><string>entity.name.tag.source.vcard</string></dict>
+			</dict>
+			<key>match</key>
+			<string>(?i);(type|value)=([\w\d]+)</string>
+		</dict>
+
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key><dict><key>name</key><string>string.unquoted.source.vcard</string></dict>
+			</dict>
+			<key>match</key>
+			<string>(?i):(.*)$</string>
+		</dict>
+
+	</array>
+
+	<key>scopeName</key>
+	<string>source.vcard</string>
+	<key>uuid</key>
+	<string>039CE2CE-8C99-47B7-9B55-9FABFB370951</string>
+</dict>
+</plist>
+

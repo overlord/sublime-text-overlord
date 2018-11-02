@@ -1,0 +1,17 @@
+[
+	{ "caption": "Overlord: Open Recently Closed File...",    "command": "overlord_open_recently_closed_file" },
+	{ "caption": "Overlord: Open Project...",                 "command": "overlord_switch_project", "args": { "in_new_instance": false } },
+	{ "caption": "Overlord: Open Project in new instance...", "command": "overlord_switch_project", "args": { "in_new_instance": true } },
+	{ "caption": "Overlord: Replace here...",                 "command": "overlord_replace", "args": { "config": null, "scratch": false } },
+	{ "caption": "Overlord: Replace to scratch...",           "command": "overlord_replace", "args": { "config": null, "scratch": true } },
+	{ "caption": "Overlord: Replace in all open files...",    "command": "overlord_replace", "args": { "config": null, "scratch": false, "in_all_open_files": true } },
+	{ "caption": "Overlord: Insert numbers",                  "command": "overlord_number_items" },
+	{ "caption": "Overlord: Clear trailing whitespaces",      "command": "overlord_clear_regions" },
+	{ "caption": "Overlord: Auto Indent (XML/JSON)",          "command": "overlord_auto_indent" },
+	{ "caption": "Overlord: Align Table",                     "command": "overlord_align_table" },
+	{ "caption": "Overlord: Copy Open Files To...",           "command": "overlord_copy_open_file_to" },
+	{ "caption": "Overlord: Diff",                            "command": "overlord_diff", "args": { "tool": "TortoiseSVN" } },
+	{ "caption": "Overlord: Convert To camelCase",            "command": "overlord_to_camel_case" },
+	{ "caption": "Overlord: Sum Timespan",                    "command": "overlord_sum_timespan", "args": { "rxpattern": "(?xi) \\[ (\\d{2} : \\d{2} : \\d{2} \\. \\d{2}\\d*) \\]", "format": "%H:%M:%S.%f", "max_length": 15 } },
+	{ "caption": "Overlord: Toggle ReadOnly",                 "command": "overlord_file_attribute_manager", "args": { "mode": "toggle", "attribute": "writable" } }
+]

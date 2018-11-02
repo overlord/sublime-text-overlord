@@ -1,0 +1,268 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>fileTypes</key>
+	<array>
+		<string>txt</string>
+		<string>log</string>
+	</array>
+	<key>foldingStartMarker</key>
+	<string>\s*\(\s*$</string>
+	<key>foldingStopMarker</key>
+	<string>^\s*\)</string>
+	<key>keyEquivalent</key>
+	<string>^~S</string>
+	<key>name</key>
+	<string>Highlighted Text</string>
+	<key>patterns</key>
+	<array>
+		<!-- <dict><key>include</key><string>#strings</string></dict> -->
+
+		<dict comment="decimal numbers">
+			<key>match</key>
+			<string>(?i)\b(\d+\.?\d*)[u|f]?\b</string>
+			<key>name</key>
+			<string>constant.numeric.decimal.plaintext</string>
+		</dict>
+		<dict comment="hexadecimal numbers">
+			<key>match</key>
+			<string>(?i)\b0x[0-9a-f]+\b</string>
+			<key>name</key>
+			<string>constant.numeric.hex.plaintext</string>
+		</dict>
+		<dict comment="hexadecimal numbers2">
+			<key>match</key>
+			<string>(?ix) \b [0-9a-f] [0-9a-f] \b</string>
+			<key>name</key>
+			<string>constant.numeric.hex.plaintext</string>
+		</dict>
+		<dict comment="amp-escaped chars">
+			<key>match</key>
+			<string>&amp;[\w_]+\;</string>
+			<key>name</key>
+			<string>constant.character.escape.plaintext</string>
+		</dict>
+
+		<dict comment="programming language constants">
+			<key>match</key>
+			<string>(?xi) \b ( true | false | null | is ) \b</string>
+			<key>name</key>
+			<string>constant.language.plaintext</string>
+		</dict>
+
+		<dict comment="error markers">
+			<key>match</key>
+			<string>(?xi) \[? (?: error | err | exception ) \]? </string>
+			<key>name</key>
+			<string>invalid.illegal.plaintext</string>
+		</dict>
+
+		<dict comment="warn markers">
+			<key>match</key>
+			<string>(?i)(\[?(?:warning|warn)\]?)</string>
+			<key>name</key>
+			<string>invalid.illegal.plaintext</string>
+		</dict>
+
+ 		<dict comment="functions">
+			<key>match</key>
+			<string>(?xi) \b ( AVG | COUNT | MIN | MAX | SUM ) (?=\s*\()</string>
+			<key>name</key>
+			<string>support.function.aggregate.plaintext</string>
+		</dict>
+
+		<dict comment="[] {} embraced text">
+			<key>captures</key>
+			<dict>
+				<key>1</key><dict><key>name</key><string>support.other.plaintext</string></dict>
+				<key>2</key><dict><key>name</key><string>support.function.plaintext markup.bold.plaintext</string></dict>
+				<key>3</key><dict><key>name</key><string>support.other.plaintext</string></dict>
+			</dict>
+			<key>match</key>
+			<string>(?xi)
+				([\[\{])
+				(.*?)
+				([\]\}])
+			</string>
+		</dict>
+
+		<dict comment="IO path">
+			<key>match</key>
+			<string>(?i)^\s*([a-z]\:.*?\:)(?=\s?)</string>
+			<key>name</key>
+			<string>keyword.other.plaintext</string>
+		</dict>
+
+		<dict comment="BLABLA (dot) BLABLA">
+			<key>match</key>
+			<string>(?xi)
+				\b
+				( [\w_\-]+ )
+				(?: \. ( [\w_\-]+ ) )
+				(?: \. ( [\w_\-]+ ) )?
+				(?: \. ( [\w_\-]+ ) )?
+				(?: \. ( [\w_\-]+ ) )?
+				\b
+			</string>
+			<key>captures</key>
+			<dict>
+				<key>1</key><dict><key>name</key><string>support.type.plaintext</string></dict>
+				<key>2</key><dict><key>name</key><string>support.constant.plaintext</string></dict>
+				<key>3</key><dict><key>name</key><string>support.constant.plaintext</string></dict>
+				<key>4</key><dict><key>name</key><string>support.constant.plaintext</string></dict>
+				<key>5</key><dict><key>name</key><string>support.constant.plaintext</string></dict>
+			</dict>
+		</dict>
+
+		<dict comment="math symbols">
+			<key>match</key>
+			<string>(?xi)
+				!  | =  | ,  | :  | -  | /  | #  | %  |
+				\+ | \| | \$ | \( | \) | \\ |
+				\[ | \] | \{ | \} | \* | \. |
+				&lt; | &gt;
+			</string>
+			<key>name</key>
+			<string>support.other.plaintext</string>
+		</dict>
+
+	</array>
+
+	<key>repository</key>
+	<dict>
+		<key>strings</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.string.begin.source.plaintext</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.string.end.source.plaintext</string>
+						</dict>
+					</dict>
+					<key>comment</key>
+					<string>this is faster than the next begin/end rule since sub-pattern will match till end-of-line and SQL files tend to have very long lines.</string>
+					<key>match</key>
+					<string>(')[^'\\]*(')</string>
+					<key>name</key>
+					<string>string.quoted.single.source.plaintext</string>
+				</dict>
+				<dict>
+					<key>begin</key>
+					<string>'</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.string.begin.source.plaintext</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>'</string>
+					<key>endCaptures</key>
+					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.string.end.source.plaintext</string>
+						</dict>
+					</dict>
+					<key>name</key>
+					<string>string.quoted.single.source.plaintext</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#string_escape</string>
+						</dict>
+					</array>
+				</dict>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.string.begin.source.plaintext</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.string.end.source.plaintext</string>
+						</dict>
+					</dict>
+					<key>comment</key>
+					<string>this is faster than the next begin/end rule since sub-pattern will match till end-of-line and SQL files tend to have very long lines.</string>
+					<key>match</key>
+					<string>(")[^"#]*(")</string>
+					<key>name</key>
+					<string>string.quoted.double.source.plaintext</string>
+				</dict>
+				<dict>
+					<key>begin</key>
+					<string>"</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.string.begin.source.plaintext</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>"</string>
+					<key>endCaptures</key>
+					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.string.end.source.plaintext</string>
+						</dict>
+					</dict>
+					<key>name</key>
+					<string>string.quoted.double.source.plaintext</string>
+				</dict>
+				<dict>
+					<key>begin</key>
+					<string>%\{</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.string.begin.source.plaintext</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>\}</string>
+					<key>endCaptures</key>
+					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.string.end.source.plaintext</string>
+						</dict>
+					</dict>
+					<key>name</key>
+					<string>string.other.quoted.brackets.source.plaintext</string>
+				</dict>
+			</array>
+		</dict>
+	</dict>
+
+	<key>scopeName</key>
+	<string>source.plaintext</string>
+	<key>uuid</key>
+	<string>C49120AC-6ECC-11D9-ACC8-000D93589AF6</string>
+</dict>
+</plist>

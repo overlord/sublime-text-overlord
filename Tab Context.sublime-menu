@@ -1,0 +1,5 @@
+[
+	{ "caption": "-" },
+	{ "caption": "Rename…", "command": "overlord_rename_path" },
+	{ "caption": "Duplicate…", "command": "overlord_duplicate_file" }
+]

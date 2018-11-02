@@ -1,0 +1,110 @@
+%YAML 1.2
+---
+# See http://www.sublimetext.com/docs/3/syntax.html
+name: Abstract Syntax Notation One
+file_extensions:
+  - asn
+scope: source.asn1
+
+variables:
+  xid: '[A-Za-z_][A-Za-z_0-9-]*'
+  xtype: '(?xi) \b ( BOOLEAN | CHOICE | CLASS | ENUMERATED | INTEGER | NULL | NumericString | OCTET \s+ STRING | PrintableString | SEQUENCE \s+ OF | SEQUENCE | UTCTime | UTF8String ) \b'
+
+contexts:
+  main:
+    # Strings begin and end with quotes, and use backslashes as an escape
+    # character
+    - match: '"'
+      scope: punctuation.definition.string.begin.asn1
+      push: double_quoted_string
+
+    # Comments begin with a '--' and finish at the end of the line
+    - match: '--'
+      scope: punctuation.definition.comment.asn1
+      push: line_comment
+
+    # Numbers
+    - match: '\b(-)?[0-9.]+\b'
+      scope: constant.numeric.asn1
+
+    # Type definition 1: ^ TYPE ::= KEYWORD
+    - match: '(?xi) ^ ( {{xid}} ) \s* ( ::= ) \s* ( {{xid}} ) ( \s+ {{xid}} )? ( \s* -- [^$]* )?'
+      captures:
+        1: entity.name.type.asn1
+        2: punctuation.definition.equal.asn1
+        3: storage.type.builtin.asn1
+        4: storage.type.builtin.asn1
+        5: comment.line.asn1
+
+    # Type definition 2: ^ TYPE ::= OTHER_TYPE $
+    - match: '(?xi) ^ ( {{xid}} ) \s* ( ::= ) \s* ( {{xid}} ) ( \s* -- [^$]* )? $'
+      captures:
+        1: entity.name.type.asn1
+        2: punctuation.definition.equal.asn1
+        3: storage.type.asn1
+        4: comment.line.asn1
+
+    # Type definition 3: ^ VARIABLE TYPE ::=
+    - match: '(?xi) ^ ( {{xid}} ) \s+ ( {{xid}} ) \s* ( ::= ) ( \s* {{xid}} )?'
+      captures:
+        1: variable.other.asn1
+        2: storage.type.asn1
+        3: punctuation.definition.equal.asn1
+        4: storage.type.asn1
+
+    # EXPORTS
+    - match: '(?xi) ^ \s* ( EXPORTS ) \b'
+      scope: keyword.exports.begin.asn1
+      push: exports_clause
+
+    # IMPORTS
+    - match: '(?xi) ^ \s* ( IMPORTS ) \b'
+      scope: keyword.exports.begin.asn1
+      push: imports_clause
+
+    # DEFINITIONS
+    - match: '(?xi) ^ ( {{xid}} ) \s+ ( DEFINITIONS ) '
+      captures:
+        1: support.class.asn1
+        2: keyword.asn1
+
+    # Built-in types
+    - match: '(?xi) \b ( {{xtype}} ) \b'
+      scope: storage.type.builtin.asn1
+
+    # Keywords
+    - match: '(?xi) \b ( BEGIN | CLASS | END | FROM | IMPLICIT | OPTIONAL | SIZE | SYNTAX | TAGS | UNIQUE | WITH ) \b'
+      scope: keyword.asn1
+
+  exports_clause:
+    - meta_scope: entity.name.asn1
+    - match: ','
+      scope: punctuation.definition.comma.asn1
+    - match: ';'
+      scope: punctuation.definition.comma.asn1
+      pop: true
+
+  imports_clause:
+    - meta_scope: storage.type.builtin.asn1
+    - match: '(?xi) ( FROM ) \s+ ( {{xid}} )'
+      captures:
+        1: keyword.asn1
+        2: support.class.asn1
+    - match: ','
+      scope: punctuation.definition.comma.asn1
+    - match: ';'
+      scope: punctuation.definition.comma.asn1
+      pop: true
+
+  double_quoted_string:
+    - meta_scope: string.quoted.double.asn1
+    - match: '\\.'
+      scope: constant.character.escape.asn1
+    - match: '"'
+      scope: punctuation.definition.string.end.asn1
+      pop: true
+
+  line_comment:
+    - meta_scope: comment.line.asn1
+    - match: $
+      pop: true
