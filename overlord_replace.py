@@ -25,7 +25,7 @@ class overlord_replace(sublime_plugin.WindowCommand):
 		options = TReplaceOptions(self.window, scratch, in_all_open_files)
 		# ------------------------------
 		if config_path:
-			with open(st2api.apply_custom_replace(config_path)) as config_file:
+			with open(st2api.apply_custom_replace(config_path), encoding='utf8') as config_file:
 				config_json = json.load(config_file)
 		# ------------------------------
 		if config_json:

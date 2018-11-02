@@ -42,7 +42,8 @@ class overlord_macro(sublime_plugin.WindowCommand):
 			command, args = item
 			return command, args, TARGET_WINDOW_COMMAND
 		elif len(item) == 3:
-			return item
+			command, args, command_type = item
+			return command, args, command_type
 		else:
 			raise Exception("Item '%s' has unexpected length" % item)
 	# ------------------------------
@@ -55,9 +56,8 @@ class overlord_macro(sublime_plugin.WindowCommand):
 			raise Exception("Unexpected command_type '%s' for command '%s'" % (command_type, command))
 	# ------------------------------
 	def run(self, items):
-		if items:
-			for item in items:
-				command, args, command_type = self.xparse_item(item)
-				target = self.xget_command_target(command_type)
-				target.run_command(command, args)
+		for item in items or []:
+			command, args, command_type = self.xparse_item(item)
+			target = self.xget_command_target(command_type)
+			target.run_command(command, args)
 # ------------------------------------------------------------------------------------------
