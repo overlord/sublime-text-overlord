@@ -7,7 +7,6 @@ if sublime.version() >= '3000':
 else:
 	from lib import (st2api)
 # ------------------------------
-import collections
 import json
 import os
 import re
@@ -21,12 +20,17 @@ class overlord_replace(sublime_plugin.WindowCommand):
 	# ------------------------------
 	def run(self, config_path=None, config_json=None, scratch=True, in_all_open_files=False):
 		# ------------------------------
-		TReplaceOptions = collections.namedtuple("_", ['window', 'scratch', 'in_all_open_files'])
-		options = TReplaceOptions(self.window, scratch, in_all_open_files)
+		options = {
+			'window': self.window,
+			'scratch': scratch,
+			'in_all_open_files': in_all_open_files,
+		}
 		# ------------------------------
 		if config_path:
 			with open(st2api.apply_custom_replace(config_path), encoding='utf8') as config_file:
+				# print({'config_file': config_file})
 				config_json = json.load(config_file)
+				# print({'config_json': config_json})
 		# ------------------------------
 		if config_json:
 			self.__apply_replace(config_json, options)
@@ -44,11 +48,9 @@ class overlord_replace(sublime_plugin.WindowCommand):
 		self.__apply_replace(config_json, options)
 	# ------------------------------
 	def __apply_replace(self, data, options):
-		if options.in_all_open_files:
-			for view in options.window.views():
-				self.__apply_replace_to_view(view, data, options)
-		else:
-			view = options.window.active_view()
+		window = options['window']
+		views = window.views() if options['in_all_open_files'] else [window.active_view()]
+		for view in views:
 			self.__apply_replace_to_view(view, data, options)
 	# ------------------------------
 	def __apply_replace_to_view(self, view, data, options):
@@ -59,14 +61,13 @@ class overlord_replace(sublime_plugin.WindowCommand):
 		for source, target in cleanup_data:
 			content = re.sub(source, target, content)
 		# ------------------------------
-		if options.scratch:
-			st2api.new_file(options.window, content, True)
+		if options['scratch']:
+			st2api.new_file(options['window'], content, True)
 		else:
 			if content == initial_content:
 				return
 			pos = st2api.get_cursor_position(view)
-			view.run_command("overlord_set_content", { "content": content })
-			# while(st2api.get_text(view) != content): None
+			view.run_command('overlord_set_content', { 'content': content })
 			if view.settings().get('syntax') == 'Packages/Text/Plain text.tmLanguage':
 				view.set_syntax_file('Packages/sublime_overlord/syntaxes/Highlighted Text.tmLanguage')
 			st2api.set_cursor_position(view, pos)
