@@ -9,6 +9,7 @@ else:
 # ------------------------------
 import subprocess
 import sys
+import os
 
 # ------------------------------
 SETTINGS_FILE = 'switch_project.sublime-settings'
@@ -21,20 +22,29 @@ C_PATHS     = 'paths'
 C_PROJECTS  = 'projects'
 
 # ------------------------------
+def INFO(message):
+	print('[INFO:%s] %s' % (__name__, message))
+def ERROR(message):
+	print('[ERROR:%s] %s' % (__name__, message))
+# ------------------------------
 def select(items, converter):
 	return list(map(converter, items))
-
 # ------------------------------
 class overlord_switch_project(sublime_plugin.WindowCommand):
 
+	def append_to_command(self, command, paths):
+		for path in paths or []:
+			path_custom = st2api.apply_custom_replace(path)
+			if os.path.exists(path_custom):
+				command.append(path_custom)
+			else:
+				ERROR('Path "%s" is not found.' % path_custom)
+
 	def on_item_selected(self, project, item):
 		command = [st2api.executable_path()]
-
-		for x in item.get(C_PATHS, []) if item else []:
-			command.append(x)
-
-		for x in project.get(C_ADD, []):
-			command.append(x)
+		# ------------------------------
+		self.append_to_command(command, item.get(C_PATHS, []) if item else [])
+		self.append_to_command(command, project.get(C_ADD, []))
 		# ------------------------------
 		if not self.in_new_instance:
 			for view in self.window.views():
@@ -45,7 +55,7 @@ class overlord_switch_project(sublime_plugin.WindowCommand):
 			if len(self.window.folders()) > 0:
 				self.window.run_command('close_folder_list')
 		# ------------------------------
-		command = [st2api.to_os_encoding(st2api.apply_custom_replace(i)) for i in command]
+		command = [st2api.to_os_encoding(i) for i in command]
 		# ------------------------------
 		# print(command)
 		# ------------------------------

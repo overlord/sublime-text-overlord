@@ -8,7 +8,7 @@
 	{ "caption": "Overlord: Insert numbers",                  "command": "overlord_number_items" },
 	{ "caption": "Overlord: Clear trailing whitespaces",      "command": "overlord_clear_regions" },
 	{ "caption": "Overlord: Auto Indent (XML/JSON)",          "command": "overlord_auto_indent" },
-	{ "caption": "Overlord: Align Table",                     "command": "overlord_align_table" },
+	{ "caption": "Overlord: Align table",                     "command": "overlord_align_table" },
 	{ "caption": "Overlord: Copy Open Files To...",           "command": "overlord_copy_open_file_to" },
 	{ "caption": "Overlord: Diff",                            "command": "overlord_diff", "args": { "tool": "TortoiseSVN" } },
 	{ "caption": "Overlord: Convert To camelCase",            "command": "overlord_to_camel_case" },
