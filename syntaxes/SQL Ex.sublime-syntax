@@ -167,14 +167,14 @@ contexts:
           # object type
           (
             aggregate | conversion | database | domain | function | procedure | proc | package(?:\s+body)? | group |
-            (?: (?:unique | nonclustered | clustered) \s+)? index | language | operator class | operator | rule |
+            (?: unique \s+ | nonclustered \s+ | clustered \s+ )* index | language | operator class | operator | rule |
             schema | sequence | synonym |
             (?: global \s+ temporary \s+ )? table |
             column | tablespace | trigger | type | user | (?: materialized \s+ )? view
           )
           \s+
           # object name
-          ( \#? {{xid}} )
+          (?: \[? ) ( \#? {{xid}} ) (?: \]? )
           # actions for a_l_t_e_r statement
           (?:
             \s+
@@ -606,11 +606,11 @@ contexts:
       scope: support.type.exception.sql
     - match: (?i)\b(fn_.*?)\b
       scope: support.function.sql
-    - match: (?i:\b((create|or|replace)\s+)*\s*(aggregate|conversion|database|domain|function|package|procedure|group|(unique\s+)?index|language|operator class|operator|rule|schema|sequence|table|tablespace|trigger|type|user|view)\s+)
-      scope: keyword.other.dml.sql
-      captures:
-        1: keyword.other.create.sql
-        2: keyword.other.dml.sql
+    # - match: (?i:\b((create|or|replace)\s+)*\s*(aggregate|conversion|database|domain|function|package|procedure|group|(unique\s+)?index|language|operator class|operator|rule|schema|sequence|table|tablespace|trigger|type|user|view)\s+)
+    #   scope: keyword.other.dml.sql
+    #   captures:
+    #     1: keyword.other.create.sql
+    #     2: keyword.other.dml.sql
     - match: '(?i)\b(concatenate|convert|lower|substring|translate|[rl]?trim|upper|replicate|replace)\b'
       scope: support.function.string.sql
     - match: \*

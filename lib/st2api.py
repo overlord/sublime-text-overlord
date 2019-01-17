@@ -215,12 +215,9 @@ def show_quick_panel(target, items, on_done, flags=None, on_cancel=None):
 		window.show_quick_panel(items, __on_done)
 
 def apply_custom_replace(s):
-	return (
-		s
-		.replace("${username}", getpass.getuser())
-		.replace("{username}", getpass.getuser()) # backward
-		.replace("${packages}", sublime.packages_path())
-	)
+	s = s.replace("${packages}", sublime.packages_path())
+	s = os.path.expandvars(s)
+	return s
 
 def tmp_dump(dump_object, temp_root="c:/temp"):
 	if isinstance(dump_object, (str, unicode)):
