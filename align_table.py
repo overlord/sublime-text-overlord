@@ -12,7 +12,7 @@ class overlord_align_table(sublime_plugin.TextCommand):
 	def run(self, edit):
 		view = self.view
 		selection = st2api.get_selection(view)
-		for sel in reversed(selection): # reversing is essential
+		for sel in reversed(selection): #!_! reversing is essential
 			content = self.process_selection(edit, view, sel)
 			view.replace(edit, sel, content)
 	# ------------------------------
@@ -31,4 +31,19 @@ class overlord_align_table(sublime_plugin.TextCommand):
 		tab_index = value.find('\t')
 		value = value.replace('\t', ' ' * (max_index - tab_index) + ' | ', 1)
 		return value
+	# ------------------------------
+class overlord_transpose_table(sublime_plugin.TextCommand):
+	# ------------------------------
+	def run(self, edit):
+		view = self.view
+		selection = st2api.get_selection(view)
+		for sel in reversed(selection): #!_! reversing is essential
+			content = self.process_selection(edit, view, sel)
+			view.replace(edit, sel, content)
+	# ------------------------------
+	def process_selection(self, edit, view, sel):
+		cells = [x.split('\t') for x in view.substr(sel).split('\n')]
+		transposed = list(map(list, zip(*cells)))
+		values = ['\t'.join(x) for x in transposed]
+		return '\n'.join(values).rstrip('\n')
 	# ------------------------------

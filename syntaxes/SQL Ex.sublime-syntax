@@ -166,7 +166,7 @@ contexts:
           \s+
           # object type
           (
-            aggregate | conversion | database | domain | function | procedure | proc | package(?:\s+body)? | group |
+            aggregate | authorization \s+ on | conversion | database | domain | function | procedure | proc | package(?:\s+body)? | group |
             (?: unique \s+ | nonclustered \s+ | clustered \s+ )* index | language | operator class | operator | rule |
             schema | sequence | synonym |
             (?: global \s+ temporary \s+ )? table |
@@ -197,7 +197,11 @@ contexts:
           \s*
           (
             # keyword 1
-            from | (?: full | left | right | inner | cross ) (?: \s+ outer )? \s+ join | (?: cross | outer ) \s+ apply | join | merge (?: \s+ into )?
+            from |
+            (?: full | left | right | inner | cross ) (?: \s+ outer | \s+ hash | \s+ loop )? \s+ join |
+            (?: cross | outer ) \s+ apply |
+            join |
+            merge (?: \s+ into )?
           )
           \s+
           {{xid3}}

@@ -71,7 +71,8 @@ class overlord_diff(sublime_plugin.WindowCommand):
 	'''
 	# ------------------------------
 	def __run_diff(self, path, file1, file2, line):
-		command = path.replace("'", '"').format(file1, file2, line)
+		command = path.replace("'", '"').format(file1, file2, line).replace("\\", "/")
+		print("[OVR] diff: %s" % command)
 		subprocess.Popen(st2api.to_os_encoding(command))
 	# ------------------------------
 	def run_diff(self, tool, file1, file2, line=0):
