@@ -4,27 +4,33 @@
 	{ "caption": "Unquote URL", "command": "overlord_unquote_url" },
 	{ "command": "overlord_diff_unsaved", "args": {"tool": "TortoiseSVN"} },
 
-	{ "caption": "-", "id": "sublime_overlord_sql_sep" },
+	{ "caption": "-" },
+
 	{
 		"caption": "SQL",
 		"mnemonic": "S",
 		"id": "sublime_overlord_sql",
 		"children":
 		[
-			{ "caption": "Select Keywords",       "command": "overlord_plsql_select_keywords" },
+			{ "caption": "Select Keywords", "command": "overlord_plsql_select_keywords" },
 			{ "caption": "-" },
-			{ "caption": "Flip Equal",            "command": "overlord_plsql_flip_equal" }
+			{ "caption": "Flip Equal",      "command": "overlord_plsql_flip_equal" }
 		]
 	},
+
 	{
 		"caption": "Other",
 		"mnemonic": "O",
 		"id": "sublime_overlord_other",
 		"children":
 		[
-			{ "caption": "Split file",        "command": "overlord_split_file",    "args": { "is_scratch": true } },
 			{ "caption": "Indent stairs",     "command": "overlord_insert_stairs", "args": { } },
 			{ "caption": "Calc elapsed time", "command": "overlord_calc_elapsed" },
+			{ "caption": "-" },
+			{ "caption": "Split file",         "command": "overlord_split_file", "args": { "is_scratch": false } },
+			{ "caption": "Split file (draft)", "command": "overlord_split_file", "args": { "is_scratch": true } },
 		]
 	},
+
+	{ "caption": "-" },
 ]

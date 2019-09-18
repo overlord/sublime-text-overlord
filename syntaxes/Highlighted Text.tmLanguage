@@ -76,7 +76,7 @@
 			<key>captures</key>
 			<dict>
 				<key>1</key><dict><key>name</key><string>support.other.plaintext</string></dict>
-				<key>2</key><dict><key>name</key><string>support.function.plaintext markup.bold.plaintext</string></dict>
+				<key>2</key><dict><key>name</key><string>entity.name.function.plaintext markup.bold.plaintext</string></dict>
 				<key>3</key><dict><key>name</key><string>support.other.plaintext</string></dict>
 			</dict>
 			<key>match</key>

@@ -196,7 +196,7 @@ class overlord_clear_regions(sublime_plugin.TextCommand):
 	'''
 	Text Command: убирает в каждой строке символы, удовлетворяющие regex-у в pattern. По умолчанию удаляет пробелы в конце строк.
 	'''
-	def run(self, edit, pattern = r'\s+$'):
+	def run(self, edit, pattern = r'[ \t]+$'):
 		self.view.sel().clear()
 		for r in self.view.find_all(pattern, sublime.IGNORECASE):
 			for rs in self.view.split_by_newlines(r):
