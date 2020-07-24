@@ -184,6 +184,16 @@ class overlord_insert_timestamp(sublime_plugin.TextCommand):
 			self.view.insert(edit, r.a, timestamp)
 
 # ------------------------------------------------------------------------------------------------------------------------
+class overlord_insert_datetime(sublime_plugin.TextCommand):
+	'''
+	Text Command: Вставляет слепок времени YYYY-MM-DD HH:mm:ss.
+	'''
+	def run(self, edit):
+		timestamp = '{:%Y-%m-%d %H:%M:%S}'.format(datetime.now())
+		for r in self.view.sel():
+			self.view.insert(edit, r.a, timestamp)
+
+# ------------------------------------------------------------------------------------------------------------------------
 class overlord_insert_stairs(sublime_plugin.TextCommand):
 	# ------------------------------
 	def run(self, edit):

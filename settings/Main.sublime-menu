@@ -100,6 +100,7 @@
 			{ "caption": "-" },
 			{ "caption": "Insert numbers",             "command": "overlord_number_items" },
 			{ "caption": "Insert timestamp",           "command": "overlord_insert_timestamp" },
+			{ "caption": "Insert datetime",            "command": "overlord_insert_datetime" },
 			{ "caption": "Clear trailing whitespaces", "command": "overlord_clear_regions" },
 			{ "caption": "Auto Indent (XML/JSON)",     "command": "overlord_auto_indent" },
 			{ "caption": "Align Table",                "command": "overlord_align_table" },
