@@ -160,7 +160,7 @@ contexts:
           \s*
           # create ddl operator
           (
-            (?: create (?: \s+ or \s+ replace )? | alter | backup )
+            (?: create (?: \s+ or \s+ (?: replace | alter ) )? | alter | backup )
             (?: \s+ force )?
           )
           \s+

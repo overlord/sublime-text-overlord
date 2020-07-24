@@ -14,7 +14,9 @@
 		[
 			{ "caption": "Select Keywords", "command": "overlord_plsql_select_keywords" },
 			{ "caption": "-" },
-			{ "caption": "Flip Equal",      "command": "overlord_plsql_flip_equal" }
+			{ "caption": "Flip Equal",      "command": "overlord_plsql_flip_equal" },
+			{ "caption": "Replace: ORM to SQL", "command": "overlord_replace", "args": { "config_path": "${packages}/sublime_overlord_settings/sql-indent-dsql.replace", "scratch": false } },
+			{ "caption": "Replace: JSON to SQL", "command": "overlord_replace", "args": { "config_path": "${packages}/sublime_overlord_settings/sql-json-to-sql.replace", "scratch": false } }
 		]
 	},
 

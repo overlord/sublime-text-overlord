@@ -53,7 +53,7 @@
 
 		<dict comment="error markers">
 			<key>match</key>
-			<string>(?xi) \[? (?: error | err | exception ) \]? </string>
+			<string>(?xi) \[? (?: error | err | exception | \?\?\? ) \]? </string>
 			<key>name</key>
 			<string>invalid.illegal.plaintext</string>
 		</dict>

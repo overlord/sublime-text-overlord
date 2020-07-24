@@ -83,6 +83,7 @@ class overlord_plsql_select_keywords(sublime_plugin.TextCommand):
 			all |
 			alter |
 			and |
+			apply |
 			as |
 			asc |
 			begin |
@@ -135,6 +136,7 @@ class overlord_plsql_select_keywords(sublime_plugin.TextCommand):
 			from |
 			function |
 			getdate |
+			getutcdate |
 			global |
 			go |
 			group |
@@ -217,6 +219,7 @@ class overlord_plsql_select_keywords(sublime_plugin.TextCommand):
 			then |
 			timestamp |
 			to_char |
+			top |
 			type |
 			union |
 			update |
