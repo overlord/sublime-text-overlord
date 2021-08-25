@@ -33,6 +33,7 @@ class overlord_download_files(sublime_plugin.WindowCommand):
 					print("> downloading [%i / %i]: '%s'..." % (i+1, count, link))
 					_, file_name = os.path.split(link)
 					file_name = file_name.replace('=', '').replace('?', '')
+					file_name = "%i-%s" % (i+1, file_name)
 					self.opener.retrieve(link, os.path.join(self.folder, file_name))
 				except Exception as e:
 					is_error = True
