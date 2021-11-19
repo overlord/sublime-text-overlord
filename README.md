@@ -64,11 +64,6 @@ See examples [here](https://bitbucket.org/DarkOverlord/sublime_overlord/src/mast
 
 - **overlord_switch_project_file**
 
-### In Context.sublime-menu
-
-- **overlord_copy_as_html**
-	- Simplified version of <https://github.com/agibsonsw/PrintHtml>
-
 ### In Tab Context.sublime-menu
 
 - **overlord_rename_path**

@@ -247,7 +247,7 @@ class overlord_plsql_select_keywords(sublime_plugin.TextCommand):
 class overlord_plsql_flip_equal(sublime_plugin.TextCommand):
 	PATTERN = '''(?xi)
 		^
-		( [ \t]* )
+		( [ \t]* (?: -- [ \t]* | --!!! [ \t]* | --!_! [ \t]* )? )
 		( on \s+ |  and \s+ | or \s+ | where \s+ )
 		( [^\=\n]+ )
 		\=
@@ -258,12 +258,13 @@ class overlord_plsql_flip_equal(sublime_plugin.TextCommand):
 	# ------------------------------
 	def run(self, edit):
 		view = self.view
-		for sel in reversed(view.sel()):
-			sel_line = view.full_line(sel)
-			found = re.search(self.PATTERN, view.substr(sel_line))
-			if found:
-				flipped = found.group(1) + found.group(2) + found.group(4).strip() + " = " + found.group(3).strip() + "\n"
-				view.replace(edit, sel_line, flipped)
+		for sel0 in reversed(view.sel()):
+			for sel in reversed(view.lines(sel0)):
+				sel_line = view.full_line(sel)
+				found = re.search(self.PATTERN, view.substr(sel_line))
+				if found:
+					flipped = found.group(1) + found.group(2) + found.group(4).strip() + " = " + found.group(3).strip() + "\n"
+					view.replace(edit, sel_line, flipped)
 # ------------------------------------------------------------------------------------------
 class overlord_sql_outline(sublime_plugin.TextCommand):
 	C_KEY = 'overlord_sql_outline'

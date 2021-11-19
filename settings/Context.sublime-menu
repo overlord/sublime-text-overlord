@@ -1,7 +1,6 @@
 [
 	{ "caption": "-" },
-	{ "caption": "Copy as HTML", "command": "overlord_copy_as_html" },
-	{ "caption": "Unquote URL", "command": "overlord_unquote_url" },
+	{ "caption": "Copy as HTML", "command": "copy_as_html", "args": {"enclosing_tags": true, "font_size": false} },
 	{ "command": "overlord_diff_unsaved", "args": {"tool": "TortoiseSVN"} },
 
 	{ "caption": "-" },
@@ -31,6 +30,7 @@
 			{ "caption": "-" },
 			{ "caption": "Split file",         "command": "overlord_split_file", "args": { "is_scratch": false } },
 			{ "caption": "Split file (draft)", "command": "overlord_split_file", "args": { "is_scratch": true } },
+			{ "caption": "Unquote URL", "command": "overlord_unquote_url" },
 		]
 	},
 

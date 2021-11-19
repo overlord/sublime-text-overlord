@@ -59,13 +59,17 @@ contexts:
     - match: '(?xi) ^ \s* ( {{xid}} ) : $'
       captures:
         1: entity.name.label.sql
-    - match: (?i)\b(column_value|rownum|level|rowid|(next|curr)val|max|min|sysdate|systimestamp|sqlcode|sqlerrm|dual)\b
+    - match: |-
+        (?xi)
+        \b(
+          column_value | currval | dual | force \s+ order | level | max | min | nextval | nolock | option | rowid | rownum | sqlcode | sqlerrm | sysdate | systimestamp
+        )\b
       scope: variable.language.sql
     - match: (?xi) \b ( dbcc | logspace | truncateonly | sp_who2? | sp_lock | sp_helptext | sp_helpdb ) \b
       scope: variable.language.sql
     - match: |-
         (?xi)
-          (?:\s | ,)
+          (?: \s | , )
           (
             \$action | next (\s+ value)? | local | forward_only | caller
           )
@@ -132,10 +136,14 @@ contexts:
     - match: |-
         (?xi)
           \b (
-            null | false | true | hh | maxdop |
-            year | quarter | month | dayofyear | day | week | hour | minute | second | millisecond | microsecond | nanosecond
+            null | false | true | maxdop |
+            nanosecond | microsecond | millisecond | second | minute | hour | day | week | month | year |
+            dayofyear | quarter | mcs |
+            dd | dy | hh | mi | mm | ms | ns | qq | ss | wk | ww | yy |
+            d  | m  | n  | q  | s  | y
           ) \b
       scope: variable.language.sql
+
     # COLUMN NAME
     - match: |-
         (?xi)
@@ -216,11 +224,18 @@ contexts:
           )?
       captures:
         1: keyword.other.dml.sql # keyword 1
-        2: support.class.instance.name.sql # db_instance_name
-        3: support.class.schema.name.sql # db_schema_name
-        4: storage.type.object.name.sql # db_object_name
+        2: support.class.instance.name.sql # xid3.db_instance_name
+        3: support.class.schema.name.sql # xid3.db_schema_name
+        4: storage.type.object.name.sql # xid3.db_object_name
         5: keyword.other.alias.sql # keyword 2
         6: support.class.alias.name.sql # alias
+
+    # <something> AS <bla-bla> clause
+    - match: |-
+        (?xi) \b ( AS ) \s+ ( {{xid}} )
+      captures:
+        1: keyword.other.dml.sql # keyword
+        2: support.class.alias.name.sql # xid
 
     # INSERT/MERGE clause
     - match: |-
@@ -231,16 +246,16 @@ contexts:
             insert (?: \s+ all )? (?: \s+ into )? |
             merge (?: \s+ (?: ignore \s+ )? into )? |
             update (?: \s+ top )? |
-            delete
+            delete  (?: \s+ from )?
           )
           \s+
           {{xid3}}
           \b
       captures:
         1: keyword.other.dml.sql
-        2: support.class.instance.name.sql # db_instance_name
-        3: support.class.schema.name.sql # db_schema_name
-        4: storage.type.object.name.sql # db_object_name
+        2: support.class.instance.name.sql # xid3.db_instance_name
+        3: support.class.schema.name.sql # xid3.db_schema_name
+        4: storage.type.object.name.sql # xid3.db_object_name
 
     - match: '(?i)^\s*(procedure|function|type)(\s+[\w_]+)'
       scope: meta.create.sql
@@ -464,6 +479,24 @@ contexts:
         1: support.function.sql
         2: support.function.sql
 
+    # storage procedure invoke with return value
+    - match: |-
+        (?xi)
+          ( exec )
+          \s+
+          ( @ {{xid}} )
+          \s+
+          ( \= )
+          \s+
+          {{xid3}}
+      captures:
+        1: keyword.other.dml.sql
+        2: variable.parameter.sql
+        3: keyword.operator.comparison.sql
+        4: support.class.instance.name.sql # xid3.db_instance_name
+        5: support.class.schema.name.sql # xid3.db_schema_name
+        6: storage.type.object.name.sql # xid3.db_object_name
+
     # storage procedure invoke
     - match: |-
         (?xi)
@@ -472,9 +505,9 @@ contexts:
           {{xid3}}
       captures:
         1: keyword.other.dml.sql
-        2: support.class.instance.name.sql # db_instance_name
-        3: support.class.schema.name.sql # db_schema_name
-        4: storage.type.object.name.sql # db_object_name
+        2: support.class.instance.name.sql # xid3.db_instance_name
+        3: support.class.schema.name.sql # xid3.db_schema_name
+        4: storage.type.object.name.sql # xid3.db_object_name
 
     - match: |-
         (?xi)
@@ -505,6 +538,10 @@ contexts:
       scope: keyword.other.dml.sql
     - match: (?i)\b(on|is|((is\s+)?not\s+)?null)\b
       scope: keyword.other.DDL.create.II.sql
+    - match: (?xi) \b ( collate ) \s+ ( {{xid}}  )
+      captures:
+        1: keyword.other.collate.sql
+        2: variable.language.sql
     - match: |-
         (?xi)
           \b
@@ -551,7 +588,7 @@ contexts:
       scope: keyword.other.alias.sql
     - match: (?i)\b(desc|asc)\b
       scope: keyword.other.order.sql
-    - match: "[!<>]?=|<>|<|>"
+    - match: "[!<>:]?=|<>|<|>"
       scope: keyword.operator.comparison.sql
     - match: '-|\+|/'
       scope: keyword.operator.math.sql
@@ -576,7 +613,7 @@ contexts:
             dateadd | datediff | decode | error_line | error_message | error_number | error_procedure | error_severity | error_state | exists | extract | extractvalue |
             formatmessage | format | get_filestream_transaction_context | getansinull | getutcdate | getdate | greatest | host_id | host_name |
             instr | isnull | isnumeric | identity | iif |
-            least | lead | left | len | length | min_active_rowversion | newid | newsequentialid | nullif | nvl | nvl2 | over | print |
+            least | lead | left | len | length | min_active_rowversion | newid | newsequentialid | nullif | nvl | nvl2 | option | over | print |
             raise_application_error | raise_exception | raiserror |
             row_number | rowcount_big | substr | table | to_char | to_date | to_number |
             using | value | xact_state | xmlagg | xmlsequence | xmltable
@@ -620,7 +657,7 @@ contexts:
     - match: \*
       scope: keyword.operator.star.sql
   comments:
-    - match: '(?xi)(--) \s* ![_!\?]! .* $ \n?'
+    - match: '(?xi)(--) \s* ( TODO | !_! | !!! | \?\?\? ) .* $ \n?'
       scope: comment.line.double-dash.sql markup.bold.sql
       captures:
         1: punctuation.definition.comment.sql

@@ -1,5 +1,9 @@
+// SYNTAX TEST "SQL Ex.sublime-syntax"
+
 -- simple comment
 -- !_! bang! comment 1
+// <- comment.line.double-dash.sql markup.bold.sql
+
 -- !!! bang! comment 2
 -- !?! bang! comment 3
 
@@ -81,7 +85,9 @@ end;
 ------------------------------------------------------------
 -- SQL Server T-SQL Syntax
 ------------------------------------------------------------
-
+create procedure MSSQL_procedure
+create function MSSQL_procedure
+------------------------------
 create procedure dbo.MSSQL_procedure
 create function dbo.MSSQL_procedure
 ------------------------------
