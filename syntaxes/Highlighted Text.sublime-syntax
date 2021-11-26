@@ -1,0 +1,112 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/syntax.html
+name: Highlighted Text
+file_extensions:
+  - txt
+  - log
+scope: source.plaintext
+
+variables:
+  space: '[ \t]'
+
+contexts:
+
+  main:
+
+    # iso datetime: 2021-10-06(T| )17:26:54.9189121Z
+    - match: >-
+        (?ix)
+          \b
+          ( \d{4} [\.-] \d{2} [\.-] \d{2} | \d{2} [\.-] \d{2} [\.-] \d{4} )
+          ( T | {{space}} )
+          ( \d{2} : \d{2} (?: : \d{2} (?: \. \d+ )? )? )
+          ( Z )?
+          \b
+      captures:
+        0: markup.quote.plaintext
+        1: string.quoted.plaintext
+        2: punctuation.plaintext
+        3: string.regexp.plaintext
+        4: punctuation.plaintext
+
+    # datetime: 20211006_172654
+    - match: '(?ix) \b ( \d{8} ) ( _ )? ( \d{6} ) \b'
+      captures:
+        0: markup.quote.plaintext
+        1: string.quoted.plaintext
+        2: punctuation.plaintext
+        3: string.regexp.plaintext
+
+    # splitter line
+    - match: '(?ix) ^ {{space}}* -+ !*? -+ {{space}}* $'
+      scope: comment.line.plaintext
+
+    # decimal numbers
+    - match: '(?i)\b(\d+\.?\d*)[u|f]?\b'
+      scope: constant.numeric.decimal.plaintext
+
+    # hexadecimal numbers
+    - match: '(?xi) \b 0x [0-9a-f]+ \b'
+      scope: constant.numeric.hex.plaintext
+
+    # hexadecimal numbers2
+    - match: '(?ix) \b [0-9a-f] [0-9a-f] \b'
+      scope: constant.numeric.hex.plaintext
+
+    # amp-escaped chars
+    - match: '&[\w_]+\;'
+      scope: constant.character.escape.plaintext
+
+    # programming language constants
+    - match: '(?xi) \b ( true | false | null | is ) \b'
+      scope: constant.language.plaintext
+
+    # error markers
+    - match: '(?xi) \[? (?: error | err | exception | \?{2}\?+ ) \]?'
+      scope: invalid.illegal.plaintext
+
+    # warn markers
+    - match: '(?xi) ( \[? (?: warning | warn ) \]? ) '
+      scope: invalid.illegal.plaintext
+
+    # functions
+    - match: '(?xi) \b ( avg | count | min | max | sum ) (?=\s*\()'
+      scope: support.function.aggregate.plaintext
+
+    # # header
+    - match: '(?xi) ^ ( {{space}}* \#+ ) ( {{space}}* .*? ) $'
+      captures:
+        0: markup.quote.plaintext
+        1: support.other.plaintext
+        2: entity.name.function.plaintext markup.bold.plaintext
+
+    # IO path
+    - match: '(?xi) ^ \s* ( [a-z] \: .*? \: ) (?=\s?)'
+      scope: keyword.other.plaintext
+
+    # BLABLA (dot) BLABLA
+    - match: >-
+        (?xi)
+          \b
+          ( [\w_\-]+ )
+          (?: \. ( [\w_\-]+ ) )
+          (?: \. ( [\w_\-]+ ) )?
+          (?: \. ( [\w_\-]+ ) )?
+          (?: \. ( [\w_\-]+ ) )?
+          \b
+      captures:
+        1: support.type.plaintext
+        2: support.constant.plaintext
+        3: support.constant.plaintext
+        4: support.constant.plaintext
+        5: support.constant.plaintext
+
+    # math symbols
+    - match: >-
+        (?xi)
+          !  | =  | ,  | :  | -  | /  | #  | %  |
+          \+ | \| | \$ | \( | \) | \\ |
+          \[ | \] | \{ | \} | \* | \. |
+          < | >
+      scope: punctuation.plaintext

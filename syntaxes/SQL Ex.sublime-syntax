@@ -10,6 +10,7 @@ file_extensions:
 scope: source.sql
 
 variables:
+  space: '[ \t]*'
   xid: '[\w_][\w\d_$]*' # identifier
   xid3: |-
     (?:
@@ -30,31 +31,64 @@ variables:
     )
 
 contexts:
+
   main:
-    - match: '(?xi) q''( \[ | \( | \{ | \$ )'
+
+    # Oracle Dynamic-SQL literal
+    - match: >-
+        (?xi)
+        ( Q )
+        ( ' )
+        ( \[ | \( | \{ | \$ )
       captures:
-        0: constant.character.escape.sql
+        1: string.quoted.sql constant.language.sql
+        2: string.quoted.single.sql
+        # 3: comment.line.double-dash.sql
+        3: string.quoted.single.sql
       push:
         - meta_scope: markup.quote.sql
-        - match: '(?xi) ( \] | \) | \} | \$ )'''
+        - match: >-
+            (?xi)
+            ( \] | \) | \} | \$ )
+            ( ' )
           captures:
-            0: constant.character.escape.sql
+            # 1: comment.line.double-dash.sql
+            1: string.quoted.single.sql
+            2: string.quoted.single.sql
           pop: true
         - include: main
-    - match: (?xi) N (') (\s* (:? (:?-- \s* d?sql ) | (:? / \* \s* d?sql \s* \* / ) ) .*? $)
+
+    # MSSql Dynamic-SQL literal
+    - match: >-
+        (?xi)
+        (N)?
+        (')
+        (
+          {{space}}
+          (:?
+            (:? -- {{space}} d?sql ) |
+            (:? / \* {{space}} d?sql {{space}} \* / )
+          )
+          .*?
+          ( $ | \n )
+        )
       captures:
-        1: string.quoted.single.sql
-        2: comment.line.double-dash.sql
+        1: string.quoted.sql constant.language.sql
+        2: string.quoted.single.sql
+        3: comment.line.double-dash.sql
+        # 3: string.quoted.single
       push:
         - meta_scope: markup.quote.sql
-        - match: (?xi) (') ;? (\s* -- \s* d?sql .*? $)
+        - match: (?xi) (') ;? ( {{space}} -- {{space}} d?sql .*? $)
           captures:
             1: string.quoted.single.sql
             2: comment.line.double-dash.sql
           pop: true
         - include: main
+
     - include: comments
-    - include: strings
+    - include: strings-single-line
+    - include: strings-multi-line
     - include: regexps
     - match: '(?xi) ^ \s* ( {{xid}} ) : $'
       captures:
@@ -162,6 +196,7 @@ contexts:
         1: support.class.alias.name.sql
         2: support.constant.column.name.sql
         3: variable.language.sql
+
     # CREATE clause
     - match: |-
         (?xi)
@@ -199,6 +234,7 @@ contexts:
         2: keyword.other.sql # object type
         3: entity.name.function.sql markup.bold.sql # object name
         4: keyword.other.sql # actions for a_l_t_e_r statement
+
     # FROM clause
     - match: |-
         (?xi)
@@ -262,18 +298,13 @@ contexts:
       captures:
         1: keyword.other.sql
         2: entity.name.function.sql markup.bold.sql
-    - match: |-
+
+    # l_ p_ v_ cr_ pti_ variables
+    - match: >-
         (?xi)
-          (
-            ^ | \s | \, | \. | \: | \(
-          )
-          (
-            (?:
-              @? (?: l_ | p_ | v_ | cr_ | pti_ )
-            )
-            {{xid}}
-          )
-          \b
+        ( ^ | \s | \, | \. | \: | \( )
+        ( @? (?: l_ | p_ | v_ | cr_ | pti_ ) {{xid}} )
+        \b
       captures:
         2: variable.parameter.sql
     - match: |-
@@ -444,6 +475,7 @@ contexts:
         1: keyword.other.dml.sql
         2: support.class.alias.name.sql
         3: keyword.other.dml.sql
+
     # DML keyword
     - match: |-
         (?xi)
@@ -462,6 +494,7 @@ contexts:
           )
           \b
       scope: keyword.other.dml.sql
+
     # function call
     - match: |-
         (?xi)
@@ -531,7 +564,7 @@ contexts:
             return | returns | open | close | deallocate | fetch | distinct | schemabinding |
             for(all)? | while | loop | exit | continue | (start \s+ )? with | case | if (\s+ not)? |
             when ( (\s+ not)? \s+ matched )? (\s + by \s+ ( target | source) )? | offset | rows | only |
-            then | elsif | else | end | goto | break | exception |
+            then | elsif | else | end | goto | break | exception | persisted |
             deterministic | to | waitfor | delay | add | modify | enable | disable
           )
           \b
@@ -596,45 +629,45 @@ contexts:
       scope: keyword.operator.concatenator.sql
     - match: |-
         (?xi)
-          \b
-          (
-            CURRENT_ ( DATE | TIME(STAMP)? | USER ) |
-            ( SESSION | SYSTEM ) _USER
-          )
-          \b
+        \b
+        (
+          current_ ( date | time(stamp)? | user ) |
+          ( session | system ) _user
+        )
+        \b
       scope: support.function.scalar.sql
     - match: (?i)\b(avg|count|min|max|sum)(?=\s*\()
       scope: support.function.aggregate.sql
     - match: |-
         (?xi)
-          \b
-          (
-            binary_checksum | cast | checksum | coalesce | connectionproperty | concat | context_info | current_request_id |
-            dateadd | datediff | decode | error_line | error_message | error_number | error_procedure | error_severity | error_state | exists | extract | extractvalue |
-            formatmessage | format | get_filestream_transaction_context | getansinull | getutcdate | getdate | greatest | host_id | host_name |
-            instr | isnull | isnumeric | identity | iif |
-            least | lead | left | len | length | min_active_rowversion | newid | newsequentialid | nullif | nvl | nvl2 | option | over | print |
-            raise_application_error | raise_exception | raiserror |
-            row_number | rowcount_big | substr | table | to_char | to_date | to_number |
-            using | value | xact_state | xmlagg | xmlsequence | xmltable
-          )
-          (?= \s* \( )
+        \b
+        (
+          binary_checksum | cast | checksum | coalesce | connectionproperty | concat | context_info | current_request_id |
+          dateadd | datediff | decode | error_line | error_message | error_number | error_procedure | error_severity | error_state | exists | extract | extractvalue |
+          formatmessage | format | get_filestream_transaction_context | getansinull | getutcdate | getdate | greatest | host_id | host_name |
+          instr | isnull | isnumeric | identity | iif |
+          least | lead | left | len | length | min_active_rowversion | newid | newsequentialid | nullif | nvl | nvl2 | option | over | print |
+          raise_application_error | raise_exception | raiserror |
+          row_number | rowcount_big | substr | table | to_char | to_date | to_number |
+          using | value | xact_state | xmlagg | xmlsequence | xmltable
+        )
+        (?= \s* \( )
       scope: support.function.sql
     - match: |-
         (?xi)
-          \b
-          (
-            sp_executesql | sp_xml_preparedocument | sp_xml_removedocument | openxml
-          )
-          \b
+        \b
+        (
+          sp_executesql | sp_xml_preparedocument | sp_xml_removedocument | openxml
+        )
+        \b
       scope: support.function.sql
     - match: |-
         (?xi)
-          \b
-          (
-            object_id
-          )
-          (?=\s*\()
+        \b
+        (
+          object_id
+        )
+        (?=\s*\()
       scope: support.function.sql
     - match: |-
         (?xi)
@@ -657,10 +690,13 @@ contexts:
     - match: \*
       scope: keyword.operator.star.sql
   comments:
-    - match: '(?xi)(--) \s* ( TODO | !_! | !!! | \?\?\? ) .* $ \n?'
-      scope: comment.line.double-dash.sql markup.bold.sql
-      captures:
-        1: punctuation.definition.comment.sql
+    # bang comments: --TODO --!_! --!?! --!!! --???
+    - match: '(?xi) -- {{space}} ( TODO | !_! | !\?! | !!! | \?\?\? )'
+      push:
+        - meta_scope: comment.line.double-dash.sql punctuation.definition.comment.sql markup.bold.sql
+        - match: '(?xi) $ | \n'
+          pop: true
+
     - match: (--).*$\n?
       scope: comment.line.double-dash.sql
       captures:
@@ -693,7 +729,7 @@ contexts:
           captures:
             0: punctuation.definition.string.end.sql
           pop: true
-        - include: string_interpolation
+        - include: string-interpolation
         - match: \\/
           scope: constant.character.escape.slash.sql
     - match: '%r\{'
@@ -705,69 +741,42 @@ contexts:
           captures:
             0: punctuation.definition.string.end.sql
           pop: true
-        - include: string_interpolation
-  string_escape:
+        - include: string-interpolation
+  string-escape:
     - match: "`."
       scope: constant.character.escape.sql
-  string_interpolation:
+  string-interpolation:
     - match: '(#\{)([^\}]*)(\})'
       scope: string.interpolated.sql
       captures:
         1: punctuation.definition.string.end.sql
-  strings:
-    - match: '(N?)('')[^''\\]*('')'
-      scope: string.quoted.single.sql
+  strings-single-line:
+    - match: >-
+        (?x) (N)? ( ' | ` | " ) ( [^'\\]* ) (\2)
       captures:
-        1: constant.language.sql
-        2: punctuation.definition.string.begin.sql
-        4: punctuation.definition.string.end.sql
-    - match: "'"
+        1: string.quoted.sql constant.language.sql
+        2: punctuation.definition.string.begin.sql string.quoted.sql
+        3: string.quoted.sql
+        4: punctuation.definition.string.end.sql string.quoted.sql
+  strings-multi-line:
+    - match: (N)?(')
       captures:
-        0: punctuation.definition.string.begin.sql
+        1: string.quoted.sql constant.language.sql
+        2: punctuation.definition.string.begin.sql string.quoted.sql
       push:
-        - meta_scope: string.quoted.single.sql
+        - meta_content_scope: string.quoted.single.sql
         - match: "'"
-          captures:
-            0: punctuation.definition.string.end.sql
+          scope: punctuation.definition.string.end.sql string.quoted.sql
           pop: true
-        - include: string_escape
-    - match: '(`)[^`\\]*(`)'
-      scope: string.quoted.other.backtick.sql
+        - include: string-escape
+    - match: (N)?(")
       captures:
-        1: punctuation.definition.string.begin.sql
-        3: punctuation.definition.string.end.sql
-    - match: "`"
-      captures:
-        0: punctuation.definition.string.begin.sql
+        1: string.quoted.sql constant.language.sql
+        2: punctuation.definition.string.begin.sql string.quoted.sql
       push:
-        - meta_scope: string.quoted.other.backtick.sql
-        - match: "`"
-          captures:
-            0: punctuation.definition.string.end.sql
-          pop: true
-        - include: string_escape
-    - match: '(")[^"#]*(")'
-      scope: string.quoted.double.sql
-      captures:
-        1: punctuation.definition.string.begin.sql
-        3: punctuation.definition.string.end.sql
-    - match: '"'
-      captures:
-        0: punctuation.definition.string.begin.sql
-      push:
-        - meta_scope: string.quoted.double.sql
+        - meta_content_scope: string.quoted.double.sql
         - match: '"'
           captures:
-            0: punctuation.definition.string.end.sql
+            0: punctuation.definition.string.end.sql string.quoted.sql
           pop: true
-        - include: string_interpolation
-    - match: '%\{'
-      captures:
-        0: punctuation.definition.string.begin.sql
-      push:
-        - meta_scope: string.other.quoted.brackets.sql
-        - match: '\}'
-          captures:
-            0: punctuation.definition.string.end.sql
-          pop: true
-        - include: string_interpolation
+        - include: string-interpolation

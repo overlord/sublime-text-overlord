@@ -1,11 +1,18 @@
 // SYNTAX TEST "SQL Ex.sublime-syntax"
 
--- simple comment
--- !_! bang! comment 1
-// <- comment.line.double-dash.sql markup.bold.sql
+--simple comment
+--!_! bang! comment 1
+--!!! bang! comment 2
+--??? bang! comment 3
+--!?! bang! comment 4
+--TODO bang! comment 5
 
+-- simple comment with space
+-- !_! bang! comment 1
 -- !!! bang! comment 2
--- !?! bang! comment 3
+-- ??? bang! comment 3
+-- !?! bang! comment 4
+-- TODO bang! comment 5
 
 ------------------------------------------------------------
 -- Oracle PL/SQL Syntax
@@ -133,16 +140,54 @@ rollback transaction
 rollback transaction transaction_label
 
 ------------------------------
-set @sql_format := N'-- sql
+select z.*
+from dbo.[:p_table_name] z
+where z.[:p_column_name] = 1
+;
+set @sql_format := N' -- dsql
 	select z.*
 	from dbo.[:p_table_name] z
 	where z.[:p_column_name] = 1
 ' -- sql
+;
+set @sql_format := N' /* sql */
+	select z.*
+	from dbo.[:p_table_name] z
+	where z.[:p_column_name] = 1
+'; -- sql
 ------------------------------
 bad_mssql_parameter_name@sql_format
 ------------------------------
-set @sql_format := replace(@sql_format, ':p_table_name', 'USERS');
-set @sql_format := replace(@sql_format, ':p_column_name', 'HAS_MONEY');
+-- Однострочные строки
+set @var = N'Таблица описаний консультаций';
+set @var = N`Таблица описаний консультаций`;
+set @var = N"Таблица описаний консультаций";
+------------------------------
+-- Многострочные строки
+set @var = N'Таблица описаний консультаций
+Вторая строка'
+;
+set @var = N"Таблица описаний консультаций
+Вторая строка"
+;
+------------------------------
+exec  install__set_table_comment 'conferencies', N'Таблица
+описаний консультаций.
+Azaza!
+';
+
+exec  install__set_table_comment 'conferencies', N'Таблица описаний консультаций';
+exec install__set_column_comment 'conferencies', N'accepted_offer_id', N'Принятая при создании консультации оферта';
+exec install__set_column_comment 'conferencies', N'anamnesis', N'Анамнез';
+
+
+set @sql_format := replace(@sql_format, N':p_table_name', N'USERS');
+set @sql_format := replace(@sql_format, N':p_column_name', N'HAS_MONEY');
+
+exec  install__set_table_comment 'conferencies', N'Таблица описаний консультаций';
+exec install__set_column_comment 'conferencies', N'accepted_offer_id', N'Принятая при создании консультации оферта';
+exec install__set_column_comment 'conferencies', N'anamnesis', N'Анамнез';
+
 ------------------------------
 exec sp_executesql @sql_format;
 exec sp_unknown @sql_format;
