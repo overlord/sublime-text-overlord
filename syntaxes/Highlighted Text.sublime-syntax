@@ -9,26 +9,67 @@ scope: source.plaintext
 
 variables:
   space: '[ \t]'
+  hex: '[0-9a-f]'
+  ip4: '\d{1,3}'
 
 contexts:
 
   main:
 
     # iso datetime: 2021-10-06(T| )17:26:54.9189121Z
-    - match: >-
+    - match: >
         (?ix)
-          \b
-          ( \d{4} [\.-] \d{2} [\.-] \d{2} | \d{2} [\.-] \d{2} [\.-] \d{4} )
-          ( T | {{space}} )
-          ( \d{2} : \d{2} (?: : \d{2} (?: \. \d+ )? )? )
-          ( Z )?
-          \b
+        \b
+        ( \d{4} [\.-] \d{2} [\.-] \d{2} | \d{2} [\.-] \d{2} [\.-] \d{4} )
+        ( T | {{space}} )
+        ( \d{2} : \d{2} (?: : \d{2} (?: \. \d+ )? )? )
+        ( Z )?
+        \b
       captures:
         0: markup.quote.plaintext
         1: string.quoted.plaintext
         2: punctuation.plaintext
         3: string.regexp.plaintext
         4: punctuation.plaintext
+
+    # guid
+    - match: (?ix) \b ( {{hex}}{32} | {{hex}}{8}-{{hex}}{4}-{{hex}}{4}-{{hex}}{4}-{{hex}}{12} ) \b
+      scope: string.guid.plaintext markup.quote.plaintext
+
+    # email
+    - match: >
+        (?ix)
+        \b
+        ( (?: \d | [a-z] | \. | \- )+ )
+        ( @ )
+        ( (?: \d | [a-z] | \. | \- )+ \. (?: \d | [a-z] | \- )+ )
+        \b
+      captures:
+        0: markup.quote.plaintext
+        1: string.email.plaintext
+        2: string.punctuation.plaintext
+        3: string.email.plaintext
+
+    # ip-v4
+    - match: >
+        (?ix)
+        \b
+        ( {{ip4}} ) ( \. )
+        ( {{ip4}} ) ( \. )
+        ( {{ip4}} ) ( \. )
+        ( {{ip4}} ) (?: ( \: ) ( \d+ ) )?
+        \b
+      captures:
+        0: markup.quote.plaintext
+        1: string.ip.plaintext
+        2: string.punctuation.plaintext
+        3: string.ip.plaintext
+        4: string.punctuation.plaintext
+        5: string.ip.plaintext
+        6: string.punctuation.plaintext
+        7: string.ip.plaintext
+        8: string.punctuation.plaintext
+        9: string.regexp.plaintext
 
     # datetime: 20211006_172654
     - match: '(?ix) \b ( \d{8} ) ( _ )? ( \d{6} ) \b'
@@ -60,7 +101,10 @@ contexts:
 
     # programming language constants
     - match: '(?xi) \b ( true | false | null | is ) \b'
-      scope: constant.language.plaintext
+      scope: variable.language.plaintext
+
+    - match: '(?xi) \b ( https? ) \b'
+      scope: support.constant.plaintext
 
     # error markers
     - match: '(?xi) \[? (?: error | err | exception | \?{2}\?+ ) \]?'
@@ -71,30 +115,41 @@ contexts:
       scope: invalid.illegal.plaintext
 
     # functions
-    - match: '(?xi) \b ( avg | count | min | max | sum ) (?=\s*\()'
+    - match: '(?xi) \b ( avg | count | min | max | sum ) (?= {{space}}*\( )'
       scope: support.function.aggregate.plaintext
 
-    # # header
-    - match: '(?xi) ^ ( {{space}}* \#+ ) ( {{space}}* .*? ) $'
+    # header v0
+    - match: '(?xi) ^ {{space}}* \#+ {{space}}* ( .*? ) $'
       captures:
-        0: markup.quote.plaintext
-        1: support.other.plaintext
-        2: entity.name.function.plaintext markup.bold.plaintext
+        0: markup.heading.plaintext
+        1: meta.toc-list entity.name.section.plaintext # markup.bold.plaintext
+
+    # Bullet Pending
+    - match: '(?xi) ^ {{space}}* ( \- | \? ) {{space}}+'
+      scope: punctuation.definition.bullet.pending.todo
+
+    # Bullet Completed
+    - match: '(?xi) ^ {{space}}* ( \+ | v | √ ) {{space}}+'
+      scope: punctuation.definition.bullet.completed.todo
+
+    # Bullet Cancelled
+    - match: '(?xi) ^ {{space}}* ( x ) {{space}}+'
+      scope: punctuation.definition.bullet.cancelled.todo
 
     # IO path
-    - match: '(?xi) ^ \s* ( [a-z] \: .*? \: ) (?=\s?)'
+    - match: '(?xi) ^ {{space}}* ( [a-z] \: .*? \: ) (?=\s?)'
       scope: keyword.other.plaintext
 
     # BLABLA (dot) BLABLA
-    - match: >-
+    - match: >
         (?xi)
-          \b
-          ( [\w_\-]+ )
-          (?: \. ( [\w_\-]+ ) )
-          (?: \. ( [\w_\-]+ ) )?
-          (?: \. ( [\w_\-]+ ) )?
-          (?: \. ( [\w_\-]+ ) )?
-          \b
+        \b
+        ( [\w_\-]+ )
+        (?: \. ( [\w_\-]+ ) )
+        (?: \. ( [\w_\-]+ ) )?
+        (?: \. ( [\w_\-]+ ) )?
+        (?: \. ( [\w_\-]+ ) )?
+        \b
       captures:
         1: support.type.plaintext
         2: support.constant.plaintext
@@ -102,11 +157,14 @@ contexts:
         4: support.constant.plaintext
         5: support.constant.plaintext
 
+    - match: '(?xi) \b ( localhost ) \b'
+      scope: support.type.plaintext
+
     # math symbols
-    - match: >-
+    - match: >
         (?xi)
-          !  | =  | ,  | :  | -  | /  | #  | %  |
-          \+ | \| | \$ | \( | \) | \\ |
-          \[ | \] | \{ | \} | \* | \. |
-          < | >
+        !  | =*> | =  | ,  | :   | -*> | -  | /  | #  | %  |
+        \+ | \|  | \$ | \( | \)  | \\  |
+        \[ | \]  | \{ | \} | \*  | \.  |
+        <  | >
       scope: punctuation.plaintext

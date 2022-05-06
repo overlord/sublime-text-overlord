@@ -114,7 +114,10 @@
 			"foreground": "#80FF82",
 		},
 		{
-			"name": "String.regexp",
+			"scope": "string.punctuation",
+			"foreground": "#80FFBB",
+		},
+		{
 			"scope": "string.regexp",
 			"foreground": "#80FFBB",
 		},
@@ -251,38 +254,32 @@
 			"name": "Bold Markup",
 			"scope": "markup.bold",
 			"font_style": "bold",
-			// "foreground": "#C1AFFF",
 		},
 		{
-			"name": "Bold Markup",
 			"scope": "markup.simple-bold",
 			"font_style": "bold",
 		},
 		{
-			"name": "Italic Markup",
 			"scope": "markup.simple-italic",
 			"font_style": "italic",
 		},
 		{
-			"name": "Italic Markup",
 			"scope": "markup.italic",
 			"font_style": "italic",
-			// "foreground": "#B8FFD9",
 		},
 		{
-			"name": "Heading Markup",
 			"scope": "markup.heading",
-			"background": "#001221",
 			"font_style": "bold",
+			"background": "#001221",
 			"foreground": "#C8E4FD",
 		},
 
 		// PlainTasks support
 		{ "scope": "keyword.control.header.todo",                  "foreground": "#FFDD00" },
-		{ "scope": "punctuation.definition.bullet.pending.todo",   "foreground": "#E1EFFF" },
-		{ "scope": "punctuation.definition.bullet.completed.todo", "foreground": "#00FF00" },
+		{ "scope": "punctuation.definition.bullet.pending.todo",   "foreground": "#FFB054", "font_style": "bold" },
+		{ "scope": "punctuation.definition.bullet.completed.todo", "foreground": "#00FF00", "font_style": "bold" },
 		{ "scope": "meta.item.todo.cancelled",                     "foreground": "#708090" },
-		{ "scope": "punctuation.definition.bullet.cancelled.todo", "foreground": "#FF1E00" },
+		{ "scope": "punctuation.definition.bullet.cancelled.todo", "foreground": "#FF1E00", "font_style": "bold" },
 
 		// Background colors, see http://www.w3schools.com/html/html_colornames.asp
 		{ "scope": "markup.bgcolor.AliceBlue",            "background": "#F0F8FF" },
