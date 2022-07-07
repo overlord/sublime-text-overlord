@@ -277,6 +277,7 @@
 		// PlainTasks support
 		{ "scope": "keyword.control.header.todo",                  "foreground": "#FFDD00" },
 		{ "scope": "punctuation.definition.bullet.pending.todo",   "foreground": "#FFB054", "font_style": "bold" },
+		{ "scope": "punctuation.definition.bullet.question.todo",  "foreground": "#FFDD00", "font_style": "bold" },
 		{ "scope": "punctuation.definition.bullet.completed.todo", "foreground": "#00FF00", "font_style": "bold" },
 		{ "scope": "meta.item.todo.cancelled",                     "foreground": "#708090" },
 		{ "scope": "punctuation.definition.bullet.cancelled.todo", "foreground": "#FF1E00", "font_style": "bold" },

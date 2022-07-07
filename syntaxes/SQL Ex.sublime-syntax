@@ -116,8 +116,8 @@ contexts:
           (
             @@
             (
-              error | fetch_status | identity | pack_received | rowcount | trancount |
-              servername
+              error | fetch_status | identity | pack_received | procid |
+              rowcount | trancount | servername
             )
           )
       captures:

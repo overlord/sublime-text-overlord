@@ -17,13 +17,15 @@ contexts:
   main:
 
     # iso datetime: 2021-10-06(T| )17:26:54.9189121Z
-    - match: >
+    - match: >-
         (?ix)
         \b
         ( \d{4} [\.-] \d{2} [\.-] \d{2} | \d{2} [\.-] \d{2} [\.-] \d{4} )
-        ( T | {{space}} )
-        ( \d{2} : \d{2} (?: : \d{2} (?: \. \d+ )? )? )
-        ( Z )?
+        (?:
+          ( T | {{space}} )
+          ( \d{2} : \d{2} (?: : \d{2} (?: \. \d+ )? )? )
+          ( Z )?
+        )?
         \b
       captures:
         0: markup.quote.plaintext
@@ -37,12 +39,12 @@ contexts:
       scope: string.guid.plaintext markup.quote.plaintext
 
     # email
-    - match: >
+    - match: >-
         (?ix)
         \b
-        ( (?: \d | [a-z] | \. | \- )+ )
+        ( (?: \d | [a-z] | \. | \- | _ )+ )
         ( @ )
-        ( (?: \d | [a-z] | \. | \- )+ \. (?: \d | [a-z] | \- )+ )
+        ( (?: \d | [a-z] | \. | \- | _ )+ \. (?: \d | [a-z] | \- )+ )
         \b
       captures:
         0: markup.quote.plaintext
@@ -51,13 +53,16 @@ contexts:
         3: string.email.plaintext
 
     # ip-v4
-    - match: >
+    - match: >-
         (?ix)
         \b
         ( {{ip4}} ) ( \. )
         ( {{ip4}} ) ( \. )
         ( {{ip4}} ) ( \. )
-        ( {{ip4}} ) (?: ( \: ) ( \d+ ) )?
+        ( {{ip4}} )
+        (?:
+          ( \: ) ( \d+ )
+        )?
         \b
       captures:
         0: markup.quote.plaintext
@@ -118,18 +123,23 @@ contexts:
     - match: '(?xi) \b ( avg | count | min | max | sum ) (?= {{space}}*\( )'
       scope: support.function.aggregate.plaintext
 
-    # header v0
-    - match: '(?xi) ^ {{space}}* \#+ {{space}}* ( .*? ) $'
+    # header
+    - match: '(?xi) ^ {{space}}* ( \#+ ) {{space}}* ( .*? ) $'
       captures:
         0: markup.heading.plaintext
-        1: meta.toc-list entity.name.section.plaintext # markup.bold.plaintext
+        1: punctuation.definition.bullet.cancelled.todo.plaintext
+        2: entity.name.section.plaintext
+
+    # Bullet Under Question
+    - match: '(?xi) ^ {{space}}* ( \? ) {{space}}+'
+      scope: punctuation.definition.bullet.question.todo
 
     # Bullet Pending
-    - match: '(?xi) ^ {{space}}* ( \- | \? ) {{space}}+'
+    - match: '(?xi) ^ {{space}}* ( \- ) {{space}}+'
       scope: punctuation.definition.bullet.pending.todo
 
     # Bullet Completed
-    - match: '(?xi) ^ {{space}}* ( \+ | v | √ ) {{space}}+'
+    - match: '(?xi) ^ {{space}}* ( \+ | \* | v | √ ) {{space}}+'
       scope: punctuation.definition.bullet.completed.todo
 
     # Bullet Cancelled
@@ -141,7 +151,7 @@ contexts:
       scope: keyword.other.plaintext
 
     # BLABLA (dot) BLABLA
-    - match: >
+    - match: >-
         (?xi)
         \b
         ( [\w_\-]+ )
@@ -161,7 +171,7 @@ contexts:
       scope: support.type.plaintext
 
     # math symbols
-    - match: >
+    - match: >-
         (?xi)
         !  | =*> | =  | ,  | :   | -*> | -  | /  | #  | %  |
         \+ | \|  | \$ | \( | \)  | \\  |
