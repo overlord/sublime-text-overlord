@@ -59,6 +59,7 @@ class overlord_replace(sublime_plugin.WindowCommand):
 		# ------------------------------
 		content = initial_content = st2api.get_text(view)
 		for source, target in cleanup_data:
+			# print('Replace "%s" to "%s"' % (source, target))
 			content = re.sub(source, target, content)
 		# ------------------------------
 		if options['scratch']:
