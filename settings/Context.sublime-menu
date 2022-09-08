@@ -14,8 +14,8 @@
 			{ "caption": "Select Keywords", "command": "overlord_plsql_select_keywords" },
 			{ "caption": "-" },
 			{ "caption": "Flip Equal",      "command": "overlord_plsql_flip_equal" },
-			{ "caption": "Replace: ORM to SQL", "command": "overlord_replace", "args": { "config_path": "${packages}/sublime_overlord_settings/sql-indent-dsql.replace", "scratch": false } },
-			{ "caption": "Replace: JSON to SQL", "command": "overlord_replace", "args": { "config_path": "${packages}/sublime_overlord_settings/sql-json-to-sql.replace", "scratch": false } }
+			{ "caption": "Replace: ORM to SQL", "command": "overlord_replace", "args": { "config_path": "${packages}/sublime_overlord/replacers/sql-indent-dsql.replace", "scratch": false } },
+			{ "caption": "Replace: JSON to SQL", "command": "overlord_replace", "args": { "config_path": "${packages}/sublime_overlord/replacers/sql-json-to-sql.replace", "scratch": false } }
 		]
 	},
 
@@ -44,12 +44,13 @@
 			{ "caption": "Replace to scratch...",              "command": "overlord_replace", "args": { "scratch": true } },
 			{ "caption": "Replace in all open files...",       "command": "overlord_replace", "args": { "scratch": false, "in_all_open_files": true } },
 			{ "caption": "-" },
-			{ "command": "overlord_replace", "args": { "config_path": "${packages}/sublime_overlord_settings/sql-remove-square-brackets.replace", "scratch": false } },
-			{ "command": "overlord_replace", "args": { "config_path": "${packages}/sublime_overlord_settings/sql-indent-dsql.replace", "scratch": false } },
-			{ "command": "overlord_replace", "args": { "config_path": "${packages}/sublime_overlord_settings/rotate-cyrillic.replace" } },
-			{ "command": "overlord_replace", "args": { "config_path": "${packages}/sublime_overlord_settings/stack-trace.replace" } },
-			{ "command": "overlord_replace", "args": { "config_path": "${packages}/sublime_overlord_settings/replacers/class-to-description.replace" } },
-			{ "command": "overlord_replace", "args": { "config_path": "${packages}/sublime_overlord_settings/replacers/cs-to-compare.replace", "scratch": true } },
+			{ "command": "overlord_replace", "args": { "config_path": "${packages}/sublime_overlord/replacers/sql-remove-square-brackets.replace", "scratch": false } },
+			{ "command": "overlord_replace", "args": { "config_path": "${packages}/sublime_overlord/replacers/sql-indent-dsql.replace", "scratch": false } },
+			{ "command": "overlord_replace", "args": { "config_path": "${packages}/sublime_overlord/replacers/rotate-cyrillic.replace" } },
+			{ "command": "overlord_replace", "args": { "config_path": "${packages}/sublime_overlord/replacers/stack-trace.replace" } },
+			{ "command": "overlord_replace", "args": { "config_path": "${packages}/sublime_overlord/replacers/class-to-description.replace" } },
+			{ "command": "overlord_replace", "args": { "config_path": "${packages}/sublime_overlord/replacers/cs-to-compare.replace", "scratch": true } },
+			{ "command": "overlord_replace", "args": { "config_path": "${packages}/sublime_overlord/replacers/fix-cs-doc.replace", "scratch": false } },
 		]
 	},
 

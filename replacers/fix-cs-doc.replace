@@ -1,0 +1,8 @@
+[
+	["///\\s*(<summary>|<returns>|<param name=\".*?\">)(\\s*///\\s*)?" , "/// \\1"],
+	["\\s*///\\s*</summary>", " </summary>"],
+	["(<summary>|<returns>)\\s*" , "\\1 "],
+	["(<(?:param|response) .*?\">)\\s*" , "\\1 "],
+	["\\s*(</summary>|</returns>|</param>|</response>)" , " \\1"],
+	[">\\s*</", "></"]
+]

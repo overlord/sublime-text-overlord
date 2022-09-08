@@ -1,0 +1,19 @@
+[
+	[" DECLARE\\s+", "\nDECLARE "],
+	[" SET\\s+", "\n\tSET "],
+	[" SELECT\\s+", "\nSELECT\n\t"],
+	[" FROM\\s+", "\nFROM "],
+	[" INNER\\s+", "\nINNER "],
+	[" ON\\s+", "\n\tON "],
+	[" AND\\s+", "\n\tAND "],
+	[" WHERE\\s+", "\nWHERE "],
+	[" ORDER BY\\s+", "\nORDER BY "],
+	[" GROUP BY\\s+", "\nGROUP BY "],
+	[" HAVING\\s+", "\nHAVING "],
+	[",   ", ",\n\t"],
+	[" +\\(", "("],
+	["\\( +", "("],
+	[" +\\)", ")"],
+	["\\[", ""],
+	["\\]", ""]
+]
