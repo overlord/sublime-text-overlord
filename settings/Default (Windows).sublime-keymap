@@ -1,0 +1,5 @@
+[
+	{ "keys": ["ctrl+alt+shift+t"], "command": "overlord_tab", "args": { "indent_type": "space" } },
+	{ "keys": ["ctrl+alt+shift+up"], "command": "overlord_add_caret", "args": { "skip_lines": -2 } },
+	{ "keys": ["ctrl+alt+shift+down"], "command": "overlord_add_caret", "args": { "skip_lines": 2 } }
+]
