@@ -1,4 +1,5 @@
 [
+	{ "command": "overlord_open_context_file" },
 	{ "caption": "-" },
 	{ "caption": "Copy as HTML", "command": "copy_as_html", "args": {"enclosing_tags": true, "font_size": false} },
 	{ "command": "overlord_diff_unsaved", "args": {"tool": "TortoiseSVN"} },
@@ -16,6 +17,17 @@
 			{ "caption": "Flip Equal",      "command": "overlord_plsql_flip_equal" },
 			{ "caption": "Replace: ORM to SQL", "command": "overlord_replace", "args": { "config_path": "${packages}/sublime_overlord/replacers/sql-indent-dsql.replace", "scratch": false } },
 			{ "caption": "Replace: JSON to SQL", "command": "overlord_replace", "args": { "config_path": "${packages}/sublime_overlord/replacers/sql-json-to-sql.replace", "scratch": false } }
+		]
+	},
+
+	{
+		"caption": "XML",
+		"mnemonic": "X",
+		"id": "sublime_overlord_xml",
+		"children":
+		[
+			{ "caption": "Escape", "command": "overlord_xml_escape" },
+			{ "caption": "Unescape", "command": "overlord_xml_unescape" },
 		]
 	},
 
