@@ -2,9 +2,10 @@ import sublime_plugin
 import re
 
 rex = r'''(?xi)
-	(?: [a-z]:\\ ) # drive
-	(?: (?: [\w\s_!#()-]+ | [.]{1,2} )+ \\ )* # path
-	(?: (?: [.]? [\w\s_!#()-]+ )+ )? [.]? # filename
+    [a-z] \: \\
+    (?:
+        [ \. \w _ ! # \( \) \- ]+ \\?
+    )+
 '''
 
 # C:\Portable\
@@ -19,26 +20,21 @@ class OverlordOpenContextFileCommand(sublime_plugin.TextCommand):
 		return self.find_file(event) is not None
 
 	def find_file(self, event):
-		pt = self.view.window_to_text((event["x"], event["y"]))
+		pt = self.view.window_to_text((event['x'], event['y']))
 		line = self.view.line(pt)
-		# print('line: %s' % line)
-
-		# line.a = max(line.a, pt - 1024)
-		# line.b = min(line.b, pt + 1024)
+		line.a = max(line.a, pt - 1024)
+		line.b = min(line.b, pt + 1024)
 
 		text = self.view.substr(line)
-		# print('text: %s' % text)
+		match = re.search(rex, text)
 
-		m = re.findall(rex, text)
-		# print(m)
-
-		return m[0] if(len(m) > 0) else None
+		return match.group(0) if match else None
 
 	def description(self, event):
 		file = self.find_file(event)
 		if len(file) > 64:
-			file = file[0:64] + "..."
-		return "Open " + file
+			file = file[:32] + '<...>' + file[-32:]
+		return 'Open ' + file
 
 	def want_event(self):
 		return True

@@ -583,21 +583,44 @@ class overlord_calc_elapsed(sublime_plugin.TextCommand):
 		region = items[index] if len(items) > index else None
 		return (region, self.view.substr(region) if region else None)
 
+	def parse_time_f(self, s, f):
+		try:
+			return datetime.strptime(s, f)
+		except:
+			return None
+
+	def parse_time(self, s):
+		converted = s.replace('T', ' ').replace('.', '-')
+		time = (
+			self.parse_time_f(converted[:19], "%Y-%m-%d %H:%M:%S") or # 2018-03-14 14:41:04
+			self.parse_time_f(converted[:17], "%d-%m-%y %H:%M:%S") # 14-03-18 14:41:04
+		)
+
+		# if not time:
+		# 	print('Unable to parse time: %s' % s)
+
+		return time
+
 	def run(self, edit):
 		view = self.view
 		deltas = []
 		for selected_region in st2api.get_selection(view):
 			region_lines = view.lines(selected_region)
 			for index, line_region in enumerate(region_lines):
-				(reg, line) = self.get_item(region_lines, index)
-				(reg_next, line_next) = self.get_item(region_lines, index+1)
+				(region, line) = self.get_item(region_lines, index)
+				(region_next, line_next) = self.get_item(region_lines, index+1)
+				if index == 0:
+					deltas.append((region, line, '0:00:00'))
 				if line and line_next:
-					line_date = datetime.strptime(line[:19], "%Y-%m-%dT%H:%M:%S") # 2018-03-14T14:41:04
-					line_next_date = datetime.strptime(line_next[:19], "%Y-%m-%dT%H:%M:%S") # 2018-03-14T15:41:04
-					deltas.append((reg, line, line_next_date - line_date))
+					line_date = self.parse_time(line)
+					line_next_date = self.parse_time(line_next)
+					delta = '0:00:00'
+					if(line_date and line_next_date):
+						delta = line_next_date - line_date
+					deltas.append((region_next, line_next, delta))
 		if deltas:
-			for (reg, line, delta) in list(reversed(deltas)):
-				view.replace(edit, reg, "[%s] %s" % (str(delta), line))
+			for (region, line, delta) in list(reversed(deltas)):
+				view.replace(edit, region, "[%s] %s" % (str(delta), line))
 # ------------------------------------------------------------------------------------------------------------------------
 class overlord_test(sublime_plugin.WindowCommand):
 	def run(self):
