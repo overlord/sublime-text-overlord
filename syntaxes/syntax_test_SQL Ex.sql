@@ -19,8 +19,37 @@
 ------------------------------------------------------------
 
 create or replace procedure PLSQL_ololo_procedure
-create or replace function PLSQL_ololo_function
+create or replace function 'PLSQL_ololo_function'
+create or replace function [PLSQL_ololo_function]
+create or replace function "PLSQL_ololo_function"
 
+------------------------------
+drop table instance.schema.table_name;
+drop table schema.table_name;
+drop table table_name;
+
+drop table [instance].[schema].[table_name];
+drop table [schema].[table_name];
+drop table [table_name];
+
+drop table "instance"."schema"."table_name";
+drop table "schema"."table_name";
+drop table "table_name";
+
+------------------------------
+truncate table instance.schema.table_name;
+truncate table schema.table_name;
+truncate table table_name;
+
+truncate table [instance].[schema].[table_name];
+truncate table [schema].[table_name];
+truncate table [table_name];
+
+truncate table "instance"."schema"."table_name";
+truncate table "schema"."table_name";
+truncate table "table_name";
+
+------------------------------
 v_variable
 c_constant
 p_procedure_argument
@@ -33,6 +62,28 @@ select alias.row_name%notfound
 select alias.row_name%rowcount
 select alias.row_name%rowtype
 select alias.row_name%type
+------------------------------------------------------------
+
+select alias.row_name%type
+from table as alias
+where 1 = 1
+	and func(alias.row_name) = 2
+;
+
+------------------------------
+update alias set
+	alias.value = 'azaza'
+from table as alias
+where 1 = 1
+	and func(alias.row_name) = 2
+;
+
+update instance.schema.table_name set
+	table_name.value = 'azaza'
+where 1 = 1
+	and func(table_name.row_name) = 2
+;
+
 ------------------------------------------------------------
 
 begin
@@ -122,21 +173,13 @@ declare
 set transaction isolation level read uncommitted
 set nocount off
 
-begin
-begin tran
-begin transaction
+begin; begin tran; begin transaction;
+commit; commit tran; commit transaction;
 
-save tran
-save transaction
+save tran; save transaction;
 save transaction transaction_label
 
-commit
-commit tran
-commit transaction
-
-rollback
-rollback tran
-rollback transaction
+rollback; rollback tran; rollback transaction;
 rollback transaction transaction_label
 
 ------------------------------
@@ -179,7 +222,6 @@ Azaza!
 exec  install__set_table_comment 'conferencies', N'Таблица описаний консультаций';
 exec install__set_column_comment 'conferencies', N'accepted_offer_id', N'Принятая при создании консультации оферта';
 exec install__set_column_comment 'conferencies', N'anamnesis', N'Анамнез';
-
 
 set @sql_format := replace(@sql_format, N':p_table_name', N'USERS');
 set @sql_format := replace(@sql_format, N':p_column_name', N'HAS_MONEY');
@@ -268,5 +310,19 @@ begin try
 end try
 begin catch
 end catch
+
 ------------------------------
-IF NOT EXISTS( select so.* from sys.objects
+if not exists( select objects.* from sys.objects )
+
+------------------------------
+select "alias"."column_name"
+from "instance"."schema"."permanent_table" as "alias"
+
+select "alias"."column_name"
+from "extra_bull_shit"."instance"."schema"."permanent_table" as "alias"
+where "alias".value = N'azaza';
+
+alter table "Pats"
+    add constraint fk_Pats_Users foreign key ("UserId") references "Users" ("UserId");
+
+delete from "instance"."schema"."table_name" where "ProductId" = current_setting('vars.product_id')::int;

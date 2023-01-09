@@ -105,14 +105,14 @@ contexts:
       scope: constant.character.escape.plaintext
 
     # programming language constants
-    - match: '(?xi) \b ( true | false | null | is ) \b'
+    - match: '(?xi) \b ( true | on | false | off | null | is ) \b'
       scope: variable.language.plaintext
 
     - match: '(?xi) \b ( https? ) \b'
       scope: support.constant.plaintext
 
     # error markers
-    - match: '(?xi) \[? (?: error | err | exception | \?{2}\?+ ) \]?'
+    - match: '(?xi) \[? (?: fatal | error | err | exception | \?{2}\?+ | failed ) \]?'
       scope: invalid.illegal.plaintext
 
     # warn markers
@@ -178,3 +178,10 @@ contexts:
         \[ | \]  | \{ | \} | \*  | \.  |
         <  | >
       scope: punctuation.plaintext
+
+    # cmd and bash commands
+    - match: (?xi) ^ {{space}}* ( > ) {{space}}* ( .*? ) $
+      scope: meta.command-line.plaintext
+      captures:
+        1: support.type.plaintext markup.bold.sql
+        2: variable.parameter.plaintext markup.quote.plaintext markup.bold.sql

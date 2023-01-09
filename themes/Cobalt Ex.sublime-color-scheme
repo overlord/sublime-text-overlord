@@ -50,10 +50,24 @@
 		},
 		{
 			"name": "String",
-			"scope": "string -string.unquoted.old-plist -string.unquoted.heredoc, string.unquoted.heredoc string",
+			"scope": "string -string.unquoted.old-plist -string.unquoted.heredoc -string.unquoted.plain.out.yaml, string.unquoted.heredoc string",
 			"font_style": "",
 			"foreground": "#3AD900",
 		},
+
+		{ //!_! зто зуб в носу для починки сломанного синтакcvса YAML
+			"name": "Mapping.Key",
+			"scope": "meta.mapping.key",
+			"font_style": "",
+			"foreground": "#FFDD00",
+		},
+		{ //!_! зто зуб в носу для починки сломанного синтакcvса YAML
+			"name": "String",
+			"scope": "string.unquoted.plain.out -meta.mapping.key",
+			"font_style": "",
+			"foreground": "#3AD900",
+		},
+
 		{
 			"name": "Comment",
 			"scope": "comment",

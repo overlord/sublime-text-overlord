@@ -2,7 +2,7 @@
 import sublime
 import sublime_plugin
 import html
-import sys
+import urllib
 # ------------------------------
 class overlord_xml_escape(sublime_plugin.TextCommand):
 	def run(self, edit):
@@ -13,7 +13,10 @@ class overlord_xml_escape(sublime_plugin.TextCommand):
 class overlord_xml_unescape(sublime_plugin.TextCommand):
 	def run(self, edit):
 		for sel in reversed(self.view.sel()):
-			text = html.unescape(self.view.substr(sel))
+			text = self.view.substr(sel)
+			text = html.unescape(text)
+			text = urllib.parse.unquote(text)
+			# text = text.decode('unicode-escape')
 			self.view.replace(edit, sel, text)
 
 # ------------------------------
