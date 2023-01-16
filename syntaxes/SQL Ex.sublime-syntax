@@ -314,7 +314,7 @@ contexts:
     - match: >-
         (?xi)
         ( ^ | \s | \, | \. | \: | \( )
-        ( @? (?: l_ | p_ | v_ | cr_ | pti_ ) {{xid}} )
+        ( \$? @? (?: l_ | p_ | v_ | cr_ | pti_ ) {{xid}} )
         \b
       captures:
         2: variable.parameter.sql
@@ -325,7 +325,7 @@ contexts:
           )
           (
             (?:
-              @? (?: cl?_ | lc?_ )
+              \$? @? (?: cl?_ | lc?_ )
             )
             {{xid}}
           )
