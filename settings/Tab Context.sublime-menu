@@ -1,5 +1,6 @@
 [
 	{ "caption": "-" },
-	{ "caption": "Rename…", "command": "overlord_rename_path" },
-	{ "caption": "Duplicate…", "command": "overlord_duplicate_file" }
+	{ "caption": "Rename…",    "command": "overlord_rename_path" },
+	{ "caption": "Duplicate…", "command": "overlord_duplicate_file" },
+	// { "caption": "Copy path",  "command": "overlord_copy_file_path", "args": { "files": [], "dirs": [] } },
 ]

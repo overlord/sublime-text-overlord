@@ -1,12 +1,12 @@
 [
 	{ "caption": "-", "id": "end" },
 	{ "caption": "-", "id": "sublime_overlord_start" },
+	{ "caption": "Copy path",         "command": "overlord_copy_file_path",  "args": { "files": [], "dirs": [] } },
+	{ "caption": "Duplicate...",      "command": "overlord_duplicate_file2", "args": { "files": [] } },
 	{
 		"caption": "Other", "mnemonic": "O", "id": "sublime_overlord_other",
 		"children": [
-			{ "caption": "Copy path",         "command": "overlord_copy_file_path",  "args": { "files": [], "dirs": [] } },
 			{ "caption": "List directory...", "command": "overlord_list_dir",        "args": { "dirs": [] } },
-			{ "caption": "Duplicate...",      "command": "overlord_duplicate_file2", "args": { "files": [] } },
 			{ "caption": "Concatenate files", "command": "overlord_concat_files",    "args": { "files": [] } },
 		],
 	},

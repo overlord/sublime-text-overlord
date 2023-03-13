@@ -442,10 +442,10 @@ contexts:
           \b(
             bigint | tinyint | bigserial | bit | raw |
             (?:ci?t_)?boolean | box | bytea | cidr | circle |
-            (?:ci?t_)?date | datetime2 |datetime | decimal | cursor | double\sprecision | inet | int |
+            (?:ci?t_)?date | datetime2 |datetime | decimal | cursor | double\sprecision | inet |
             (?:pls_ | binary_)? integer | line | lseg | macaddr | money | oid | path | point |
             polygon | real | serial | smallint | text | sysname | sys_refcursor | clob | blob |
-            xmltype | xml | float | sql_variant | varbinary | geography
+            xmltype | xml | float | sql_variant | varbinary | geography | int8 | int
           )\b
 
           # numeric suffix, capture 2 + 3i

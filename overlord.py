@@ -250,10 +250,10 @@ class overlord_rename_path(sublime_plugin.WindowCommand):
 	'''
 	def run(self):
 		if self.is_visible():
-			self.window.run_command('rename_path', {'paths': [self.window.active_view().file_name()]})
+			self.window.run_command('rename_path', {'paths': [self.window.active_sheet().file_name()]})
 	def is_visible(self):
-		view = self.window.active_view()
-		return True if view and view.file_name() else False
+		sheet = self.window.active_sheet()
+		return True if sheet and sheet.file_name() else False
 
 # ------------------------------------------------------------------------------------------------------------------------
 class overlord_duplicate_file(sublime_plugin.WindowCommand):
@@ -267,8 +267,8 @@ class overlord_duplicate_file(sublime_plugin.WindowCommand):
 	def is_visible(self):
 		return self.get_target() is not None
 	def get_target(self):
-		if self.window and self.window.active_view() and self.window.active_view().file_name():
-			return self.window.active_view().file_name()
+		if self.window and self.window.active_sheet() and self.window.active_sheet().file_name():
+			return self.window.active_sheet().file_name()
 		return None
 	# ------------------------------
 	def execute(self):

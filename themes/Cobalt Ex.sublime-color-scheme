@@ -75,6 +75,12 @@
 			"foreground": "#0088FF",
 		},
 		{
+			"name": "Notes",
+			"scope": "notes",
+			"font_style": "italic",
+			"foreground": "#999999",
+		},
+		{
 			"name": "Support",
 			"scope": "support",
 			"font_style": "",
@@ -287,9 +293,15 @@
 			"background": "#001221",
 			"foreground": "#C8E4FD",
 		},
+		{
+			"scope": "markup.sub-heading",
+			"font_style": "",
+			"foreground": "#EDEF7D",
+		},
+
 
 		// PlainTasks support
-		{ "scope": "keyword.control.header.todo",                  "foreground": "#FFDD00" },
+		{ "scope": "keyword.control.header.todo",                  "foreground": "#FFDD00", "font_style": "bold" },
 		{ "scope": "punctuation.definition.bullet.pending.todo",   "foreground": "#FFB054", "font_style": "bold" },
 		{ "scope": "punctuation.definition.bullet.question.todo",  "foreground": "#FFDD00", "font_style": "bold" },
 		{ "scope": "punctuation.definition.bullet.completed.todo", "foreground": "#00FF00", "font_style": "bold" },

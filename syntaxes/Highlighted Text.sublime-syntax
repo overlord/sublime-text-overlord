@@ -8,9 +8,13 @@ file_extensions:
 scope: source.plaintext
 
 variables:
-  space: '[ \t]'
+  space: '[\x{0020}\t]'
   hex: '[0-9a-f]'
   ip4: '\d{1,3}'
+  todo_cancelled: 'x'
+  todo_completed: '\+|\*|v|√'
+  todo_pending: '\-'
+  todo_question:  '\?|\!'
 
 contexts:
 
@@ -45,6 +49,20 @@ contexts:
         ( (?: \d | [a-z] | \. | \- | _ )+ )
         ( @ )
         ( (?: \d | [a-z] | \. | \- | _ )+ \. (?: \d | [a-z] | \- )+ )
+        \b
+      captures:
+        0: markup.quote.plaintext
+        1: string.email.plaintext
+        2: string.punctuation.plaintext
+        3: string.email.plaintext
+
+    # domain\username
+    - match: >-
+        (?ix)
+        (?: ^ | {{space}} | \( )
+        ( (?: \d | [a-z] | \. | \- | _ )+ )
+        ( \\ )
+        ( (?: \d | [a-z] | \. | \- | _ )+ )
         \b
       captures:
         0: markup.quote.plaintext
@@ -88,6 +106,10 @@ contexts:
     - match: '(?ix) ^ {{space}}* -+ !*? -+ {{space}}* $'
       scope: comment.line.plaintext
 
+    # comment line
+    - match: '//!_!.*?$'
+      scope: comment.line.plaintext
+
     # decimal numbers
     - match: '(?i)\b(\d+\.?\d*)[u|f]?\b'
       scope: constant.numeric.decimal.plaintext
@@ -112,11 +134,11 @@ contexts:
       scope: support.constant.plaintext
 
     # error markers
-    - match: '(?xi) \[? (?: fatal | error | err | exception | \?{2}\?+ | failed ) \]?'
+    - match: '(?xi) \[? (?: fatal | error | \b err | exception | \?{2}\?+ | failed ) \]?'
       scope: invalid.illegal.plaintext
 
     # warn markers
-    - match: '(?xi) ( \[? (?: warning | warn ) \]? ) '
+    - match: '(?xi) ( \[? (?: warning | \b warn ) \]? ) '
       scope: invalid.illegal.plaintext
 
     # functions
@@ -130,26 +152,46 @@ contexts:
         1: punctuation.definition.bullet.cancelled.todo.plaintext
         2: entity.name.section.plaintext
 
-    # Bullet Under Question
-    - match: '(?xi) ^ {{space}}* ( \? ) {{space}}+'
+    # ------------------------------
+    # sub-headings
+    - match: '(?xi) ^ {{space}}* ( {{todo_question}} ) {{space}}+ ( .*? \: ) (?= $ | {{space}} )'
+      captures:
+        1: punctuation.definition.bullet.question.todo
+        2: markup.sub-heading.plaintext
+
+    - match: '(?xi) ^ {{space}}* ( {{todo_pending}} ) {{space}}+ ( .*? \: ) (?= $ | {{space}} )'
+      captures:
+        1: punctuation.definition.bullet.pending.todo
+        2: markup.sub-heading.plaintext
+
+    - match: '(?xi) ^ {{space}}* ( {{todo_completed}} ) {{space}}+ ( .*? \: ) (?= $ | {{space}} )'
+      captures:
+        1: punctuation.definition.bullet.completed.todo
+        2: markup.sub-heading.plaintext
+
+    - match: '(?xi) ^ {{space}}* ( {{todo_cancelled}} ) {{space}}+ ( .*? \: ) (?= $ | {{space}} )'
+      captures:
+        1: punctuation.definition.bullet.cancelled.todo
+        2: markup.sub-heading.plaintext
+
+    - match: '(?xi) ^ {{space}}* ( .*? \: ) (?= $ | {{space}} )'
+      scope: markup.sub-heading.plaintext
+
+    # ------------------------------
+    # Todo Bullets
+    - match: '(?xi) ^ {{space}}* ( {{todo_question}} ) {{space}}+'
       scope: punctuation.definition.bullet.question.todo
 
-    # Bullet Pending
-    - match: '(?xi) ^ {{space}}* ( \- ) {{space}}+'
+    - match: '(?xi) ^ {{space}}* ( {{todo_pending}} ) {{space}}+'
       scope: punctuation.definition.bullet.pending.todo
 
-    # Bullet Completed
-    - match: '(?xi) ^ {{space}}* ( \+ | \* | v | √ ) {{space}}+'
+    - match: '(?xi) ^ {{space}}* ( {{todo_completed}} ) {{space}}+'
       scope: punctuation.definition.bullet.completed.todo
 
-    # Bullet Cancelled
-    - match: '(?xi) ^ {{space}}* ( x ) {{space}}+'
+    - match: '(?xi) ^ {{space}}* ( {{todo_cancelled}} ) {{space}}+'
       scope: punctuation.definition.bullet.cancelled.todo
 
-    # IO path
-    - match: '(?xi) ^ {{space}}* ( [a-z] \: .*? \: ) (?=\s?)'
-      scope: keyword.other.plaintext
-
+    # ------------------------------
     # BLABLA (dot) BLABLA
     - match: >-
         (?xi)
