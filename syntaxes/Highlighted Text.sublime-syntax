@@ -24,7 +24,10 @@ contexts:
     - match: >-
         (?ix)
         \b
-        ( \d{4} [\.-] \d{2} [\.-] \d{2} | \d{2} [\.-] \d{2} [\.-] \d{4} )
+        (
+          \d{4} [\.-/] \d{2} [\.-/] \d{2} |
+          \d{2} [\.-/] \d{2} [\.-/] \d{4}
+        )
         (?:
           ( T | {{space}} )
           ( \d{2} : \d{2} (?: : \d{2} (?: \. \d+ )? )? )
@@ -134,7 +137,7 @@ contexts:
       scope: support.constant.plaintext
 
     # error markers
-    - match: '(?xi) \[? (?: fatal | error | \b err | exception | \?{2}\?+ | failed ) \]?'
+    - match: '(?xi) \[? (?: critical | crit | fatal | error | \b err | exception | \?{2}\?+ | failed | \?+ ) \]?'
       scope: invalid.illegal.plaintext
 
     # warn markers
@@ -151,6 +154,13 @@ contexts:
         0: markup.heading.plaintext
         1: punctuation.definition.bullet.cancelled.todo.plaintext
         2: entity.name.section.plaintext
+
+    # cmd and bash commands
+    - match: (?xi) ^ {{space}}* ( > ) {{space}}* ( .*? ) $
+      scope: meta.command-line.plaintext
+      captures:
+        1: support.type.plaintext markup.bold.sql
+        2: variable.parameter.plaintext markup.quote.plaintext markup.bold.sql
 
     # ------------------------------
     # sub-headings
@@ -220,10 +230,3 @@ contexts:
         \[ | \]  | \{ | \} | \*  | \.  |
         <  | >
       scope: punctuation.plaintext
-
-    # cmd and bash commands
-    - match: (?xi) ^ {{space}}* ( > ) {{space}}* ( .*? ) $
-      scope: meta.command-line.plaintext
-      captures:
-        1: support.type.plaintext markup.bold.sql
-        2: variable.parameter.plaintext markup.quote.plaintext markup.bold.sql

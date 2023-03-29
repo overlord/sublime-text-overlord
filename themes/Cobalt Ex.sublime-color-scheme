@@ -4,13 +4,34 @@
 	"comment": "Created by Constantine. Based on 'Cobalt' by Jacob Rus.",
 	"colorSpaceName": "sRGB",
 	"semanticClass": "theme.dark.cobalt",
+	"variables":
+	{
+		"c_black": "#000000",
+		"c_white": "#FFFFFF",
+		"c_comment": "#0088FF",
+
+		"c_entity": "#FFDD00",
+		"c_keyword": "#FF9D00",
+		"c_storage": "#EDEF7D",
+
+		"c_support": "#80FFBB",
+		"c_support_function": "#FFB054",
+		"c_support_constant": "#EB939A",
+
+		"c_string": "#3AD900",
+		"c_string_quoted": "#9EFF80",
+		"c_regexp": "#80FFBB",
+
+		"c_punctuation": "color( var(c_white) l(- 20%) )", // "#E1EFFF",
+		"c_exception": "#FF1E00",
+	},
 	"globals":
 	{
 		"background":                  "#002240",
-		"caret":                       "#FFFFFF",
-		"foreground":                  "#FFFFFF",
-		"invisibles":                  "#FFFFFF26",
-		"line_highlight":              "#00000059",
+		"caret":                       "var(c_white)",
+		"foreground":                  "var(c_white)",
+		"invisibles":                  "color( var(c_white) alpha(.20) )",
+		"line_highlight":              "color( var(c_black) alpha(.25) )",
 		"selection":                   "#B36539BF",
 		"brackets_foreground":         "#00E800",
 		"brackets_options":            "foreground underline bold",
@@ -22,7 +43,7 @@
 			"name": "Punctuation",
 			"scope": "punctuation - (punctuation.definition.string || punctuation.definition.comment)",
 			"font_style": "",
-			"foreground": "#E1EFFF",
+			"foreground": "var(c_punctuation)",
 		},
 		{
 			"name": "Constant",
@@ -34,45 +55,45 @@
 			"name": "Entity",
 			"scope": "entity",
 			"font_style": "",
-			"foreground": "#FFDD00",
+			"foreground": "var(c_entity)",
 		},
 		{
 			"name": "Keyword",
 			"scope": "keyword",
 			"font_style": "",
-			"foreground": "#FF9D00",
+			"foreground": "var(c_keyword)",
 		},
 		{
 			"name": "Storage",
 			"scope": "storage",
 			"font_style": "",
-			"foreground": "#EDEF7D",
+			"foreground": "var(c_storage)",
 		},
 		{
 			"name": "String",
 			"scope": "string -string.unquoted.old-plist -string.unquoted.heredoc -string.unquoted.plain.out.yaml, string.unquoted.heredoc string",
 			"font_style": "",
-			"foreground": "#3AD900",
+			"foreground": "var(c_string)",
 		},
 
 		{ //!_! зто зуб в носу для починки сломанного синтакcvса YAML
 			"name": "Mapping.Key",
 			"scope": "meta.mapping.key",
 			"font_style": "",
-			"foreground": "#FFDD00",
+			"foreground": "var(c_entity)",
 		},
 		{ //!_! зто зуб в носу для починки сломанного синтакcvса YAML
 			"name": "String",
 			"scope": "string.unquoted.plain.out -meta.mapping.key",
 			"font_style": "",
-			"foreground": "#3AD900",
+			"foreground": "var(c_string)",
 		},
 
 		{
 			"name": "Comment",
 			"scope": "comment",
 			"font_style": "italic",
-			"foreground": "#0088FF",
+			"foreground": "var(c_comment)",
 		},
 		{
 			"name": "Notes",
@@ -84,7 +105,7 @@
 			"name": "Support",
 			"scope": "support",
 			"font_style": "",
-			"foreground": "#80FFBB",
+			"foreground": "var(c_support)",
 		},
 		{
 			"name": "Variable",
@@ -114,7 +135,7 @@
 			"scope": "text source, string.unquoted.heredoc, source source",
 			"background": "#223545",
 			"font_style": "",
-			"foreground": "#FFFFFF",
+			"foreground": "var(c_white)",
 		},
 		{
 			"name": "Entity inherited-class",
@@ -126,7 +147,7 @@
 			"name": "String embedded-source",
 			"scope": "string.quoted source",
 			"font_style": "",
-			"foreground": "#9EFF80",
+			"foreground": "var(c_string_quoted)",
 		},
 		{
 			"name": "String constant",
@@ -139,7 +160,7 @@
 		},
 		{
 			"scope": "string.regexp",
-			"foreground": "#80FFBB",
+			"foreground": "var(c_regexp)",
 		},
 		{
 			"name": "String variable",
@@ -147,16 +168,14 @@
 			"foreground": "#EDEF7D",
 		},
 		{
-			"name": "Support.function",
 			"scope": "support.function",
 			"font_style": "",
-			"foreground": "#FFB054",
+			"foreground": "var(c_support_function)",
 		},
 		{
-			"name": "Support.constant",
 			"scope": "support.constant",
 			"font_style": "",
-			"foreground": "#EB939A",
+			"foreground": "var(c_support_constant)",
 		},
 		{
 			"name":  "Support.constant.variable",
@@ -168,7 +187,7 @@
 		{
 			"name": "Exception",
 			"scope": "support.type.exception",
-			"foreground": "#FF1E00",
+			"foreground": "var(c_exception)",
 		},
 		{
 			"name": "C# C++ Preprocessor Line",
@@ -198,7 +217,7 @@
 		{
 			"name": "css#id",
 			"scope": "meta.selector.css entity.other.attribute-name.id",
-			"foreground": "#FFB054",
+			"foreground": "var(c_support_function)",
 		},
 		{
 			"name": "css.class",
@@ -228,7 +247,7 @@
 		{
 			"name": "css constructor.argument",
 			"scope": "meta.constructor.argument.css",
-			"foreground": "#EB939A",
+			"foreground": "var(c_support_constant)",
 		},
 		{
 			"name": "Diff Header",
@@ -256,12 +275,10 @@
 			"foreground": "#F8F8F8",
 		},
 		{
-			"name": "Raw Markup",
 			"scope": "markup.raw",
 			"background": "#8FDDF630",
 		},
 		{
-			"name": "Block Quote",
 			"scope": "markup.quote",
 			"background": "#003550",
 		},
@@ -271,12 +288,11 @@
 			"background": "#130D26",
 		},
 		{
-			"name": "Bold Markup",
-			"scope": "markup.bold",
+			"scope": "markup.simple-bold",
 			"font_style": "bold",
 		},
 		{
-			"scope": "markup.simple-bold",
+			"scope": "markup.bold",
 			"font_style": "bold",
 		},
 		{
@@ -296,17 +312,16 @@
 		{
 			"scope": "markup.sub-heading",
 			"font_style": "",
-			"foreground": "#EDEF7D",
+			"foreground": "var(c_storage)",
 		},
 
-
 		// PlainTasks support
-		{ "scope": "keyword.control.header.todo",                  "foreground": "#FFDD00", "font_style": "bold" },
-		{ "scope": "punctuation.definition.bullet.pending.todo",   "foreground": "#FFB054", "font_style": "bold" },
-		{ "scope": "punctuation.definition.bullet.question.todo",  "foreground": "#FFDD00", "font_style": "bold" },
-		{ "scope": "punctuation.definition.bullet.completed.todo", "foreground": "#00FF00", "font_style": "bold" },
+		{ "scope": "keyword.control.header.todo",                  "foreground": "var(c_entity)", "font_style": "bold" },
+		{ "scope": "punctuation.definition.bullet.pending.todo",   "foreground": "var(c_support_function)", "font_style": "bold" },
+		{ "scope": "punctuation.definition.bullet.question.todo",  "foreground": "var(c_entity)", "font_style": "bold" },
+		{ "scope": "punctuation.definition.bullet.completed.todo", "foreground": "var(c_string)", "font_style": "bold" },
 		{ "scope": "meta.item.todo.cancelled",                     "foreground": "#708090" },
-		{ "scope": "punctuation.definition.bullet.cancelled.todo", "foreground": "#FF1E00", "font_style": "bold" },
+		{ "scope": "punctuation.definition.bullet.cancelled.todo", "foreground": "var(c_exception)", "font_style": "bold" },
 
 		// Background colors, see http://www.w3schools.com/html/html_colornames.asp
 		{ "scope": "markup.bgcolor.AliceBlue",            "background": "#F0F8FF" },
