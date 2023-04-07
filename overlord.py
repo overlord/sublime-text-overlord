@@ -531,23 +531,39 @@ class overlord_goto_selected_file(sublime_plugin.WindowCommand):
 		st2api.show_file_overlay(window, text)
 
 # ------------------------------------------------------------------------------------------------------------------------
-class overlord_to_camel_case(sublime_plugin.WindowCommand):
-	def run(self, capitalize=False):
-		view = self.window.active_view()
-		selection = reversed(st2api.get_selection(view))
+class overlord_to_camel_case(sublime_plugin.TextCommand):
+	def to_camel_case(self, content, capitalize):
+		if content.find(' ') >= 0 or content.find('_') >= 0:
+			content = content.replace('_', ' ')
+			content = ''.join(x for x in content.title() if x != ' ')
+		if not capitalize:
+			content = content[:1].lower() + content[1:]
+		return content
 
-		try:
-			edit = view.begin_edit()
-			for sel in selection:
-				initial_content = content = view.substr(sel)
-				if initial_content.find(' ') >= 0 or initial_content.find('_') >= 0:
-					content = initial_content.replace('_', ' ')
-					content = ''.join(x for x in content.title() if not x.isspace())
-				content = content[:1].lower() + content[1:]
-				if initial_content != content:
-					view.replace(edit, sel, content)
-		finally:
-			view.end_edit(edit)
+	def run(self, edit, capitalize=False):
+		view = self.view
+		for sel in reversed(st2api.get_selection(view)):
+			initial_content = view.substr(sel)
+			content = self.to_camel_case(initial_content, capitalize)
+			if initial_content != content:
+				view.replace(edit, sel, content)
+
+class overlord_to_snake_case(sublime_plugin.TextCommand):
+	def to_snake_case(self, content):
+	    sep = ';!.!;'
+	    content = re.sub(r'([a-z])([A-Z])', f'\\1{sep}\\2', content)
+	    content = re.sub(r'(\d)([A-Za-z])', f'\\1{sep}\\2', content)
+	    content = re.sub(r'([A-Z])([A-Z][a-z])', f'\\1{sep}\\2', content)
+	    content = content.replace(sep, "_").lower()
+	    return content
+
+	def run(self, edit):
+		view = self.view
+		for sel in reversed(st2api.get_selection(view)):
+			initial_content = view.substr(sel)
+			content = self.to_snake_case(initial_content)
+			if initial_content != content:
+				view.replace(edit, sel, content)
 
 # ------------------------------------------------------------------------------------------------------------------------
 class overlord_unquote_url(sublime_plugin.TextCommand):

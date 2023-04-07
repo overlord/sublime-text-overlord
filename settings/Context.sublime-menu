@@ -40,9 +40,13 @@
 			{ "caption": "Indent stairs",     "command": "overlord_insert_stairs", "args": { } },
 			{ "caption": "Calc elapsed time", "command": "overlord_calc_elapsed" },
 			{ "caption": "-" },
+			{ "caption": "To PascalCase",     "command": "overlord_to_camel_case", "args": { "capitalize": true } },
+			{ "caption": "To camelCase",      "command": "overlord_to_camel_case", "args": { "capitalize": false } },
+			{ "caption": "To snake_case",     "command": "overlord_to_snake_case" },
+			{ "caption": "-" },
 			{ "caption": "Split file",         "command": "overlord_split_file", "args": { "is_scratch": false } },
 			{ "caption": "Split file (draft)", "command": "overlord_split_file", "args": { "is_scratch": true } },
-			{ "caption": "Unquote URL", "command": "overlord_unquote_url" },
+			{ "caption": "Unquote URL",        "command": "overlord_unquote_url" },
 		]
 	},
 
