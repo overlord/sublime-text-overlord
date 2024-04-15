@@ -94,6 +94,10 @@ contexts:
     - include: strings-single-line
     - include: strings-multi-line
     - include: regexps
+
+    - match: '(?xi) \$ ( EF )? \$'
+      scope: variable.language.sql
+
     - match: '(?xi) ^ \s* ( {{xid}} ) : $'
       captures:
         1: entity.name.label.sql
@@ -568,11 +572,11 @@ contexts:
         (?xi)
           \b
           (
-            return | returns | open | close | deallocate | fetch | distinct | schemabinding |
+            return | returns | open | close | deallocate | fetch | distinct | schemabinding | language |
             for(all)? | while | loop | exit | continue | (start \s+ )? with | case | if (\s+ not)? |
             when ( (\s+ not)? \s+ matched )? (\s + by \s+ ( target | source) )? | offset | rows | only |
             then | elsif | else | end | goto | break | exception | persisted |
-            deterministic | to | waitfor | delay | add | modify | enable | disable
+            deterministic | to | waitfor | delay | add | modify | enable | disable | perform
           )
           \b
       scope: keyword.other.dml.sql
@@ -706,7 +710,7 @@ contexts:
           pop: true
 
     # bang header-comment: --# Header
-    - match: '(?xi) ^ ( {{space}} -- {{space}} \#+ ) {{space}} ( .*? ) ( $ | \n )'
+    - match: '(?xi) ^ {{space}} ( -- \#+ ) {{space}} ( .*? ) ( $ | \n )'
       scope: meta.comment-header.sql
       captures:
         1: punctuation.definition.bullet.cancelled.todo.plaintext

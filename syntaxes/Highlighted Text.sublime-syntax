@@ -62,7 +62,7 @@ contexts:
     # domain\username
     - match: >-
         (?ix)
-        (?: ^ | {{space}} | \( )
+        (?<= ^ | {{space}} | \( )
         ( (?: \d | [a-z] | \. | \- | _ )+ )
         ( \\ )
         ( (?: \d | [a-z] | \. | \- | _ )+ )
@@ -110,7 +110,7 @@ contexts:
       scope: comment.line.plaintext
 
     # comment line
-    - match: '//!_!.*?$'
+    - match: '(//!_!|///).*?$'
       scope: comment.line.plaintext
 
     # decimal numbers
@@ -149,11 +149,17 @@ contexts:
       scope: support.function.aggregate.plaintext
 
     # header
-    - match: '(?xi) ^ {{space}}* ( \#+ ) {{space}}* ( .*? ) $'
+    - match: >-
+        (?xi)
+        ^ {{space}}*
+        ( \#+ )
+        ( {{space}}* )
+        ( .*? )
+        $
       captures:
-        0: markup.heading.plaintext
-        1: punctuation.definition.bullet.cancelled.todo.plaintext
-        2: entity.name.section.plaintext
+        1: markup.heading.plaintext punctuation.definition.bullet.cancelled.todo.plaintext
+        2: markup.heading.plaintext
+        3: markup.heading.plaintext entity.name.section.plaintext
 
     # cmd and bash commands
     - match: (?xi) ^ {{space}}* ( > ) {{space}}* ( .*? ) $
@@ -162,44 +168,60 @@ contexts:
         1: support.type.plaintext markup.bold.sql
         2: variable.parameter.plaintext markup.quote.plaintext markup.bold.sql
 
+    # quoted with back-tick
+    - match: (?xi) ( ` ) ( .*? ) ( ` )
+      scope: meta.back-tick.quoted.plaintext
+      captures:
+        1: punctuation.plaintext
+        2: variable.parameter.plaintext markup.quote.plaintext markup.bold.sql
+        3: punctuation.plaintext
+
+    # @reference
+    - match: '(?xi) ( @ ) ( (?: \d | \w | _ )+ )'
+      scope: meta.reference.plaintext
+      captures:
+        1: punctuation.definition.bullet.question.todo # punctuation.plaintext markup.bold.sql
+        2: support.function.plaintext markup.bold.sql
+
     # ------------------------------
     # sub-headings
-    - match: '(?xi) ^ {{space}}* ( {{todo_question}} ) {{space}}+ ( .*? \: ) (?= $ | {{space}} )'
+    - match: >-
+        (?xi)
+        ^ {{space}}*
+        (?:
+          ( (?: {{todo_question}}  ) {{space}}+ ) |
+          ( (?: {{todo_pending}}   ) {{space}}+ ) |
+          ( (?: {{todo_completed}} ) {{space}}+ ) |
+          ( (?: {{todo_cancelled}} ) {{space}}+ )
+        )?
+        ( .*? \: )
+        (?= \s )
       captures:
+        0: meta.sub-header
         1: punctuation.definition.bullet.question.todo
-        2: markup.sub-heading.plaintext
-
-    - match: '(?xi) ^ {{space}}* ( {{todo_pending}} ) {{space}}+ ( .*? \: ) (?= $ | {{space}} )'
-      captures:
-        1: punctuation.definition.bullet.pending.todo
-        2: markup.sub-heading.plaintext
-
-    - match: '(?xi) ^ {{space}}* ( {{todo_completed}} ) {{space}}+ ( .*? \: ) (?= $ | {{space}} )'
-      captures:
-        1: punctuation.definition.bullet.completed.todo
-        2: markup.sub-heading.plaintext
-
-    - match: '(?xi) ^ {{space}}* ( {{todo_cancelled}} ) {{space}}+ ( .*? \: ) (?= $ | {{space}} )'
-      captures:
-        1: punctuation.definition.bullet.cancelled.todo
-        2: markup.sub-heading.plaintext
-
-    - match: '(?xi) ^ {{space}}* ( .*? \: ) (?= $ | {{space}} )'
-      scope: markup.sub-heading.plaintext
+        2: punctuation.definition.bullet.pending.todo
+        3: punctuation.definition.bullet.completed.todo
+        4: punctuation.definition.bullet.cancelled.todo
+        5: markup.sub-heading.plaintext
 
     # ------------------------------
     # Todo Bullets
-    - match: '(?xi) ^ {{space}}* ( {{todo_question}} ) {{space}}+'
-      scope: punctuation.definition.bullet.question.todo
-
-    - match: '(?xi) ^ {{space}}* ( {{todo_pending}} ) {{space}}+'
-      scope: punctuation.definition.bullet.pending.todo
-
-    - match: '(?xi) ^ {{space}}* ( {{todo_completed}} ) {{space}}+'
-      scope: punctuation.definition.bullet.completed.todo
-
-    - match: '(?xi) ^ {{space}}* ( {{todo_cancelled}} ) {{space}}+'
-      scope: punctuation.definition.bullet.cancelled.todo
+    - match: >-
+        (?xi)
+        ^ {{space}}*
+        (?:
+          ( {{todo_question}} ) |
+          ( {{todo_pending}} ) |
+          ( {{todo_completed}} ) |
+          ( {{todo_cancelled}} )
+        )
+        (?= \s )
+      captures:
+        0: meta.simple-todo
+        1: punctuation.definition.bullet.question.todo
+        2: punctuation.definition.bullet.pending.todo
+        3: punctuation.definition.bullet.completed.todo
+        4: punctuation.definition.bullet.cancelled.todo
 
     # ------------------------------
     # BLABLA (dot) BLABLA
@@ -225,8 +247,8 @@ contexts:
     # math symbols
     - match: >-
         (?xi)
-        !  | =*> | =  | ,  | :   | -*> | -  | /  | #  | %  |
-        \+ | \|  | \$ | \( | \)  | \\  |
-        \[ | \]  | \{ | \} | \*  | \.  |
-        <  | >
-      scope: punctuation.plaintext
+        [
+          ! # % , / : < = > ^
+          \- \$ \( \) \* \+ \. \[ \\ \] \{ \| \}
+        ]+
+      scope: meta.math punctuation.plaintext
