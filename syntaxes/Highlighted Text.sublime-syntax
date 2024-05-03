@@ -11,10 +11,10 @@ variables:
   space: '[\x{0020}\t]'
   hex: '[0-9a-f]'
   ip4: '\d{1,3}'
-  todo_cancelled: 'x'
-  todo_completed: '\+|\*|v|√'
-  todo_pending: '\-'
-  todo_question:  '\?|\!'
+  todo_cancelled: '(?:x)'
+  todo_completed: '(?:\+|\*|v|√)'
+  todo_pending:   '(?:\-)'
+  todo_question:  '(?:\?|\!)'
 
 contexts:
 
@@ -25,8 +25,8 @@ contexts:
         (?ix)
         \b
         (
-          \d{4} [\.-/] \d{2} [\.-/] \d{2} |
-          \d{2} [\.-/] \d{2} [\.-/] \d{4}
+          \d{4} [ \. \- / ] \d{2} [ \. \- / ] \d{2} |
+          \d{2} [ \. \- / ] \d{2} [ \. \- / ] \d{4}
         )
         (?:
           ( T | {{space}} )
@@ -177,7 +177,7 @@ contexts:
         3: punctuation.plaintext
 
     # @reference
-    - match: '(?xi) ( @ ) ( (?: \d | \w | _ )+ )'
+    - match: '(?xi) ( @ ) ( (?: \d | \w | _ | - )+ )'
       scope: meta.reference.plaintext
       captures:
         1: punctuation.definition.bullet.question.todo # punctuation.plaintext markup.bold.sql
@@ -189,7 +189,7 @@ contexts:
         (?xi)
         ^ {{space}}*
         (?:
-          ( (?: {{todo_question}}  ) {{space}}+ ) |
+          ( (?: {{todo_question}}+ ) {{space}}+ ) |
           ( (?: {{todo_pending}}   ) {{space}}+ ) |
           ( (?: {{todo_completed}} ) {{space}}+ ) |
           ( (?: {{todo_cancelled}} ) {{space}}+ )
@@ -210,7 +210,7 @@ contexts:
         (?xi)
         ^ {{space}}*
         (?:
-          ( {{todo_question}} ) |
+          ( {{todo_question}}+ ) |
           ( {{todo_pending}} ) |
           ( {{todo_completed}} ) |
           ( {{todo_cancelled}} )

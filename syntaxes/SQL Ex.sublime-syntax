@@ -216,7 +216,11 @@ contexts:
           \s*
           # create ddl operator
           (
-            (?: create (?: \s+ or \s+ (?: replace | alter ) )? | alter | backup )
+            (?:
+              create (?: \s+ or \s+ (?: replace | alter ) )? |
+              alter |
+              backup
+            )
             (?: \s+ force )?
           )
           \s+
@@ -228,6 +232,9 @@ contexts:
             (?: global \s+ temporary \s+ | temporary \s+ )? table |
             column | tablespace | trigger | type | user | (?: materialized \s+ )? view
           )
+          (
+            (?: \s+ if (?: \s+ not )? \s+ exists )
+          )?
           \s+
           {{xid3}}
           # actions for a_l_t_e_r statement
@@ -236,7 +243,7 @@ contexts:
             (
               add \s+ constraint | add |
               drop \s+ column | drop \s+ constraint | drop \s+ unique | drop \s+ primary \s+ key |
-              rename \s+ column |
+              rename \s+ column | rename \s+ to |
               modify
             )
           )?
@@ -244,10 +251,11 @@ contexts:
       captures:
         1: keyword.other.create.sql # create ddl operator
         2: keyword.other.sql # object type
-        3: support.class.instance.name.xid3.sql # xid3.db_instance_name
-        4: support.class.schema.name.xid3.sql # xid3.db_schema_name
-        5: entity.name.function.xid3.sql markup.bold.sql # xid3.db_object_name
-        6: keyword.other.sql # actions for a_l_t_e_r statement
+        3: keyword.other.sql # object type
+        4: support.class.instance.name.xid3.sql # xid3.db_instance_name
+        5: support.class.schema.name.xid3.sql # xid3.db_schema_name
+        6: entity.name.function.xid3.sql markup.bold.sql # xid3.db_object_name
+        7: keyword.other.sql # actions for a_l_t_e_r statement
 
     # FROM clause
     - match: |-
@@ -379,6 +387,9 @@ contexts:
             language | operator\s+class | operator | rule | schema | sequence | synonym | tablespace | table |
             trigger | type | user | view | column
           )
+          (
+            (?: \s+ if (?: \s+ not )? \s+ exists )
+          )?
           (?:
             \s+
             {{xid3}}
@@ -387,9 +398,10 @@ contexts:
       captures:
         1: keyword.other.create.sql
         2: keyword.other.sql
-        3: support.class.instance.name.xid3.sql # xid3.db_instance_name
-        4: support.class.schema.name.xid3.sql # xid3.db_schema_name
-        5: storage.type.object.name.xid3.sql # xid3.db_object_name
+        3: keyword.other.sql
+        4: support.class.instance.name.xid3.sql # xid3.db_instance_name
+        5: support.class.schema.name.xid3.sql # xid3.db_schema_name
+        6: storage.type.object.name.xid3.sql # xid3.db_object_name
     - match: |-
         (?xi)
           ^\s*
@@ -445,7 +457,7 @@ contexts:
           # normal stuff, capture 1
           \b(
             bigint | tinyint | bigserial | bit | raw |
-            (?:ci?t_)?boolean | box | bytea | cidr | circle |
+            (?:ci?t_)?boolean | (?:ci?t_)?bool | box | bytea | cidr | circle |
             (?:ci?t_)?date | datetime2 |datetime | decimal | cursor | double\sprecision | inet |
             (?:pls_ | binary_)? integer | line | lseg | macaddr | money | oid | path | point |
             polygon | real | serial | smallint | text | sysname | sys_refcursor | clob | blob |
@@ -572,7 +584,7 @@ contexts:
         (?xi)
           \b
           (
-            return | returns | open | close | deallocate | fetch | distinct | schemabinding | language |
+            returning | return | returns | open | close | deallocate | fetch | distinct | schemabinding | language |
             for(all)? | while | loop | exit | continue | (start \s+ )? with | case | if (\s+ not)? |
             when ( (\s+ not)? \s+ matched )? (\s + by \s+ ( target | source) )? | offset | rows | only |
             then | elsif | else | end | goto | break | exception | persisted |
