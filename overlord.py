@@ -175,23 +175,18 @@ class overlord_number_items(sublime_plugin.TextCommand):
 
 # ------------------------------------------------------------------------------------------------------------------------
 class overlord_insert_timestamp(sublime_plugin.TextCommand):
-	'''
-	Text Command: Вставляет слепок времени YYYYMMDDHHmmss.
-	'''
+	FORMAT, DESC = '%Y%m%d%H%M%S', 'Insert timestamp'
+	def description(self):
+		return f'{self.DESC}: {datetime.now():{self.FORMAT}}'
 	def run(self, edit):
-		timestamp = '{:%Y%m%d%H%M%S}'.format(datetime.now())
 		for r in self.view.sel():
-			self.view.insert(edit, r.a, timestamp)
+			self.view.insert(edit, r.a, f'{datetime.now():{self.FORMAT}}')
 
-# ------------------------------------------------------------------------------------------------------------------------
-class overlord_insert_datetime(sublime_plugin.TextCommand):
-	'''
-	Text Command: Вставляет слепок времени YYYY-MM-DD HH:mm:ss.
-	'''
-	def run(self, edit):
-		timestamp = '{:%Y-%m-%d %H:%M:%S}'.format(datetime.now())
-		for r in self.view.sel():
-			self.view.insert(edit, r.a, timestamp)
+class overlord_insert_time_ymd(overlord_insert_timestamp):
+	FORMAT, DESC = '%Y-%m-%d', 'Insert date'
+
+class overlord_insert_time_ymd_hms(overlord_insert_timestamp):
+	FORMAT, DESC = '%Y-%m-%d %H:%M:%S', 'Insert datetime'
 
 # ------------------------------------------------------------------------------------------------------------------------
 class overlord_insert_stairs(sublime_plugin.TextCommand):
@@ -410,14 +405,32 @@ class overlord_copy_file_path(sublime_plugin.WindowCommand):
 	'''
 	Window Command: копирует пути к выбранным объектам в clipboard.
 	'''
+	def get_paths(self, files = None, dirs = None):
+		return (files or []) + (dirs or [])
+
 	def run(self, files = None, dirs = None):
-		data = '\n'.join((files or []) + (dirs or []))
-		#!_!st2api.new_file(self.window, data, True)
-		if data:
-			sublime.set_clipboard(data)
+		paths = self.get_paths(files, dirs)
+		if paths:
+			sublime.set_clipboard('\n'.join(paths))
 
 	def is_visible(self, files = None, dirs = None):
-		return len(files or []) + len(dirs or []) > 0
+		return len(self.get_paths(files, dirs)) > 0
+
+class overlord_copy_file_name(sublime_plugin.WindowCommand):
+	'''
+	Window Command: копирует названия выбраннх объектов в clipboard.
+	'''
+	def get_paths(self, files = None, dirs = None):
+		return (files or []) + (dirs or [])
+
+	def run(self, files = None, dirs = None):
+		paths = self.get_paths(files, dirs)
+		if paths:
+			names = [os.path.basename(path) for path in paths]
+			sublime.set_clipboard('\n'.join(names))
+
+	def is_visible(self, files = None, dirs = None) -> bool:
+		return len(self.get_paths(files, dirs)) > 0
 
 class overlord_list_dir(sublime_plugin.WindowCommand):
 	'''
