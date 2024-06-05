@@ -58,8 +58,9 @@ class overlord_replace(sublime_plugin.WindowCommand):
 		cleanup_data = [x for x in data if x]
 		# ------------------------------
 		content = initial_content = st2api.get_text(view)
+		print(f'[+] ------------------------------')
 		for source, target in cleanup_data:
-			# print('Replace "%s" to "%s"' % (source, target))
+			print(f'[+] Replace "{source}" to "{target}"')
 			content = re.sub(source, target, content)
 		# ------------------------------
 		if options['scratch']:
@@ -70,7 +71,7 @@ class overlord_replace(sublime_plugin.WindowCommand):
 			pos = st2api.get_cursor_position(view)
 			view.run_command('overlord_set_content', { 'content': content })
 			if view.settings().get('syntax') == 'Packages/Text/Plain text.tmLanguage':
-				view.set_syntax_file('Packages/sublime_overlord/syntaxes/Highlighted Text.tmLanguage')
+				view.set_syntax_file('Packages/sublime_overlord/syntaxes/Highlighted Text.sublime-syntax')
 			st2api.set_cursor_position(view, pos)
 
 # ------------------------------------------------------------------------------------------
