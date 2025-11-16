@@ -1,0 +1,444 @@
+{
+	"name": "Visual Studio Ex",
+	"author": "Constantine",
+	"comment": "Created by Constantine. Based on 'Visual Studio' by Mihai Ciuraru.",
+	"globals":
+	{
+		"background":              "White",
+		"caret":                   "Black",
+		"foreground":              "Black",
+		"invisibles":              "#BFBFBF",
+		"line_highlight":          "#EFEFEF",
+		"selection":               "#BDB7D3",
+		"selection_corner_style":  "round",
+		"selection_corner_radius": "4"
+	},
+	"rules":
+	[
+		{
+			"scope": "comment",
+			"font_style": "",
+			"foreground": "DarkGreen" // !_! #008000
+		},
+
+		{
+			"scope": "variable",
+			"font_style": "",
+			"foreground": "Black"
+		},
+
+		{
+			"scope": "keyword",
+			"font_style": "",
+			"foreground": "Purple" // !_! #0000FF
+		},
+
+		{
+			"scope": "constant.numeric",
+			"font_style": "",
+			"foreground": "Red" // !_! #A31515
+		},
+		{
+			"name": "User-defined constant",
+			"scope": "constant",
+			"font_style": "",
+			"foreground": "Black"
+		},
+		{
+			"name": "Built-in constant",
+			"scope": "constant.language",
+			"font_style": "",
+			"foreground": "Black"
+		},
+		{
+			"name": "Boolean",
+			"scope": "constant.language.boolean",
+			"font_style": "",
+			"foreground": "Blue"
+		},
+
+		{
+			"scope": "string",
+			"font_style": "",
+			"foreground": "Blue" // !_! #A31515
+		},
+
+		{
+			"scope": "meta.mapping.key string",
+			"font_style": "",
+			"foreground": "#A31515" // !_!
+		},
+
+		{
+			"scope": "meta.mapping.value string",
+			"font_style": "",
+			"foreground": "Blue" // !_!
+		},
+
+		{
+			"name": "String interpolation",
+			"scope": "constant.character.escape, string source",
+			"font_style": "",
+			"foreground": "#26B31A"
+		},
+		{
+			"name": "Preprocessor line",
+			"scope": "meta.preprocessor",
+			"font_style": "",
+			"foreground": "Blue"
+		},
+		{
+			"name": "Preprocessor directive",
+			"scope": "keyword.control.import",
+			"font_style": "",
+			"foreground": "Blue"
+		},
+
+		{
+			"scope": "entity", // !_!
+			"font_style": "",
+			"foreground": "Teal"
+		},
+
+		{
+			"name": "Function name",
+			"scope": "entity.name.function, keyword.other.name-of-parameter.objc",
+			"font_style": "bold",
+			"foreground": "Olive" // !_! #B8860B #000000
+		},
+
+		{
+			"name": "Class name",
+			"scope": "entity.name.class",
+			"font_style": "bold",
+			"foreground": "Teal"
+		},
+		{
+			"name": "Type name",
+			"scope": "entity.name.type",
+			"font_style": "",
+			"foreground": "Black"
+		},
+
+		{
+			"name": "Type name",
+			"scope": "storage",
+			"font_style": "",
+			"foreground": "#0000CD"
+		},
+		{
+			"name": "Type name",
+			"scope": "storage.type",
+			"font_style": "",
+			"foreground": "Blue"
+		},
+		{
+			"name": "Type modifier",
+			"scope": "storage.modifier",
+			"font_style": "",
+			"foreground": "Blue"
+		},
+		{
+			"name": "Inherited class name",
+			"scope": "entity.other.inherited-class",
+			"font_style": ""
+		},
+
+		{
+			"scope": "variable.parameter", // !_! new
+			"font_style": "",
+			"foreground": "#080808"
+		},
+		{
+			"scope": "variable.annotation", // !_! new !!!
+			"font_style": "",
+			"foreground": "Teal"
+		},
+		{
+			"scope": "variable.namespace", // !_! new !!!
+			"font_style": "",
+			"foreground": "Teal"
+		},
+
+		{
+			"name": "Function argument and result types",
+			"scope": "storage.type.method",
+			"font_style": "",
+			"foreground": "#70727E"
+		},
+		{
+			"name": "Section",
+			"scope": "meta.section entity.name.section, declaration.section entity.name.section",
+			"font_style": ""
+		},
+		{
+			"name": "Library function",
+			"scope": "support.function",
+			"font_style": "",
+			"foreground": "Black"
+		},
+		{
+			"name": "Library object",
+			"scope": "support.class, support.type",
+			"font_style": "",
+			"foreground": "#008B8B" // !_! #000000
+		},
+		{
+			"name": "Library constant",
+			"scope": "support.constant",
+			"font_style": "",
+			"foreground": "#008B8B" // !_! #000000
+		},
+		{
+			"scope": "support.variable",
+			"font_style": "",
+			"foreground": "Black"
+		},
+		{
+			"name": "JS: Operator",
+			"scope": "keyword.operator.js",
+			"foreground": "#687687"
+		},
+		{
+			"name": "Invalid",
+			"scope": "invalid",
+			"background": "White",
+			"foreground": "Red"
+		},
+		{
+			"name": "Invalid trailing whitespace",
+			"scope": "invalid.deprecated.trailing-whitespace",
+			"background": "#FFD0D0"
+		},
+		// {
+		// 	"name": "Embedded source",
+		// 	"scope": "text source, string.unquoted",
+		// 	"background": "#427FF530"
+		// },
+		{
+			"name": "Markup XML declaration",
+			"scope": "meta.xml-processing, declaration.xml-processing",
+			"font_style": "",
+			"foreground": "#68685B"
+		},
+		{
+			"name": "Markup DOCTYPE",
+			"scope": "meta.doctype, declaration.doctype",
+			"font_style": "",
+			"foreground": "#A31515"
+		},
+		{
+			"name": "Markup DTD",
+			"scope": "meta.doctype.DTD, declaration.doctype.DTD",
+			"font_style": ""
+		},
+		{
+			"name": "Markup tag",
+			"scope": "meta.tag, declaration.tag",
+			"font_style": "",
+			"foreground": "Blue"
+		},
+		{
+			"name": "Markup name of tag",
+			"scope": "entity.name.tag",
+			"font_style": "",
+			"foreground": "#A31515"
+		},
+		{
+			"name": "Markup tag attribute",
+			"scope": "entity.other.attribute-name",
+			"font_style": "",
+			"foreground": "Red"
+		},
+		{
+			"name": "Markup: Attribute Value",
+			"scope": "string.quoted.double.xml, string.quoted.double.html",
+			"font_style": "",
+			"foreground": "Blue"
+		},
+
+		{
+			"scope": "markup.heading",
+			"font_style": "",
+			"foreground": "#0C07FF"
+		},
+		{
+			"scope": "markup.quote",
+			"font_style": "",
+			"foreground": "Black",
+			"background": "#EFEFEF"
+		},
+		{
+			"scope": "markup.list",
+			"foreground": "#B90690"
+		},
+
+		{
+			"scope": "markup.bold",
+			"font_style": "bold"
+		},
+
+		{
+			"scope": "markup.heading entity",
+			"font_style": "bold",
+			"foreground": "DarkBlue",
+			"background": "#EFEFEF"
+		},
+		{
+			"scope": "markup.sub-heading",
+			"font_style": "",
+			"foreground": "DarkBlue"
+		},
+
+		// PlainTasks support
+		{ "scope": "keyword.control.header.todo",                  "foreground": "Gray",  "font_style": "bold" },
+		{ "scope": "punctuation.definition.bullet.pending.todo",   "foreground": "Black", "font_style": "bold" },
+		{ "scope": "punctuation.definition.bullet.question.todo",  "foreground": "Olive", "font_style": "bold" },
+		{ "scope": "punctuation.definition.bullet.completed.todo", "foreground": "Green", "font_style": "bold" },
+		{ "scope": "punctuation.definition.bullet.cancelled.todo", "foreground": "Red",   "font_style": "bold" },
+		{ "scope": "meta.item.todo.cancelled",                     "foreground": "Gray" },
+
+		// Background colors - see http://www.w3schools.com/html/html_colornames.asp
+		{ "scope": "markup.bgcolor.AliceBlue", "background": "#F0F8FF" },
+		{ "scope": "markup.bgcolor.AntiqueWhite", "background": "#FAEBD7" },
+		{ "scope": "markup.bgcolor.Aqua", "background": "#00FFFF" },
+		{ "scope": "markup.bgcolor.Aquamarine", "background": "#7FFFD4" },
+		{ "scope": "markup.bgcolor.Azure", "background": "#F0FFFF" },
+		{ "scope": "markup.bgcolor.Beige", "background": "#F5F5DC" },
+		{ "scope": "markup.bgcolor.Bisque", "background": "#FFE4C4" },
+		{ "scope": "markup.bgcolor.Black", "background": "#000000" },
+		{ "scope": "markup.bgcolor.BlanchedAlmond", "background": "#FFEBCD" },
+		{ "scope": "markup.bgcolor.Blue", "background": "#0000FF" },
+		{ "scope": "markup.bgcolor.BlueViolet", "background": "#8A2BE2" },
+		{ "scope": "markup.bgcolor.Brown", "background": "#A52A2A" },
+		{ "scope": "markup.bgcolor.BurlyWood", "background": "#DEB887" },
+		{ "scope": "markup.bgcolor.CadetBlue", "background": "#5F9EA0" },
+		{ "scope": "markup.bgcolor.Chartreuse", "background": "#7FFF00" },
+		{ "scope": "markup.bgcolor.Chocolate", "background": "#D2691E" },
+		{ "scope": "markup.bgcolor.Coral", "background": "#FF7F50" },
+		{ "scope": "markup.bgcolor.CornflowerBlue", "background": "#6495ED" },
+		{ "scope": "markup.bgcolor.Cornsilk", "background": "#FFF8DC" },
+		{ "scope": "markup.bgcolor.Crimson", "background": "#DC143C" },
+		{ "scope": "markup.bgcolor.Cyan", "background": "#00FFFF" },
+		{ "scope": "markup.bgcolor.DarkBlue", "background": "#00008B" },
+		{ "scope": "markup.bgcolor.DarkCyan", "background": "#008B8B" },
+		{ "scope": "markup.bgcolor.DarkGoldenRod", "background": "#B8860B" },
+		{ "scope": "markup.bgcolor.DarkGray", "background": "#A9A9A9" },
+		{ "scope": "markup.bgcolor.DarkGreen", "background": "#006400" },
+		{ "scope": "markup.bgcolor.DarkKhaki", "background": "#BDB76B" },
+		{ "scope": "markup.bgcolor.DarkMagenta", "background": "#8B008B" },
+		{ "scope": "markup.bgcolor.DarkOliveGreen", "background": "#556B2F" },
+		{ "scope": "markup.bgcolor.DarkOrange", "background": "#FF8C00" },
+		{ "scope": "markup.bgcolor.DarkOrchid", "background": "#9932CC" },
+		{ "scope": "markup.bgcolor.DarkRed", "background": "#8B0000" },
+		{ "scope": "markup.bgcolor.DarkSalmon", "background": "#E9967A" },
+		{ "scope": "markup.bgcolor.DarkSeaGreen", "background": "#8FBC8F" },
+		{ "scope": "markup.bgcolor.DarkSlateBlue", "background": "#483D8B" },
+		{ "scope": "markup.bgcolor.DarkSlateGray", "background": "#2F4F4F" },
+		{ "scope": "markup.bgcolor.DarkTurquoise", "background": "#00CED1" },
+		{ "scope": "markup.bgcolor.DarkViolet", "background": "#9400D3" },
+		{ "scope": "markup.bgcolor.DeepPink", "background": "#FF1493" },
+		{ "scope": "markup.bgcolor.DeepSkyBlue", "background": "#00BFFF" },
+		{ "scope": "markup.bgcolor.DimGray", "background": "#696969" },
+		{ "scope": "markup.bgcolor.DodgerBlue", "background": "#1E90FF" },
+		{ "scope": "markup.bgcolor.FireBrick", "background": "#B22222" },
+		{ "scope": "markup.bgcolor.FloralWhite", "background": "#FFFAF0" },
+		{ "scope": "markup.bgcolor.ForestGreen", "background": "#228B22" },
+		{ "scope": "markup.bgcolor.Fuchsia", "background": "#FF00FF" },
+		{ "scope": "markup.bgcolor.Gainsboro", "background": "#DCDCDC" },
+		{ "scope": "markup.bgcolor.GhostWhite", "background": "#F8F8FF" },
+		{ "scope": "markup.bgcolor.Gold", "background": "#FFD700" },
+		{ "scope": "markup.bgcolor.GoldenRod", "background": "#DAA520" },
+		{ "scope": "markup.bgcolor.Gray", "background": "#808080" },
+		{ "scope": "markup.bgcolor.Green", "background": "#008000" },
+		{ "scope": "markup.bgcolor.GreenYellow", "background": "#ADFF2F" },
+		{ "scope": "markup.bgcolor.HoneyDew", "background": "#F0FFF0" },
+		{ "scope": "markup.bgcolor.HotPink", "background": "#FF69B4" },
+		{ "scope": "markup.bgcolor.IndianRed", "background": "#CD5C5C" },
+		{ "scope": "markup.bgcolor.Indigo", "background": "#4B0082" },
+		{ "scope": "markup.bgcolor.Ivory", "background": "#FFFFF0" },
+		{ "scope": "markup.bgcolor.Khaki", "background": "#F0E68C" },
+		{ "scope": "markup.bgcolor.Lavender", "background": "#E6E6FA" },
+		{ "scope": "markup.bgcolor.LavenderBlush", "background": "#FFF0F5" },
+		{ "scope": "markup.bgcolor.LawnGreen", "background": "#7CFC00" },
+		{ "scope": "markup.bgcolor.LemonChiffon", "background": "#FFFACD" },
+		{ "scope": "markup.bgcolor.LightBlue", "background": "#ADD8E6" },
+		{ "scope": "markup.bgcolor.LightCoral", "background": "#F08080" },
+		{ "scope": "markup.bgcolor.LightCyan", "background": "#E0FFFF" },
+		{ "scope": "markup.bgcolor.LightGoldenRodYellow", "background": "#FAFAD2" },
+		{ "scope": "markup.bgcolor.LightGray", "background": "#D3D3D3" },
+		{ "scope": "markup.bgcolor.LightGreen", "background": "#90EE90" },
+		{ "scope": "markup.bgcolor.LightPink", "background": "#FFB6C1" },
+		{ "scope": "markup.bgcolor.LightSalmon", "background": "#FFA07A" },
+		{ "scope": "markup.bgcolor.LightSeaGreen", "background": "#20B2AA" },
+		{ "scope": "markup.bgcolor.LightSkyBlue", "background": "#87CEFA" },
+		{ "scope": "markup.bgcolor.LightSlateGray", "background": "#778899" },
+		{ "scope": "markup.bgcolor.LightSteelBlue", "background": "#B0C4DE" },
+		{ "scope": "markup.bgcolor.LightYellow", "background": "#FFFFE0" },
+		{ "scope": "markup.bgcolor.Lime", "background": "#00FF00" },
+		{ "scope": "markup.bgcolor.LimeGreen", "background": "#32CD32" },
+		{ "scope": "markup.bgcolor.Linen", "background": "#FAF0E6" },
+		{ "scope": "markup.bgcolor.Magenta", "background": "#FF00FF" },
+		{ "scope": "markup.bgcolor.Maroon", "background": "#800000" },
+		{ "scope": "markup.bgcolor.MediumAquaMarine", "background": "#66CDAA" },
+		{ "scope": "markup.bgcolor.MediumBlue", "background": "#0000CD" },
+		{ "scope": "markup.bgcolor.MediumOrchid", "background": "#BA55D3" },
+		{ "scope": "markup.bgcolor.MediumPurple", "background": "#9370DB" },
+		{ "scope": "markup.bgcolor.MediumSeaGreen", "background": "#3CB371" },
+		{ "scope": "markup.bgcolor.MediumSlateBlue", "background": "#7B68EE" },
+		{ "scope": "markup.bgcolor.MediumSpringGreen", "background": "#00FA9A" },
+		{ "scope": "markup.bgcolor.MediumTurquoise", "background": "#48D1CC" },
+		{ "scope": "markup.bgcolor.MediumVioletRed", "background": "#C71585" },
+		{ "scope": "markup.bgcolor.MidnightBlue", "background": "#191970" },
+		{ "scope": "markup.bgcolor.MintCream", "background": "#F5FFFA" },
+		{ "scope": "markup.bgcolor.MistyRose", "background": "#FFE4E1" },
+		{ "scope": "markup.bgcolor.Moccasin", "background": "#FFE4B5" },
+		{ "scope": "markup.bgcolor.NavajoWhite", "background": "#FFDEAD" },
+		{ "scope": "markup.bgcolor.Navy", "background": "#000080" },
+		{ "scope": "markup.bgcolor.OldLace", "background": "#FDF5E6" },
+		{ "scope": "markup.bgcolor.Olive", "background": "#808000" },
+		{ "scope": "markup.bgcolor.OliveDrab", "background": "#6B8E23" },
+		{ "scope": "markup.bgcolor.Orange", "background": "#FFA500" },
+		{ "scope": "markup.bgcolor.OrangeRed", "background": "#FF4500" },
+		{ "scope": "markup.bgcolor.Orchid", "background": "#DA70D6" },
+		{ "scope": "markup.bgcolor.PaleGoldenRod", "background": "#EEE8AA" },
+		{ "scope": "markup.bgcolor.PaleGreen", "background": "#98FB98" },
+		{ "scope": "markup.bgcolor.PaleTurquoise", "background": "#AFEEEE" },
+		{ "scope": "markup.bgcolor.PaleVioletRed", "background": "#DB7093" },
+		{ "scope": "markup.bgcolor.PapayaWhip", "background": "#FFEFD5" },
+		{ "scope": "markup.bgcolor.PeachPuff", "background": "#FFDAB9" },
+		{ "scope": "markup.bgcolor.Peru", "background": "#CD853F" },
+		{ "scope": "markup.bgcolor.Pink", "background": "#FFC0CB" },
+		{ "scope": "markup.bgcolor.Plum", "background": "#DDA0DD" },
+		{ "scope": "markup.bgcolor.PowderBlue", "background": "#B0E0E6" },
+		{ "scope": "markup.bgcolor.Purple", "background": "#800080" },
+		{ "scope": "markup.bgcolor.Red", "background": "#FF0000" },
+		{ "scope": "markup.bgcolor.RosyBrown", "background": "#BC8F8F" },
+		{ "scope": "markup.bgcolor.RoyalBlue", "background": "#4169E1" },
+		{ "scope": "markup.bgcolor.SaddleBrown", "background": "#8B4513" },
+		{ "scope": "markup.bgcolor.Salmon", "background": "#FA8072" },
+		{ "scope": "markup.bgcolor.SandyBrown", "background": "#F4A460" },
+		{ "scope": "markup.bgcolor.SeaGreen", "background": "#2E8B57" },
+		{ "scope": "markup.bgcolor.SeaShell", "background": "#FFF5EE" },
+		{ "scope": "markup.bgcolor.Sienna", "background": "#A0522D" },
+		{ "scope": "markup.bgcolor.Silver", "background": "#C0C0C0" },
+		{ "scope": "markup.bgcolor.SkyBlue", "background": "#87CEEB" },
+		{ "scope": "markup.bgcolor.SlateBlue", "background": "#6A5ACD" },
+		{ "scope": "markup.bgcolor.SlateGray", "background": "#708090" },
+		{ "scope": "markup.bgcolor.Snow", "background": "#FFFAFA" },
+		{ "scope": "markup.bgcolor.SpringGreen", "background": "#00FF7F" },
+		{ "scope": "markup.bgcolor.SteelBlue", "background": "#4682B4" },
+		{ "scope": "markup.bgcolor.Tan", "background": "#D2B48C" },
+		{ "scope": "markup.bgcolor.Teal", "background": "#008080" },
+		{ "scope": "markup.bgcolor.Thistle", "background": "#D8BFD8" },
+		{ "scope": "markup.bgcolor.Tomato", "background": "#FF6347" },
+		{ "scope": "markup.bgcolor.Turquoise", "background": "#40E0D0" },
+		{ "scope": "markup.bgcolor.Violet", "background": "#EE82EE" },
+		{ "scope": "markup.bgcolor.Wheat", "background": "#F5DEB3" },
+		{ "scope": "markup.bgcolor.White", "background": "#FFFFFF" },
+		{ "scope": "markup.bgcolor.WhiteSmoke", "background": "#F5F5F5" },
+		{ "scope": "markup.bgcolor.Yellow", "background": "#FFFF00" },
+		{ "scope": "markup.bgcolor.YellowGreen", "background": "#9ACD32" }
+	]
+}
+

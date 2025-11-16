@@ -1,0 +1,108 @@
+%YAML 1.2
+---
+# See http://www.sublimetext.com/docs/3/syntax.html
+name: Replacer
+file_extensions:
+  - replace
+scope: source.replacer
+
+contexts:
+  main:
+    - match: '#'
+      scope: punctuation.definition.comment.replacer
+      push: line_comment
+
+    - match: '--R->'
+      scope: keyword.operator.replacer
+
+    - match: '`s'
+      scope: constant.character.escape.replacer markup.quote.replacer
+
+    - match: '\\\\'
+      scope: punctuation.space.replacer
+
+    - match: '(\\)([^ \t])'
+      scope: constant.character.escape.replacer markup.quote.replacer
+
+    - match: '\b(-)?[0-9.]+\b'
+      scope: constant.numeric.replacer
+
+    - match: '[\*\+\-\.\(\)\{\},:;<>"]+'
+      scope: storage.type.punctuation.replacer
+
+    - match: '`'
+      scope: storage.type.punctuation.replacer
+
+    # - match: '(?xi) ^ ( {{xid}} ) \s* ( ::= ) \s* ( {{xid}} ) ( \s+ {{xid}} )? ( \s* -- [^$]* )?'
+    #   captures:
+    #     1: entity.name.type.replacer
+    #     2: punctuation.definition.equal.replacer
+    #     3: storage.type.builtin.replacer
+    #     4: storage.type.builtin.replacer
+    #     5: comment.line.replacer
+
+    # - match: '(?xi) ^ ( {{xid}} ) \s* ( ::= ) \s* ( {{xid}} ) ( \s* -- [^$]* )? $'
+    #   captures:
+    #     1: entity.name.type.replacer
+    #     2: punctuation.definition.equal.replacer
+    #     3: storage.type.replacer
+    #     4: comment.line.replacer
+
+    # - match: '(?xi) ^ ( {{xid}} ) \s+ ( {{xid}} ) \s* ( ::= ) ( \s* {{xid}} )?'
+    #   captures:
+    #     1: variable.other.replacer
+    #     2: storage.type.replacer
+    #     3: punctuation.definition.equal.replacer
+    #     4: storage.type.replacer
+
+    # - match: '(?xi) ^ \s* ( EXPORTS ) \b'
+    #   scope: keyword.exports.begin.replacer
+    #   push: exports_clause
+
+    # - match: '(?xi) ^ \s* ( IMPORTS ) \b'
+    #   scope: keyword.exports.begin.replacer
+    #   push: imports_clause
+
+    # - match: '(?xi) ^ ( {{xid}} ) \s+ ( DEFINITIONS ) '
+    #   captures:
+    #     1: support.class.replacer
+    #     2: keyword.replacer
+
+    # - match: '(?xi) \b ( {{xtype}} ) \b'
+    #   scope: storage.type.builtin.replacer
+
+    # - match: '(?xi) \b ( BEGIN | CLASS | END | FROM | IMPLICIT | OPTIONAL | SIZE | SYNTAX | TAGS | UNIQUE | WITH ) \b'
+    #   scope: keyword.replacer
+
+  # exports_clause:
+  #   - meta_scope: entity.name.replacer
+  #   - match: ','
+  #     scope: punctuation.definition.comma.replacer
+  #   - match: ';'
+  #     scope: punctuation.definition.comma.replacer
+  #     pop: true
+
+  # imports_clause:
+  #   - meta_scope: storage.type.builtin.replacer
+  #   - match: '(?xi) ( FROM ) \s+ ( {{xid}} )'
+  #     captures:
+  #       1: keyword.replacer
+  #       2: support.class.replacer
+  #   - match: ','
+  #     scope: punctuation.definition.comma.replacer
+  #   - match: ';'
+  #     scope: punctuation.definition.comma.replacer
+  #     pop: true
+
+  # double_quoted_string:
+  #   - meta_scope: string.quoted.double.replacer
+  #   - match: '\\.'
+  #     scope: constant.character.escape.replacer
+  #   - match: '"'
+  #     scope: punctuation.definition.string.end.replacer
+  #     pop: true
+
+  line_comment:
+    - meta_scope: comment.line.replacer
+    - match: $
+      pop: true

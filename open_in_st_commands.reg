@@ -4,14 +4,14 @@ Windows Registry Editor Version 5.00
 [-HKEY_CURRENT_USER\Software\Classes\Folder\Shell\Open folder in ST...]
 
 [HKEY_CURRENT_USER\Software\Classes\Folder\Shell\Open in ST...]
-"Icon"="F:\\Portable\\Sublime Text\\sublime_text.exe,0"
+"Icon"="D:\\Portable\\Sublime Text\\sublime_text.exe,0"
 
 [HKEY_CURRENT_USER\Software\Classes\Folder\Shell\Open in ST...\command]
-@="\"F:\\Portable\\Sublime Text\\sublime_text.exe\" \"%1\""
+@="\"D:\\Portable\\Sublime Text\\sublime_text.exe\" \"%1\""
 
 ; File
 [HKEY_CLASSES_ROOT\*\shell\Open in ST...]
-"Icon"="F:\\Portable\\Sublime Text\\sublime_text.exe,0"
+"Icon"="D:\\Portable\\Sublime Text\\sublime_text.exe,0"
 
 [HKEY_CLASSES_ROOT\*\shell\Open in ST...\command]
-@="\"F:\\Portable\\Sublime Text\\sublime_text.exe\" \"%1\""
+@="\"D:\\Portable\\Sublime Text\\sublime_text.exe\" \"%1\""

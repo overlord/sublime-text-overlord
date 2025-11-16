@@ -165,23 +165,25 @@ contexts:
     - match: (?xi) ^ {{space}}* ( > ) {{space}}* ( .*? ) $
       scope: meta.command-line.plaintext
       captures:
-        1: support.type.plaintext markup.bold.sql
-        2: variable.parameter.plaintext markup.quote.plaintext markup.bold.sql
+        1: support.type.plaintext markup.bold.plaintext
+        2: variable.parameter.plaintext markup.quote.plaintext markup.bold.plaintext
 
     # quoted with back-tick
     - match: (?xi) ( ` ) ( .*? ) ( ` )
       scope: meta.back-tick.quoted.plaintext
       captures:
         1: punctuation.plaintext
-        2: variable.parameter.plaintext markup.quote.plaintext markup.bold.sql
+        2: variable.parameter.plaintext markup.quote.plaintext markup.bold.plaintext
         3: punctuation.plaintext
 
     # @reference
-    - match: '(?xi) ( @ ) ( (?: \d | \w | _ | - )+ )'
+    - match: '(?xi) ( @ ) ( (?: \d | \w | _ | - | \. )+ )'
       scope: meta.reference.plaintext
       captures:
-        1: punctuation.definition.bullet.question.todo # punctuation.plaintext markup.bold.sql
-        2: support.function.plaintext markup.bold.sql
+        0: markup.quote.plaintext
+        1: punctuation.definition.bullet.question.todo
+        2: punctuation.plaintext markup.bold.plaintext
+        #2: support.function.plaintext markup.bold.plaintext
 
     # ------------------------------
     # sub-headings

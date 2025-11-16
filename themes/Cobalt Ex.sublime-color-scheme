@@ -22,7 +22,7 @@
 		"c_string_quoted": "#9EFF80",
 		"c_regexp": "#80FFBB",
 
-		"c_punctuation": "color( var(c_white) l(- 20%) )", // "#E1EFFF",
+		"c_punctuation": "color( var(c_white) l(- 20%) )",
 		"c_exception": "#FF1E00",
 	},
 	"globals":
@@ -37,8 +37,17 @@
 		"brackets_options":            "foreground underline bold",
 		"brackets_content_foreground": "#00E800",
 		"brackets_contents_options":   "foreground underline bold",
+		"selection_corner_style":      "round",
+		"selection_corner_radius":     "4"
 	},
 	"rules": [
+		{ //!_! зто зуб в носу для починки сломанного синтакcvса JSON ключей
+			// "scope": "meta.mapping.key string.quoted.double",
+			"scope": "meta.mapping.key string.quoted.double",
+			"font_style": "",
+			"foreground": "var(c_entity)",
+		},
+
 		{
 			"name": "Punctuation",
 			"scope": "punctuation - (punctuation.definition.string || punctuation.definition.comment)",
@@ -77,14 +86,12 @@
 		},
 
 		{ //!_! зто зуб в носу для починки сломанного синтакcvса YAML
-			"name": "Mapping.Key",
 			"scope": "meta.mapping.key",
 			"font_style": "",
 			"foreground": "var(c_entity)",
 		},
 		{ //!_! зто зуб в носу для починки сломанного синтакcvса YAML
-			"name": "String",
-			"scope": "string.unquoted.plain.out -meta.mapping.key",
+			"scope": "meta.string -meta.mapping.key",
 			"font_style": "",
 			"foreground": "var(c_string)",
 		},
@@ -320,8 +327,8 @@
 		{ "scope": "punctuation.definition.bullet.pending.todo",   "foreground": "var(c_support_function)", "font_style": "bold" },
 		{ "scope": "punctuation.definition.bullet.question.todo",  "foreground": "var(c_entity)", "font_style": "bold" },
 		{ "scope": "punctuation.definition.bullet.completed.todo", "foreground": "var(c_string)", "font_style": "bold" },
-		{ "scope": "meta.item.todo.cancelled",                     "foreground": "#708090" },
 		{ "scope": "punctuation.definition.bullet.cancelled.todo", "foreground": "var(c_exception)", "font_style": "bold" },
+		{ "scope": "meta.item.todo.cancelled",                     "foreground": "#708090" },
 
 		// Background colors, see http://www.w3schools.com/html/html_colornames.asp
 		{ "scope": "markup.bgcolor.AliceBlue",            "background": "#F0F8FF" },

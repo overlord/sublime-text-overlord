@@ -18,7 +18,7 @@ class overlord_replace(sublime_plugin.WindowCommand):
 	или запрашиваются у пользователя в формате [regex_source-->target] (разделитель -->)
 	'''
 	# ------------------------------
-	def run(self, config_path=None, config_json=None, scratch=True, in_all_open_files=False):
+	def run(self, config_path=None, plain_config_path=None, config_json=None, scratch=True, in_all_open_files=False):
 		# ------------------------------
 		options = {
 			'window': self.window,
@@ -27,10 +27,18 @@ class overlord_replace(sublime_plugin.WindowCommand):
 		}
 		# ------------------------------
 		if config_path:
-			with open(st2api.apply_custom_replace(config_path), encoding='utf8') as config_file:
-				# print({'config_file': config_file})
+			expanded_path = st2api.apply_custom_replace(config_path)
+			with open(expanded_path, encoding='utf8') as config_file:
+				# print({'config_file': expanded_path})
 				config_json = json.load(config_file)
 				# print({'config_json': config_json})
+		elif plain_config_path:
+			expanded_path = st2api.apply_custom_replace(plain_config_path)
+			with open(expanded_path, encoding='utf8') as config_file:
+				print({'config_file': expanded_path})
+				lines = [x.strip() for x in config_file.readlines()]
+				config_json = [x.split('--R->') for x in lines if x and not x.startswith('#')]
+				print({'config_json': config_json})
 		# ------------------------------
 		if config_json:
 			self.__apply_replace(config_json, options)
@@ -60,6 +68,8 @@ class overlord_replace(sublime_plugin.WindowCommand):
 		content = initial_content = st2api.get_text(view)
 		print(f'[+] ------------------------------')
 		for source, target in cleanup_data:
+			source = source.strip().replace('`s', ' ').replace('`EMPTY', '')
+			target = target.strip().replace('`s', ' ').replace('`EMPTY', '')
 			print(f'[+] Replace "{source}" to "{target}"')
 			content = re.sub(source, target, content)
 		# ------------------------------

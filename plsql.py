@@ -245,7 +245,7 @@ class overlord_plsql_select_keywords(sublime_plugin.TextCommand):
 				view.sel().add(r)
 # ------------------------------------------------------------------------------------------
 class overlord_plsql_flip_equal(sublime_plugin.TextCommand):
-	PATTERN = '''(?xi)
+	PATTERN = r'''(?xi)
 		^
 		( [ \t]* (?: -- [ \t]* | --!!! [ \t]* | --!_! [ \t]* )? )
 		( on \s+ |  and \s+ | or \s+ | where \s+ )

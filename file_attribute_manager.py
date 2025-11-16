@@ -44,8 +44,7 @@ class overlord_file_attribute_manager(sublime_plugin.TextCommand):
 			print("Set attribute '%s' to '%s' for file '%s'" % (attribute, str(need_set), file_name))
 	# ------------------------------
 	def description(self, mode, attribute):
-		default = '"%s" attribute - %s' % (attribute.title(), mode.lower())
-		return default
+		return f'{mode.title()} "{attribute.title()}" attribute'
 	# ------------------------------
 	def is_checked(self, mode, attribute):
 		file_name = self.view.file_name()

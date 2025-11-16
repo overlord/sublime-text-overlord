@@ -1,0 +1,47 @@
+\\\\*n\s+at`s                     --R->          \n  at`s
+
+# `s`sв`s                           --R->          \nв`s
+# `sв`s                             --R->          \n\tв`s
+[\t ]+\n                          --R->          \n
+`s---->`s                         --R->          \n---->`s
+`s--->`s                          --R->          \n--->`s
+`s-->`s                           --R->          \n-->`s
+`s`sException`s                   --R->          \nException`s
+`s`sServer stack trace            --R->          \nServer stack trace
+inner exception:`s                --R->          inner exception:\n\t
+;`s                               --R->          ;\n
+
+# убираем экранирование кавычек
+\\+"                              --R-> "
+
+# убираем экранирование новой строки
+\\\\+n                            --R-> \n
+0\\n                              --R-> 0\n
+;\\n                              --R-> ;\n
+:\\n                              --R-> :\n
+-\\n                              --R-> -\n
+\.\\n                             --R-> .\n
+\}\\n                             --R-> }\n
+\)\\n                             --R-> )\n
+\(\\n                             --R-> (\n
+\n\n\n                            --R-> \n\n
+\\r\\n                            --R-> \n
+\n\\n                             --R-> \n
+
+# Разбираемся с мусором в stack-trace типа такой вот:
+# at Mts.CsGuildCommon.Kafka.Outbox.Producers.OutboxMessageProducer`2.<>c__DisplayClass18_0.<<SendOneEventInternalAsync>b__0>d.MoveNext()
+`\d\.                              --R-> .
+\.<>                               --R-> .
+[\w]__DisplayClass\d+_\d+          --R-> DisplayClass
+[\w]__AnonymousType\d+             --R-> AnonymousType
+[bd]__\d+>[bd]\.MoveNext\(\)       --R-> >.MoveNext()
+
+
+
+# \w__\d+\(                         --R-> (
+# [">\\w__\\d+(_\\d+)?>",         --R-> ">>"],
+# [">\\w__\\d+(_\\d+)?\\(",       --R-> ">("],
+# ["[\t ]+\n",                    --R-> "\n"],
+# ["\\.<(\\w+)>",                 --R-> ".\\1"],
+# ["\\\\n\n",                     --R-> "\n"],
+# ["\n\n",                        --R-> "\n"]

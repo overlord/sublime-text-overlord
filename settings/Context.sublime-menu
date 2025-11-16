@@ -1,5 +1,7 @@
 [
 	{ "command": "overlord_open_context_file" },
+	{ "command": "overlord_open_jira" },
+	{ "command": "overlord_open_gitlab" },
 	{ "caption": "-" },
 	{ "caption": "Copy as HTML", "command": "copy_as_html", "args": {"enclosing_tags": true, "font_size": false} },
 	{ "command": "overlord_diff_unsaved", "args": {"tool": "TortoiseSVN"} },
