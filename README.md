@@ -1,75 +1,62 @@
 # Sublime Overlord Package
 
-Essential Sublime Text toolbox **v.0.1**
+Essential Sublime Text Overlord toolbox.
 
-## New Syntaxes
+**Table of Content:**
 
-See examples [here](https://bitbucket.org/DarkOverlord/sublime_overlord/src/master/README_syntaxes.md)
+[[_TOC_]]
+
+# New Syntaxes
+
+See examples [here](https://github.com/overlord/sublime-text-overlord/-/blob/master/README_syntaxes.md)
 
 - **SQL Ex.sublime-syntax**
 	- optimal for Oracle PL/SQL script files
 	- fix for `ctrl+r` hotkey (in package files)
-
-		![sql_ex_ctrl_r](https://bytebucket.org/DarkOverlord/sublime_overlord/raw/master/images/sql_ex_ctrl_r.png)
-
-	- fix multiline dynamic-sql highlight, see examples [here](https://bitbucket.org/DarkOverlord/sublime_overlord/src/master/README_syntaxes.md)
-
+		![sql_ex_ctrl_r](https://github.com/overlord/sublime-text-overlord/raw/master/images/sql_ex_ctrl_r.png)
+	- fix multiline dynamic-sql highlight, see examples.
 - **Highlighted Text.tmLanguage**
 	- bring some highlight into plain-text file
-
 - **[VCard.tmLanguage](http://en.wikipedia.org/wiki/VCard)**
-
 - **Chorder.tmLanguage**
 
-## Improved Color Schemes
+# Improved Color Schemes
 
 - **Cobalt Ex.tmTheme**
 	- a lot of various fixes
-
 - **Solarized Ex (Light).tmTheme**
 	- fix for `selection` scope
-
 - **Visual Studio Ex.tmTheme**
 	- fix for `error` scope
 
-## Commands
+# Commands
 
-### In Main.sublime-menu
+## In Main.sublime-menu
 
 - **overlord_align_table**
 	- By default aligns tab-separated table by spaces and vertical | columns separator
-
-	![overlord_align_table](https://bytebucket.org/DarkOverlord/sublime_overlord/raw/master/images/align_table.gif)
-
+	![overlord_align_table](https://github.com/overlord/sublime-text-overlord/raw/master/images/align_table.gif)
 - **overlord_auto_indent**
 	- Based on <https://github.com/alek-sys/sublimetext_indentxml>
-
 - **overlord_clear_regions**
 	- Removes regions by given regex-pattern
-
 - **overlord_file_attribute_manager**
-
 - **overlord_number_items**
-
 - **overlord_save_all**
 	- Mass `Save all` command with given `encoding` parameter.
-
 - **overlord_close_all_force**
 	- Close all open files without saving. Can be useful when changes are NOT needed to be saved.
-
 - **overlord_open_recently_closed_file**
-
 - **overlord_switch_project**
 	- Allows quickly switch between projects (FOLDERS)
-
 - **overlord_switch_project_file**
 
-### In Tab Context.sublime-menu
+## In Tab Context.sublime-menu
 
 - **overlord_rename_path**
 	- Command to rename current file by clicking on view tab.
 
-### Other
+## Other
 
 - **overlord_detect_syntax**
 	- Currently can autodetect:
@@ -77,7 +64,6 @@ See examples [here](https://bitbucket.org/DarkOverlord/sublime_overlord/src/mast
 		- Python
 		- SQL
 		- Powershell
-
 - **overlord_diff**
 	- Launches external diff tool to compare two nearest views.
 	- Out of the box supports:
@@ -86,30 +72,21 @@ See examples [here](https://bitbucket.org/DarkOverlord/sublime_overlord/src/mast
 		- AraxisMerge
 		- KDiff3
 	- Can be configured to support any other external diff tool.
-
 - **overlord_find_all**
-
 - **overlord_insert_string**
-
 - **overlord_replace**
-
 - **overlord_tab**
 	- Aligns selected cursor positions verticaly by tabs or spaces
-
-	![overlord_tab](https://bytebucket.org/DarkOverlord/sublime_overlord/raw/master/images/overlord_tab.gif)
-
+	![overlord_tab](https://github.com/overlord/sublime-text-overlord/raw/master/images/overlord_tab.gif)
 - **overlord_total_recall**
-
 - **overlord_close**
 	- Changes default `close` behaviour. First closes all views, then clear folder-panel, finally closes sublime window itself.
-
 - **overlord_open_custom_file**
-
 - **overlord_cleanup_file_history**
 
-## Settings files
+# Settings files
 
-### switch_project.sublime-settings
+## switch_project.sublime-settings
 
 ```
 "projects" := [:project]
@@ -124,7 +101,7 @@ See examples [here](https://bitbucket.org/DarkOverlord/sublime_overlord/src/mast
 	"paths" := [:string] - folder list to add to sublime project
 ```
 
-### switch_default_project.sublime-settings
+## switch_default_project.sublime-settings
 
 ```
 "path_blocks" := [:path_block]
@@ -132,8 +109,21 @@ See examples [here](https://bitbucket.org/DarkOverlord/sublime_overlord/src/mast
 :path_block := [:string]
 ```
 
-## Links
+# Links
 
-- [Sublime Overlord Main](https://bitbucket.org/DarkOverlord/sublime_overlord)
-- [Sublime Overlord FORIS Package](https://bitbucket.org/DarkOverlord/sublime_overlord_foris) (private)
-- [Sublime Overlord Settings Package](https://bitbucket.org/DarkOverlord/sublime_overlord_settings) (private)
+**On GitHub:**
+
+- https://github.com/overlord/sublime-text-overlord.git
+- https://github.com/overlord/sublime-text-overlord-settings.git [private]
+- https://github.com/overlord/sublime-merge-overlord.git
+
+
+**On Assembla [Obsolete]:**
+
+- [Obsolete] https://git.assembla.com/overlord_repo.sm_overlord.git
+
+
+**On BitBucket [Obsolete]:**
+
+- [Obsolete] https://bitbucket.org/DarkOverlord/sublime_overlord
+- [Obsolete] https://bitbucket.org/DarkOverlord/sublime_overlord_settings [private]
