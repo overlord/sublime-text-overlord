@@ -136,11 +136,11 @@
 			"foreground": "#EDEF7D",
 		},
 
-
-		{
-			"scope": "meta.path",
-			"foreground": "var(c_entity)",
-		},
+		//!_! ----- META -----
+		// {
+		// 	"scope": "meta.path",
+		// 	"foreground": "var(c_entity)",
+		// },
 		{
 			"scope": "meta.function-call",
 			"foreground": "#EDEF7D",
