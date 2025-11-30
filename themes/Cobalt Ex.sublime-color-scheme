@@ -6,8 +6,6 @@
 	"semanticClass": "theme.dark.cobalt",
 	"variables":
 	{
-		"c_black": "#000000",
-		"c_white": "#FFFFFF",
 		"c_comment": "#0088FF",
 
 		"c_entity": "#FFDD00",
@@ -22,16 +20,16 @@
 		"c_string_quoted": "#9EFF80",
 		"c_regexp": "#80FFBB",
 
-		"c_punctuation": "color( var(c_white) l(- 20%) )",
+		"c_punctuation": "color( White l(- 20%) )",
 		"c_exception": "#FF1E00",
 	},
 	"globals":
 	{
 		"background":                  "#002240",
-		"caret":                       "var(c_white)",
-		"foreground":                  "var(c_white)",
-		"invisibles":                  "color( var(c_white) alpha(.20) )",
-		"line_highlight":              "color( var(c_black) alpha(.25) )",
+		"caret":                       "White",
+		"foreground":                  "White",
+		"invisibles":                  "color( White alpha(.20) )",
+		"line_highlight":              "color( Black alpha(.25) )",
 		"selection":                   "#B36539BF",
 		"brackets_foreground":         "#00E800",
 		"brackets_options":            "foreground underline bold",
@@ -41,123 +39,129 @@
 		"selection_corner_radius":     "4"
 	},
 	"rules": [
-		{ //!_! зто зуб в носу для починки сломанного синтакcvса JSON ключей
-			// "scope": "meta.mapping.key string.quoted.double",
+		{
+			//!_! зто зуб в носу для починки сломанного синтакcvса JSON ключей
 			"scope": "meta.mapping.key string.quoted.double",
 			"font_style": "",
 			"foreground": "var(c_entity)",
 		},
 
 		{
-			"name": "Punctuation",
 			"scope": "punctuation - (punctuation.definition.string || punctuation.definition.comment)",
 			"font_style": "",
 			"foreground": "var(c_punctuation)",
 		},
 		{
-			"name": "Constant",
 			"scope": "constant",
 			"font_style": "",
 			"foreground": "#FF628C",
 		},
+
+		//!_! ----- ENTITY -----
 		{
-			"name": "Entity",
 			"scope": "entity",
 			"font_style": "",
 			"foreground": "var(c_entity)",
 		},
 		{
-			"name": "Keyword",
+			"scope": "entity.other.inherited-class",
+			"font_style": "italic",
+			"foreground": "#80FCFF",
+		},
+
+		//!_! ----- KEYWORD -----
+		{
 			"scope": "keyword",
 			"font_style": "",
 			"foreground": "var(c_keyword)",
 		},
+
+		//!_! ----- STORAGE -----
 		{
-			"name": "Storage",
 			"scope": "storage",
 			"font_style": "",
 			"foreground": "var(c_storage)",
 		},
 		{
-			"name": "String",
+			"scope": "storage.modifier, storage.type",
+			"font_style": "",
+			"foreground": "var(c_keyword)",
+		},
+
+		//!_! ----- STRING -----
+		{
 			"scope": "string -string.unquoted.old-plist -string.unquoted.heredoc -string.unquoted.plain.out.yaml, string.unquoted.heredoc string",
 			"font_style": "",
 			"foreground": "var(c_string)",
 		},
 
-		{ //!_! зто зуб в носу для починки сломанного синтакcvса YAML
+		{
+			//!_! зто зуб в носу для починки сломанного синтакcvса YAML
 			"scope": "meta.mapping.key",
 			"font_style": "",
 			"foreground": "var(c_entity)",
 		},
-		{ //!_! зто зуб в носу для починки сломанного синтакcvса YAML
+		{
+			//!_! зто зуб в носу для починки сломанного синтакcvса YAML
 			"scope": "meta.string -meta.mapping.key",
 			"font_style": "",
 			"foreground": "var(c_string)",
 		},
 
 		{
-			"name": "Comment",
 			"scope": "comment",
 			"font_style": "italic",
 			"foreground": "var(c_comment)",
 		},
 		{
-			"name": "Notes",
 			"scope": "notes",
 			"font_style": "italic",
 			"foreground": "#999999",
 		},
+
+		//!_! ----- VARIABLE -----
 		{
-			"name": "Support",
-			"scope": "support",
-			"font_style": "",
-			"foreground": "var(c_support)",
-		},
-		{
-			"name": "Variable",
-			"scope": "variable",
+			"scope": "variable, variable.other",
 			"font_style": "",
 			"foreground": "#CCCCCC",
 		},
 		{
-			"name": "Lang Variable",
 			"scope": "variable.language",
 			"font_style": "",
 			"foreground": "#FF80E1",
 		},
 		{
-			"name": "Function Call",
+			"scope": "variable.function",
+			"font_style": "",
+			"foreground": "#EDEF7D",
+		},
+
+
+		{
+			"scope": "meta.path",
+			"foreground": "var(c_entity)",
+		},
+		{
 			"scope": "meta.function-call",
 			"foreground": "#EDEF7D",
 		},
 		{
-			"name": "Invalid",
 			"scope": "invalid",
 			"background": "#800F00",
 			"foreground": "#F8F8F8",
 		},
 		{
-			"name": "Embedded Source",
 			"scope": "text source, string.unquoted.heredoc, source source",
 			"background": "#223545",
 			"font_style": "",
-			"foreground": "var(c_white)",
+			"foreground": "White",
 		},
 		{
-			"name": "Entity inherited-class",
-			"scope": "entity.other.inherited-class",
-			"font_style": "italic",
-			"foreground": "#80FCFF",
-		},
-		{
-			"name": "String embedded-source",
 			"scope": "string.quoted source",
 			"font_style": "",
 			"foreground": "var(c_string_quoted)",
 		},
 		{
-			"name": "String constant",
 			"scope": "string constant",
 			"foreground": "#80FF82",
 		},
@@ -170,9 +174,15 @@
 			"foreground": "var(c_regexp)",
 		},
 		{
-			"name": "String variable",
 			"scope": "string variable",
 			"foreground": "#EDEF7D",
+		},
+
+		//!_! ----- SUPPORT -----
+		{
+			"scope": "support",
+			"font_style": "",
+			"foreground": "var(c_support)",
 		},
 		{
 			"scope": "support.function",
@@ -185,17 +195,16 @@
 			"foreground": "var(c_support_constant)",
 		},
 		{
-			"name":  "Support.constant.variable",
 			"scope": "support.constant.variable",
 			"font_style":  "",
 			"background": "#004260",
 			"foreground": "#CCCCCC",
 		},
 		{
-			"name": "Exception",
 			"scope": "support.type.exception",
 			"foreground": "var(c_exception)",
 		},
+
 		{
 			"name": "C# C++ Preprocessor Line",
 			"scope": "meta.preprocessor.c",
@@ -328,7 +337,7 @@
 		{ "scope": "punctuation.definition.bullet.question.todo",  "foreground": "var(c_entity)", "font_style": "bold" },
 		{ "scope": "punctuation.definition.bullet.completed.todo", "foreground": "var(c_string)", "font_style": "bold" },
 		{ "scope": "punctuation.definition.bullet.cancelled.todo", "foreground": "var(c_exception)", "font_style": "bold" },
-		{ "scope": "meta.item.todo.cancelled",                     "foreground": "#708090" },
+		{ "scope": "meta.item.todo.cancelled",                     "foreground": "SlateGray" },
 
 		// Background colors, see http://www.w3schools.com/html/html_colornames.asp
 		{ "scope": "markup.bgcolor.AliceBlue",            "background": "#F0F8FF" },

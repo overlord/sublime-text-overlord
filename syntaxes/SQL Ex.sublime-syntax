@@ -285,7 +285,7 @@ contexts:
         1: keyword.other.dml.sql # keyword 1
         2: support.class.instance.name.xid3.sql # xid3.db_instance_name
         3: support.class.schema.name.xid3.sql # xid3.db_schema_name
-        4: storage.type.object.name.xid3.sql # xid3.db_object_name
+        4: storage.object.name.xid3.sql # xid3.db_object_name
         5: keyword.other.alias.sql # keyword 2
         6: support.class.alias.name.sql # alias
 
@@ -314,7 +314,7 @@ contexts:
         1: keyword.other.dml.sql
         2: support.class.instance.name.xid3.sql # xid3.db_instance_name
         3: support.class.schema.name.xid3.sql # xid3.db_schema_name
-        4: storage.type.object.name.xid3.sql # xid3.db_object_name
+        4: storage.object.name.xid3.sql # xid3.db_object_name
 
     - match: '(?i)^\s*(procedure|function|type)(\s+[\w_]+)'
       scope: meta.declare.sql
@@ -401,7 +401,7 @@ contexts:
         3: keyword.other.sql
         4: support.class.instance.name.xid3.sql # xid3.db_instance_name
         5: support.class.schema.name.xid3.sql # xid3.db_schema_name
-        6: storage.type.object.name.xid3.sql # xid3.db_object_name
+        6: storage.object.name.xid3.sql # xid3.db_object_name
     - match: |-
         (?xi)
           ^\s*
@@ -420,12 +420,12 @@ contexts:
         2: keyword.other.sql
         3: support.class.instance.name.xid3.sql # xid3.db_instance_name
         4: support.class.schema.name.xid3.sql # xid3.db_schema_name
-        5: storage.type.object.name.xid3.sql # xid3.db_object_name
+        5: storage.object.name.xid3.sql # xid3.db_object_name
     - match: (?xi) ^\s* (notify) \s+ ({{xid}})
       scope: meta.notify.sql
       captures:
         1: keyword.notify.sql
-        2: storage.type.object.name.xid.sql
+        2: storage.object.name.xid.sql
     - match: |-
         (?xi)
           ^
@@ -463,7 +463,7 @@ contexts:
           \b(
             bigint | tinyint | bigserial | bit | raw |
             (?:ci?t_)?boolean | (?:ci?t_)?bool | box | bytea | cidr | circle |
-            (?:ci?t_)?date | datetime2 |datetime | decimal | cursor | double\sprecision | inet |
+            (?:ci?t_)?date | datetime2 |datetime | decimal | cursor | double \s precision | inet |
             (?:pls_ | binary_)? integer | line | lseg | macaddr | money | oid | path | point |
             polygon | real | serial | smallint | (?:ci)?text | sysname | sys_refcursor | clob | blob |
             xmltype | xml | float | sql_variant | varbinary | geography | int8 | int | record | uuid
@@ -479,7 +479,7 @@ contexts:
           | \b( numeric)\b(?:\((\d+),(\d+)\))?
 
           # special case, captures 9, 10i, 11
-          | \b( times)(?:\((\d+)\))(\swithoutstimeszone\b)?
+          | \b( times )(?:\((\d+)\))(\s withoutstimeszone \b)?
 
           # special case, captures 12, 13, 14i, 15
           | \b( timestamp (?: tz )? )(?:(s)\((\d+)\)(\s withoutstimeszone\b)?)?
@@ -499,6 +499,7 @@ contexts:
         13: keyword.type.name.sql
         14: constant.numeric.sql
         15: keyword.type.name.sql
+
     - match: (?i:\b((?:primary|foreign)\s+key|references|on\sdelete(\s+cascade)?|check|constraint)\b)
       scope: storage.modifier.sql
     - match: \b\d+\b
@@ -557,7 +558,7 @@ contexts:
         3: keyword.operator.comparison.sql
         4: support.class.instance.name.xid3.sql # xid3.db_instance_name
         5: support.class.schema.name.xid3.sql # xid3.db_schema_name
-        6: storage.type.object.name.xid3.sql # xid3.db_object_name
+        6: storage.object.name.xid3.sql # xid3.db_object_name
 
     # storage procedure invoke
     - match: |-
@@ -569,7 +570,7 @@ contexts:
         1: keyword.other.dml.sql
         2: support.class.instance.name.xid3.sql # xid3.db_instance_name
         3: support.class.schema.name.xid3.sql # xid3.db_schema_name
-        4: storage.type.object.name.xid3.sql # xid3.db_object_name
+        4: storage.object.name.xid3.sql # xid3.db_object_name
 
     - match: |-
         (?xi)
