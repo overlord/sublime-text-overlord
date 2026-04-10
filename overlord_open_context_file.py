@@ -1,27 +1,33 @@
 import sublime_plugin
+import os
 import re
 
-rex = r'''(?xi)
-    \b
-    (?:
-    	[a-z] \: [ \\ / ] |
-    	\\ \\ |
-    	//
-    ) # drive letter or UNC root
-    (?:
-        [ \. \w _ ! # \( \) \- ]+ [ \\ / ]?
-    )+
-'''
+rex = re.compile(r'''
+(?xi)
+(\s | $ | ^)
+(
+	[a-z] : ( \\ | / ) |
+	\\ \\ |
+	//
+)
+(
+	[ \. \w _ = \? ! & \# \( \) \- ]+ [ \\ / ]?
+)+
+''')
 
-# C:\Portable\
-# C:/Portable/Reflector/
-# C:\Portable\Sublime Text\Data\Index\039569.ldb
-# \\software-hub\portable\sublime_text\data\index\098581.ldb
+# v - C:\Portable\
+# v - C:/Portable/Reflector/
+# v - C:\Portable\Sublime Text\Data\Index\039569.ldb
+# v - \\software-hub\portable\sublime_text\data\index\098581.ldb
+# x - Https://tfs.mtsit.com/STS/FORIS_Mobile/_build?definitionId=6187&_a=summary
 
 class OverlordOpenContextFileCommand(sublime_plugin.TextCommand):
 	def run(self, edit, event):
 		file = self.find_file(event)
-		self.view.window().open_file(file)
+		if file.startswith('\\\\'): # путь в сетевой папке
+			os.startfile(file)
+		else:
+			self.view.window().open_file(file)
 
 	def is_visible(self, event):
 		return self.find_file(event) is not None
@@ -32,8 +38,8 @@ class OverlordOpenContextFileCommand(sublime_plugin.TextCommand):
 		# line.a = max(line.a, pt - 1024)
 		# line.b = min(line.b, pt + 1024)
 		text = self.view.substr(line)
-		match = re.search(rex, text)
-		return match.group(0) if match else None
+		match = rex.search(text)
+		return match.group(0).strip() if match else None
 
 	def description(self, event):
 		file = self.find_file(event)

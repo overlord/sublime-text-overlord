@@ -2,14 +2,22 @@ import sublime_plugin
 import re
 import webbrowser
 
-rex = r'''(?xi) TP [A-Z]+ - \d+'''
+rex_jira = re.compile(r'''(?xi)
+	TP [A-Z]+ - \d+
+''')
+
+rex_tfs = re.compile(r'''(?xi)
+	TFS - (\d+)
+''')
 
 # TPTECH-1234
+# TPSOI-1234
+# TFS-1234
 
 class OverlordOpenJiraCommand(sublime_plugin.TextCommand):
 	def run(self, edit, event):
-		item = self.find_item(event)
-		webbrowser.open_new_tab(f"https://jira.mts.ru/browse/{item}")
+		name, url = self.find_item(event)
+		webbrowser.open_new_tab(url)
 
 	def is_visible(self, event):
 		return self.find_item(event) is not None
@@ -18,12 +26,26 @@ class OverlordOpenJiraCommand(sublime_plugin.TextCommand):
 		pt = self.view.window_to_text((event['x'], event['y']))
 		line = self.view.line(pt)
 		text = self.view.substr(line)
-		match = re.search(rex, text)
-		return match.group(0) if match else None
+
+		match = rex_jira.search(text)
+		if match:
+			return (
+				match.group(0),
+				f"https://jira.mts.ru/browse/{match.group(0)}"
+			)
+
+		match = rex_tfs.search(text)
+		if match:
+			return (
+				match.group(0),
+				f"https://tfs.mtsit.com/STS/FORIS_Mobile/_workitems/edit/{match.group(1)}"
+			)
+
+		return None
 
 	def description(self, event):
-		item = self.find_item(event)
-		return f'Open issue {item}...'
+		name, _ = self.find_item(event)
+		return f'Open issue {name}...'
 
 	def want_event(self):
 		return True

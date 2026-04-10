@@ -9,7 +9,7 @@ import os
 import stat
 import sys
 import threading
-from uuid import uuid1
+from uuid import uuid4
 
 # ------------------------------------------------------------------------------------------
 # ST CORE WRAPPER FUNCTIONS
@@ -217,7 +217,7 @@ def show_quick_panel(target, items, on_done, flags=None, on_cancel=None):
 
 def apply_custom_replace(s):
 	s = s.replace("${packages}", sublime.packages_path())
-	s = s.replace("${guid}", str(uuid1()))
+	s = s.replace("${guid}", str(uuid4()))
 	s = os.path.expandvars(s)
 	return s
 

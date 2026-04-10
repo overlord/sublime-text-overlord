@@ -40,13 +40,6 @@
 	},
 	"rules": [
 		{
-			//!_! зто зуб в носу для починки сломанного синтакcvса JSON ключей
-			"scope": "meta.mapping.key string.quoted.double",
-			"font_style": "",
-			"foreground": "var(c_entity)",
-		},
-
-		{
 			"scope": "punctuation - (punctuation.definition.string || punctuation.definition.comment)",
 			"font_style": "",
 			"foreground": "var(c_punctuation)",
@@ -90,22 +83,20 @@
 
 		//!_! ----- STRING -----
 		{
-			"scope": "string -string.unquoted.old-plist -string.unquoted.heredoc -string.unquoted.plain.out.yaml, string.unquoted.heredoc string",
+			"scope": "string -meta.mapping.key -string.unquoted.old-plist -string.unquoted.heredoc -string.unquoted.plain.out.yaml, string.unquoted.heredoc string",
+			"font_style": "",
+			"foreground": "var(c_string)",
+		},
+		{
+			"scope": "meta.string -meta.mapping.key",
 			"font_style": "",
 			"foreground": "var(c_string)",
 		},
 
 		{
-			//!_! зто зуб в носу для починки сломанного синтакcvса YAML
 			"scope": "meta.mapping.key",
 			"font_style": "",
 			"foreground": "var(c_entity)",
-		},
-		{
-			//!_! зто зуб в носу для починки сломанного синтакcvса YAML
-			"scope": "meta.string -meta.mapping.key",
-			"font_style": "",
-			"foreground": "var(c_string)",
 		},
 
 		{

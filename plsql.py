@@ -15,8 +15,19 @@ def first_or_default(p_list, p_default):
 def trace(s):
 	print(s)
 # ------------------------------------------------------------------------------------------
+REX_FLIP_EQUAL = re.compile(r'''(?xi)
+	^
+	( [ \t]* (?: -- [ \t]* | --!!! [ \t]* | --!_! [ \t]* )? )
+	( on \s+ |  and \s+ | or \s+ | where \s+ )
+	( [^\=\n]+ )
+	\=
+	( [^\=\n]+ )
+	$
+''')
+
+# ------------------------------------------------------------------------------------------
 class overlord_goto_definition_plsql(sublime_plugin.WindowCommand):
-	PLSQL_PATTERN = '''(?xi)
+	PLSQL_PATTERN = r'''(?xi)
 		^[ \t]*
 		(
 			( ( procedure | function ) \s+ {0} [ \t]* ($ | \() ) |
@@ -59,7 +70,7 @@ class overlord_goto_definition_plsql(sublime_plugin.WindowCommand):
 						st2api.goto_region_begin(view, item)
 # ------------------------------------------------------------------------------------------
 class overlord_goto_line_plsql(sublime_plugin.TextCommand):
-	PLSQL_PATTERN = '(?xi) create \s+ or \s+ replace \s+ (package) \s+ body'
+	PLSQL_PATTERN = r'(?xi) create \s+ or \s+ replace \s+ (package) \s+ body'
 	# ------------------------------
 	def run(self, edit):
 		view = self.view
@@ -76,8 +87,8 @@ class overlord_goto_line_plsql(sublime_plugin.TextCommand):
 			view.run_command("goto_line", { "line": line_number })
 # ------------------------------------------------------------------------------------------
 class overlord_plsql_select_keywords(sublime_plugin.TextCommand):
-	PATTERN = '''(?xi)
-		\\b
+	PATTERN = r'''(?xi)
+		\b
 		(
 			add |
 			all |
@@ -233,7 +244,7 @@ class overlord_plsql_select_keywords(sublime_plugin.TextCommand):
 			while |
 			with
 		)
-		\\b
+		\b
 	'''
 	# ------------------------------
 	def run(self, edit):
@@ -245,23 +256,13 @@ class overlord_plsql_select_keywords(sublime_plugin.TextCommand):
 				view.sel().add(r)
 # ------------------------------------------------------------------------------------------
 class overlord_plsql_flip_equal(sublime_plugin.TextCommand):
-	PATTERN = r'''(?xi)
-		^
-		( [ \t]* (?: -- [ \t]* | --!!! [ \t]* | --!_! [ \t]* )? )
-		( on \s+ |  and \s+ | or \s+ | where \s+ )
-		( [^\=\n]+ )
-		\=
-		( [^\=\n]+ )
-		$
-	'''
-	REX = re.compile(PATTERN)
 	# ------------------------------
 	def run(self, edit):
 		view = self.view
 		for sel0 in reversed(view.sel()):
 			for sel in reversed(view.lines(sel0)):
 				sel_line = view.full_line(sel)
-				found = re.search(self.PATTERN, view.substr(sel_line))
+				found = REX_FLIP_EQUAL.search(view.substr(sel_line))
 				if found:
 					flipped = found.group(1) + found.group(2) + found.group(4).strip() + " = " + found.group(3).strip() + "\n"
 					view.replace(edit, sel_line, flipped)
