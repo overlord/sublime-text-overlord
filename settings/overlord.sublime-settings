@@ -5,7 +5,8 @@
 		"AraxisMerge": "'C:/Program Files (x86)/Araxis/Araxis Merge/compare.exe' /nowait /title1:'{0}' /title2:'{1}' /2 '{0}' '{1}'",
 		"WinMerge":    "'C:/Program Files (x86)/WinMerge/WinMergeU.exe' /x /e /ub /wl /dl '{0}' /dr '{1}' '{0}' '{1}'",
 		"KDiff":       "'C:/Program Files (x86)/KDiff3/kdiff3.exe' '{0}' '{1}' -m",
-		"smerge":      "'D:/portable/Sublime Merge/smerge.exe' mergetool --no-wait '{0}' '{1}'"
+		"smerge":      "'D:/Portable/Sublime Merge/smerge.exe' mergetool --no-wait '{0}' '{1}'",
+		"vscode":      "code --diff '{0}' '{1}'"
 	},
 	"overlord_mark_region": {
 		// for valid names see http://www.w3schools.com/html/html_colornames.asp

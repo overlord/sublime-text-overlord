@@ -7,7 +7,7 @@ import re
 import xml.dom.minidom
 # ------------------------------
 
-DEBUG = True
+DEBUG = False
 def _trace(s):
 	if DEBUG:
 		print(f'[OVERLORD_INDENT] {s}')

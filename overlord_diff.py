@@ -21,7 +21,13 @@ import subprocess
 # ------------------------------------------------------------------------------------------------------------------------
 # Привет, друзья! Я обычный русский букв!
 # ------------------------------------------------------------------------------------------------------------------------
-SETTINGS_FILE = "overlord.sublime-settings"
+OVR_SETTINGS_FILE = "overlord.sublime-settings"
+USER_SETTINGS_FILE = "Preferences.sublime-settings"
+
+DEBUG = True
+def _trace(s):
+	if DEBUG:
+		print(f'[OVERLORD_DIFF] {s}')
 
 # ------------------------------------------------------------------------------------------------------------------------
 class overlord_diff(sublime_plugin.WindowCommand):
@@ -29,11 +35,30 @@ class overlord_diff(sublime_plugin.WindowCommand):
 	Window Command: launches external diff tool to show diff between CURRENT and NEXT view.
 	'''
 	# ------------------------------
+	def __get_diff_tool_from_settings(self):
+		view = self.window.active_view()
+		tool = view.settings().get("diff_tool", None)
+		if tool is not None:
+			_trace(f"diff_tool from active view: {tool}")
+			return tool
+
+		tool = sublime.load_settings(USER_SETTINGS_FILE).get('diff_tool', None)
+		if tool is not None:
+			_trace(f"diff_tool from {USER_SETTINGS_FILE}: {tool}")
+			return tool
+
+		tool = sublime.load_settings(OVR_SETTINGS_FILE).get('diff_tool', None)
+		if tool is not None:
+			_trace(f"diff_tool from {OVR_SETTINGS_FILE}: {tool}")
+			return tool
+
+		return None
+
+	# ------------------------------
 	def __run_diff(self, path, file1, file2, line):
 		command = path.replace("'", '"').format(file1, file2, line).replace("\\", "/")
 		command = st2api.to_os_encoding(command)
-		command = f'start /MAX "" {command}'
-		print("[OVR] diff: %s" % command)
+		_trace(command)
 		subprocess.Popen(
 			command,
 			shell=True,
@@ -42,7 +67,10 @@ class overlord_diff(sublime_plugin.WindowCommand):
 	# ------------------------------
 	def run_diff(self, tool, file1, file2, line=0):
 		# ------------------------------
-		tools = sublime.load_settings(SETTINGS_FILE).get('diff_tools', {})
+		tools = sublime.load_settings(OVR_SETTINGS_FILE).get('diff_tools', {})
+		# ------------------------------
+		if tool is None:
+			tool = self.__get_diff_tool_from_settings()
 		# ------------------------------
 		if tool is None:
 			menu = sorted([i for i in tools])
@@ -50,7 +78,7 @@ class overlord_diff(sublime_plugin.WindowCommand):
 		elif tool in tools:
 			self.__run_diff(tools[tool], file1, file2, line)
 		else:
-			sublime.error_message('Unable to find diff_tool: "%s" in "%s"' % (tool, SETTINGS_FILE))
+			sublime.error_message('Unable to find diff_tool: "%s" in "%s"' % (tool, OVR_SETTINGS_FILE))
 	# ------------------------------
 	def run(self, tool=None):
 		'''
@@ -67,10 +95,6 @@ class overlord_diff(sublime_plugin.WindowCommand):
 		view1, view2 = self.extract_diff_view(view.window(), view)
 		# ------------------------------
 		if view1 and view2:
-			if tool is None:
-				tool = view1.settings().get("diff_tool")
-			if tool is None:
-				tool = sublime.load_settings("Preferences.sublime-settings").get('diff_tool', None)
 			file1, file2 = self.extract_diff_content(view1, view2)
 			row, col = view.rowcol(sel[0].begin())
 			self.run_diff(tool, file1, file2, row)
@@ -92,8 +116,6 @@ class overlord_diff(sublime_plugin.WindowCommand):
 	def extract_diff_content(self, view1, view2):
 		sel1 = view1.sel()
 		sel2 = view2.sel()
-		print(len(sel1[0]))
-		print(len(sel2[0]))
 		if len(sel1) == 1 and len(sel1[0]) > 0 and len(sel2) == 1 and len(sel2[0]) > 0:
 			file1 = st2api.tmp_dump_region(view1, sel1[0])
 			file2 = st2api.tmp_dump_region(view2, sel2[0])
