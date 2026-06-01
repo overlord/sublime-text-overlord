@@ -1,0 +1,13 @@
+{
+	"projects": [
+		{	"name": "[ Sublime Text ]",
+			"add": [ "${packages}/" ],
+		},
+		{	"name": "[ Sublime Text - Overlord ]",
+			"add": [
+				"${packages}/sublime_overlord/",
+				"${packages}/User/",
+			]
+		}
+	]
+}

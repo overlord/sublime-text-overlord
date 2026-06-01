@@ -6,6 +6,7 @@ Essential Sublime Text Overlord toolbox.
 
 [[_TOC_]]
 
+
 # New Syntaxes
 
 See examples [here](https://github.com/overlord/sublime-text-overlord/-/blob/master/README_syntaxes.md)
@@ -20,6 +21,7 @@ See examples [here](https://github.com/overlord/sublime-text-overlord/-/blob/mas
 - **[VCard.tmLanguage](http://en.wikipedia.org/wiki/VCard)**
 - **Chorder.tmLanguage**
 
+
 # Improved Color Schemes
 
 - **Cobalt Ex.tmTheme**
@@ -28,6 +30,7 @@ See examples [here](https://github.com/overlord/sublime-text-overlord/-/blob/mas
 	- fix for `selection` scope
 - **Visual Studio Ex.tmTheme**
 	- fix for `error` scope
+
 
 # Commands
 
@@ -84,6 +87,7 @@ See examples [here](https://github.com/overlord/sublime-text-overlord/-/blob/mas
 - **overlord_open_custom_file**
 - **overlord_cleanup_file_history**
 
+
 # Settings files
 
 ## switch_project.sublime-settings
@@ -109,12 +113,12 @@ See examples [here](https://github.com/overlord/sublime-text-overlord/-/blob/mas
 :path_block := [:string]
 ```
 
+
 # Links
 
 **On GitHub:**
 
 - https://github.com/overlord/sublime-text-overlord.git
-- https://github.com/overlord/sublime-text-overlord-settings.git [private]
 - https://github.com/overlord/sublime-merge-overlord.git
 
 

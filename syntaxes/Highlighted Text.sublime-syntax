@@ -110,7 +110,7 @@ contexts:
       scope: comment.line.plaintext
 
     # comment line
-    - match: '(//!_!|///).*?$'
+    - match: '^\s+(//!_!|///).*?$'
       scope: comment.line.plaintext
 
     # decimal numbers

@@ -6,14 +6,22 @@ import os
 import re
 import xml.dom.minidom
 # ------------------------------
+
+DEBUG = True
+def _trace(s):
+	if DEBUG:
+		print(f'[OVERLORD_INDENT] {s}')
+
 class overlord_indent(sublime_plugin.TextCommand):
 	def __init__(self, view):
 		self.view = view
 		self.language = self.get_language()
 
 	def get_language(self):
-		syntax = self.view.settings().get('syntax')
-		language = os.path.basename(syntax).replace('.tmLanguage', '').lower() if syntax != None else "plain text"
+		syntax_path = self.view.settings().get('syntax')
+		syntax = os.path.basename(syntax_path).replace('.tmLanguage', '').replace('.sublime-syntax', '').lower()
+		language = syntax if syntax else "plain text"
+		_trace(f'{syntax=}, {language=}')
 		return language
 
 	def check_enabled(self, lang):
@@ -28,7 +36,9 @@ class overlord_indent(sublime_plugin.TextCommand):
 		if self.view == None:
 			return False
 
-		return self.check_enabled(self.get_language())
+		enabled = self.check_enabled(self.language)
+		_trace(f"{enabled=}")
+		return enabled
 
 	def run(self, edit):
 		"""
@@ -37,14 +47,15 @@ class overlord_indent(sublime_plugin.TextCommand):
 		view = self.view
 		regions = view.sel()
 		first_line = view.line(regions[0]).begin()
-		# if there are more than 1 region or region one and it's not empty
 		if len(regions) > 1 or not regions[0].empty():
+			# if there are more than 1 region or region one and it's not empty
 			for region in view.sel():
 				if not region.empty():
 					s = view.substr(region).strip()
 					s = self.indent(s)
 					view.replace(edit, region, s)
-		else:   #format all text
+		else:
+			# format all text
 			alltextreg = sublime.Region(0, view.size())
 			s = view.substr(alltextreg).strip()
 			s = self.indent(s)
@@ -62,8 +73,10 @@ class overlord_auto_indent(overlord_indent):
 		if s:
 			if s[0] == '<':
 				return 'xml'
-			if s[0] == '{' or s[0] == '[':
+			else:
 				return 'json'
+			# if s[0] == '{' or s[0] == '[':
+			# 	return 'json'
 		# ------------------------------
 		return 'notsupported'
 	# ------------------------------
@@ -106,14 +119,22 @@ class overlord_indent_xml(overlord_indent):
 		return s
 
 	def check_enabled(self, language):
-		return (language == "xml") or (language == "plain text")
+		return (language == "xml") or ("plain text" in language)
 # ------------------------------
 class overlord_indent_json(overlord_indent):
 	def check_enabled(self, language):
-		return ((language == "json") or (language == "plain text"))
+		return ((language == "json") or ("plain text" in language))
 
 	def indent(self, s):
 		parsed = json.loads(s)
-		pretty = json.dumps(parsed, sort_keys=True, indent=4, separators=(',', ': '), ensure_ascii=False)
+		pretty = json.dumps(parsed, sort_keys=False, indent=4, separators=(',', ': '), ensure_ascii=False)
+
+		try:
+			inner_string = json.loads(s)
+			if isinstance(inner_string, str):
+				return inner_string
+		except:
+			pass
+
 		return pretty
 # ------------------------------

@@ -23,13 +23,14 @@
 	},
 
 	{
-		"caption": "XML",
+		"caption": "JSON / XML",
 		"mnemonic": "X",
 		"id": "sublime_overlord_xml",
 		"children":
 		[
-			{ "caption": "Escape", "command": "overlord_xml_escape" },
-			{ "caption": "Unescape", "command": "overlord_xml_unescape" },
+			{ "caption": "JSON Unescape", "command": "overlord_json_unescape" },
+			{ "caption": "XML Escape", "command": "overlord_xml_escape" },
+			{ "caption": "XML Unescape", "command": "overlord_xml_unescape" },
 		]
 	},
 
