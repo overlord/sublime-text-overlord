@@ -3,17 +3,15 @@ import os
 import re
 import webbrowser
 
-rex = re.compile(r'''
-(?xi)
-\s* url \s* = \s* (.*)
-''')
+REX_URL = re.compile(r'''(?xi) \s* url \s* = \s* (.*) ''')
+REX_BRANCH = re.compile(r'''(?xi) \[ branch \s+ \" (.*) \" \] ''')
 
-# DEBUG = True
 DEBUG = False
+# DEBUG = True
 
-def PRINT(message):
+def traced(message):
 	if DEBUG:
-		print(f'[OVR] {message}')
+		print('[OVR]', message)
 
 class OverlordOpenGitlabCommand(sublime_plugin.TextCommand):
 
@@ -45,34 +43,38 @@ class OverlordOpenGitlabCommand(sublime_plugin.TextCommand):
 		file_name = view.file_name() or ""
 		repo_dir = self.find_repo_dir()
 		git_config = self.find_git_config()
-		PRINT(f'{file_name=}')
-		PRINT(f'{repo_dir=}')
-		PRINT(f'{git_config=}')
+		traced(f'{file_name=}')
+		traced(f'{repo_dir=}')
+		traced(f'{git_config=}')
 		if not git_config:
 			return None
 
 		rel_file_name = file_name.replace(repo_dir, '').replace('\\', '/').strip('/')
-		PRINT(f'{rel_file_name=}')
+		traced(f'{rel_file_name=}')
 
 		with open(git_config, 'r', encoding='utf-8') as f:
 			data = f.read()
-			match = rex.search(data)
+			match = REX_URL.search(data)
 			if not match:
 				return None
 			url = match.group(1).strip('/')
+
+			match = REX_BRANCH.search(data)
+			traced(match)
+			branch = match.group(1) if match else "master"
 
 		if url.endswith('.git'):
 			url = url[:-4]
 
 		if 'github.com' in url: # https://github.com/overlord/sublime-text-overlord/blob/master/README.md
-			url = url + '/blob/master/' + rel_file_name
+			url = url + f'/blob/{branch}/{rel_file_name}'
 		elif 'gitlab.services.mts.ru' in url: # https://gitlab.services.mts.ru/path/to/project/-/blob/develop/README.md
-			url = url + '/-/blob/master/' + rel_file_name
+			url = url + f'/-/blob/{branch}/{rel_file_name}'
 			row, _ = view.rowcol(view.sel()[0].a)
 			if row:
 				url += f'#L{row + 1}'
 
-		PRINT(f'{url=}')
+		traced(f'{url=}')
 
 		return url
 

@@ -97,7 +97,7 @@ contexts:
         8: string.punctuation.plaintext
         9: string.regexp.plaintext
 
-    # datetime: 20211006_172654
+    # datetime: 20260617135737, 20211006_172654
     - match: '(?ix) \b ( \d{8} ) ( _ )? ( \d{6} ) \b'
       captures:
         0: markup.quote.plaintext
@@ -105,12 +105,12 @@ contexts:
         2: punctuation.plaintext
         3: string.regexp.plaintext
 
-    # splitter line
+    # splitter line: ------------------------------, ---!---
     - match: '(?ix) ^ {{space}}* -+ !*? -+ {{space}}* $'
       scope: comment.line.plaintext
 
-    # comment line
-    - match: '^\s+(//!_!|///).*?$'
+    # comment line: --- azaza
+    - match: '(?ix) ^ \s* ( //!_! | //!!! | /// | ---+ ) .*? $'
       scope: comment.line.plaintext
 
     # decimal numbers
@@ -129,16 +129,49 @@ contexts:
     - match: '&[\w_]+\;'
       scope: constant.character.escape.plaintext
 
+    # stages
+    - match: >-
+        (?xi)
+        \b (
+          module | dev | (auto-?)? test | demo |
+            (telco-?)?
+            ( release | int | real | next | (pred?-?)? prod )
+            (-?avt | -?grb | -?dr | -?msk )?
+        ) \b
+      scope: keyword.type.name.plaintext
+
+    # types
+    - match: >-
+        (?xi) \b (
+          array | enum | default |
+          bool (ean)? |
+          int (eger)? | int\d* | number | long |
+          float |
+          jsonb | string | text | ( b | n? c )? lob | n? (var)? char 2? |
+          date-? time | timestamp (tz)? (\s+ with \s+ time \s+ zone)? | (sys)? date |
+          rowid | raw | ODataFilter
+        ) \b
+      scope: keyword.type.name.plaintext
+
     # programming language constants
-    - match: '(?xi) \b ( true | on | false | off | null | is ) \b'
+    - match: '(?xi) \b ( true | on | false | off | (not \s+)? null | is ) \b'
       scope: variable.language.plaintext
 
-    - match: '(?xi) \b ( https? ) \b'
+    - match: '(?xi) \b ( https? | ftp ) \b'
       scope: support.constant.plaintext
 
-    # error markers
-    - match: '(?xi) \[? (?: critical | crit | fatal | error | \b err | exception | \?{2}\?+ | failed | \?+ ) \]?'
-      scope: invalid.illegal.plaintext
+    # error markers 1
+    - match: '(?xi) \[ ( error | err ) \]'
+      scope: invalid.illegal.1.plaintext
+
+    # error markers 2
+    - match: '(?xi) \b ( error | err ) (?: \] | ; | , | \s | \n )'
+      captures:
+        1: invalid.illegal.2.plaintext
+
+    # other error markers
+    - match: '(?xi) \[? (?: critical | crit | fatal | exception | \?\?+ | failed ) \]?'
+      scope: invalid.illegal.3.plaintext
 
     # warn markers
     - match: '(?xi) ( \[? (?: warning | \b warn ) \]? ) '

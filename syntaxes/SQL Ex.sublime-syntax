@@ -512,7 +512,7 @@ contexts:
           (
             explain | analyze |
             select ((\s+ top) | (\s+ distinct))? |
-            (insert (\s+ all)? | merge) (\s+  (ignore \s+)? into)? |
+            (after \s+)? (insert (\s+ all)? | merge) (\s+  (ignore \s+)? into)? |
             update (\s+ top)? | delete |
             from | values |
             bulk \s+ collect \s+ into |
@@ -592,9 +592,9 @@ contexts:
           \b
           (
             returning | return \s+ query | returns | return | open | close | deallocate | fetch | distinct | schemabinding | language |
-            for(all)? | while | loop | exit | continue | (start \s+ )? with | case | if (\s+ not)? |
+            for (all)? (\s+ each \s+ row)? | while | loop | exit | continue | (start \s+ )? with | case | if (\s+ not)? |
             when ( (\s+ not)? \s+ matched )? (\s + by \s+ ( target | source) )? | offset | rows | only |
-            then | elsif | else | end | goto | break | exception | persisted |
+            then | elsif | else | end | goto | break | exception | persisted | tablespace |
             deterministic | to | waitfor | delay | add | modify | enable | disable | perform | immutable
           )
           \b

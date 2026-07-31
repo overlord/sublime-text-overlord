@@ -1,0 +1,37 @@
+%YAML 1.2
+---
+# See http://www.sublimetext.com/docs/3/syntax.html
+name: OracleTNS
+file_extensions: [ora]
+scope: source.ora
+
+variables:
+  key: '[A-Za-z_][A-Za-z_0-9\.]*'
+  val: '[A-Za-z_0-9\.\-]+'
+
+contexts:
+  main:
+    - match: (?xi) ^ ( \w+ ) \s* ( = ) \s*
+      captures:
+        1: markup.heading.source.ora entity.name.section.source.ora
+        2: punctuation.source.ora
+
+    - match: (?xi) ( {{key}} ) \s* ( = ) \s* $
+      captures:
+        1: constant.source.ora
+        2: punctuation.source.ora
+
+    - match: (?xi) ( {{key}} ) \s* ( = ) \s* ( \( )
+      captures:
+        1: constant.source.ora
+        2: punctuation.source.ora
+        3: punctuation.source.ora
+
+    - match: (?xi) ( {{key}} ) \s* ( = ) \s* ( {{val}} )
+      captures:
+        1: support.source.ora
+        2: punctuation.source.ora
+        3: string.source.ora
+
+    - match: (?xi) ( \= | \( | \) )
+      scope: punctuation.source.ora
