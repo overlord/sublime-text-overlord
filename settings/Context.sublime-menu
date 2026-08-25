@@ -28,7 +28,11 @@
 		"id": "sublime_overlord_xml",
 		"children":
 		[
+			{ "caption": "Auto Indent (XML/JSON)", "command": "overlord_auto_indent" },
+			{ "caption": "-" },
 			{ "caption": "JSON Unescape", "command": "overlord_json_unescape" },
+			{ "caption": "JSON Indent Mixed", "command": "overlord_indent_json_mixed" },
+			{ "caption": "-" },
 			{ "caption": "XML Escape", "command": "overlord_xml_escape" },
 			{ "caption": "XML Unescape", "command": "overlord_xml_unescape" },
 		]

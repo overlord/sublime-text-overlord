@@ -6,12 +6,13 @@ import os
 import re
 import xml.dom.minidom
 # ------------------------------
-
+from sublime_overlord import overlord_json
+# ------------------------------
 DEBUG = False
 def _trace(s):
 	if DEBUG:
 		print(f'[OVERLORD_INDENT] {s}')
-
+# ------------------------------
 class overlord_indent(sublime_plugin.TextCommand):
 	def __init__(self, view):
 		self.view = view
@@ -64,32 +65,35 @@ class overlord_indent(sublime_plugin.TextCommand):
 # ------------------------------
 class overlord_auto_indent(overlord_indent):
 	def get_text_type(self, s):
-		# ------------------------------
 		if self.language == 'xml':
-			return 'xml'
+			return 'xml', s
 		if self.language == 'json':
-			return 'json'
+			return 'json', s
 		# ------------------------------
-		if s:
-			if s[0] == '<':
-				return 'xml'
-			else:
-				return 'json'
-			# if s[0] == '{' or s[0] == '[':
-			# 	return 'json'
+		if not s:
+			return 'unknown', s
 		# ------------------------------
-		return 'notsupported'
+		if s.startswith('<'):
+			return 'xml', s
+		# ------------------------------
+		s1, ok1 = overlord_json.try_json_unescape(s)
+		if ok1 and s1.startswith('<'):
+			return 'xml', s1
+		# ------------------------------
+		return 'json', s
+		# ------------------------------
 	# ------------------------------
 	def indent(self, s):
 		# ------------------------------
-		text_type = self.get_text_type(s)
+		text_type, s = self.get_text_type(s)
+		# ------------------------------
+		if text_type == 'unknown':
+			return s
 		# ------------------------------
 		if text_type == 'xml':
 			command = overlord_indent_xml(self.view)
 		if text_type == 'json':
 			command = overlord_indent_json(self.view)
-		if text_type == 'notsupported':
-			return s
 		# ------------------------------
 		return command.indent(s)
 	# ------------------------------
@@ -137,4 +141,36 @@ class overlord_indent_json(overlord_indent):
 			pass
 
 		return pretty
+# ------------------------------
+class overlord_indent_json_mixed(overlord_indent):
+
+	DECODER = json.JSONDecoder()
+
+	def check_enabled(self, language):
+		return ((language == "json") or ("plain text" in language))
+
+	def indent(self, s):
+		parsed = json.loads(s)
+		processed = self.__extract(parsed)
+		pretty = json.dumps(processed, sort_keys=False, indent=4, separators=(',', ': '), ensure_ascii=False)
+		return pretty
+
+	def __extract(self, obj):
+		if isinstance(obj, dict):
+			return {k:self.__extract(v) for k, v in obj.items()}
+		elif isinstance(obj, list):
+			return [self.__extract(v)for v in obj]
+		elif isinstance(obj, str) and ("{" in obj and "}" in obj):
+			for i, c in enumerate(obj):
+				if c == "{":
+					try:
+						p, e = self.DECODER.raw_decode(obj, i)
+						pre = obj[:i].strip()
+						if pre:
+							return { "*text": pre, "*json": self.__extract(p) }
+						return self.__extract(p)
+					except:
+						continue
+		else:
+			return obj
 # ------------------------------
