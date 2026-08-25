@@ -11,9 +11,9 @@ import sys
 import threading
 from uuid import uuid4
 
-# ------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 # ST CORE WRAPPER FUNCTIONS
-# ------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 def show_overlay(target, text):
 	xget_window(target).run_command('show_overlay', { 'overlay': 'goto', 'text': text, 'show_files': False })
 
@@ -23,7 +23,7 @@ def show_file_overlay(target, text):
 def insert_in_active_view(target, text):
 	xget_window(target).run_command('insert', { 'characters': text } )
 
-# ------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 def get_view_by_id(p_view_id):
 	for window in sublime.windows():
 		for view in window.views():
@@ -38,7 +38,7 @@ def get_window_for_view_id(p_view_id):
 				return window
 	return None
 
-# ------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 def exist(p_item):
 	if isinstance(p_item, sublime.Region):
 		return p_item is not None #!_! "is not None" is essential for sublime.Region
@@ -66,7 +66,7 @@ def substr(p_view, p_region):
 def word_substr(p_view, p_region):
 	return substr(p_view, word(p_view, p_region))
 
-# ------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 def selected_row_single_or_default(p_view, p_default):
 	sel0 = get_sel0_single(p_view)
 	if exist(sel0):
@@ -75,7 +75,7 @@ def selected_row_single_or_default(p_view, p_default):
 		return row
 	return p_default
 
-# ------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 def select_region_begin(p_view, p_region):
 	if exist(p_view) and exist(p_region):
 		p_view.sel().clear()
@@ -85,14 +85,14 @@ def goto_region_begin(p_view, p_region):
 	if exist(p_view) and exist(p_region):
 		p_view.show_at_center(p_region.begin())
 
-# ------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 def executable_path():
 	if sublime.version() >= '3000':
 		return sublime.executable_path()
 	else:
 		return sys.executable
 
-# ------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 def _region(view, start=0, end=None):
 	return sublime.Region(start, end if end else view.size())
 
@@ -149,7 +149,7 @@ def get_selection(view):
 # 	return []
 
 
-# ------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 class overlord_runner_thread(threading.Thread):
 	# ------------------------------
 	def __init__(self, method):
@@ -161,9 +161,9 @@ class overlord_runner_thread(threading.Thread):
 	def run(self):
 		self.success, self.message = self.method()
 
-# ------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 #  HELPERS
-# ------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 
 def append_content(view, content):
 	view.run_command('overlord_insert_xyz', {'content': content, 'index': view.size()})
@@ -259,12 +259,9 @@ def tmp_dump_content(content, temp_root="c:/temp"):
 def tmp_get_file_name(view):
 	return tmp_dump_view(view) if (view.file_name() == None) else view.file_name()
 
-# ------------------------------------------------------------------------------------------
-
+# ----------------------------------!---------------------------------------------
 def is_readonly(path):
 	try:
 		return not os.stat(path)[0] & stat.S_IWRITE
 	except WindowsError:
 		return None
-
-# ------------------------------------------------------------------------------------------

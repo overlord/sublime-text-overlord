@@ -1,33 +1,33 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# ------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 # Based off of http://stackoverflow.com/a/3429034/334717
 # and http://pywin32.hg.sourceforge.net/hgweb/pywin32/pywin32/file/4c7503da2658/win32/src/win32clipboardmodule.cpp
-# ------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 import ctypes
 import sys
 import time
-# ------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 # привет, я русский буков
 GHND = 0x0042
 GMEM_MOVEABLE = 0x0002
-# ------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 kernel32 = ctypes.windll.kernel32
 msvcrt = ctypes.CDLL('msvcrt')
 user32 = ctypes.windll.user32
-# ------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 CF_TEXT = 1
 CF_UNICODETEXT = 13
 CF_HTML = user32.RegisterClipboardFormatA(b"HTML Format")
 CF_RTF = user32.RegisterClipboardFormatA(b"Rich Text Format")
 CF_RTFWO = user32.RegisterClipboardFormatA(b"Rich Text Format Without Objects")
-# ------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 TRACE = True
-# ------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 def printd(value):
 	if TRACE:
 		print("[WINCLIP] %s\n" % value)
-# ------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 def OpenClipboard(hwnd):
 	# We may not get the clipboard handle immediately because
 	# some other application is accessing it (?)
@@ -41,7 +41,7 @@ def OpenClipboard(hwnd):
 		time.sleep(0.01)
 		if not success:
 			raise Exception("Error calling OpenClipboard")
-# ------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 def Get():
 	try:
 		hwnd = user32.CreateWindowExA(0, b"STATIC", None, 0, 0, 0, 0, 0, None, None, None, None)
@@ -51,7 +51,7 @@ def Get():
 	finally:
 		user32.CloseClipboard()
 		user32.DestroyWindow(hwnd)
-# ------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 def Paste(data, paste_type='text', plaintext=None):
 
 	printd("type(Paste.data): %s" % type(data))
@@ -75,16 +75,14 @@ def Paste(data, paste_type='text', plaintext=None):
 	finally:
 		user32.CloseClipboard()
 		user32.DestroyWindow(hwnd)
-
-# ------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 def to_bytes(data, codepage):
 	if sys.version_info > (3, 0):
 		b_data = bytes(data, codepage)
 	else:
 		b_data = bytes(data.encode(codepage))
 	return b_data
-
-# ------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 def Put(data, clipboard_format, codepage):
 
 	printd("%s - type(Put.data) = %s" % (clipboard_format, type(data)))
@@ -116,8 +114,7 @@ def Put(data, clipboard_format, codepage):
 
 	kernel32.GlobalUnlock(handle)
 	user32.SetClipboardData(ctypes.c_int(clipboard_format), handle)
-
-# ------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 # Based off of http://code.activestate.com/recipes/474121-getting-html-from-the-windows-clipboard/
 def wrap_html(fragment):
 
@@ -144,4 +141,3 @@ EndFragment:%09d'''
 	result = METADATA % (startHtml, endHtml, startFragment, endFragment) + CONTEXT_BEGIN + fragment + CONTEXT_END
 
 	return result
-# ------------------------------------------------------------------------------------------

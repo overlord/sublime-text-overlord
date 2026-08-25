@@ -13,7 +13,7 @@ contexts:
   main:
     - match: (?xi) ^ ( \w+ ) \s* ( = ) \s*
       captures:
-        1: markup.heading.source.ora entity.name.section.source.ora
+        1: entity.name.namespace.source.ora
         2: punctuation.source.ora
 
     - match: (?xi) ( {{key}} ) \s* ( = ) \s* $

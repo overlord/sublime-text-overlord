@@ -1,20 +1,18 @@
 # -*- coding: utf-8 -*-
+# ----------------------------------!---------------------------------------------
 import sublime
 import sublime_plugin
 # ------------------------------
-if sublime.version() >= '3000':
-	from sublime_overlord.lib import (st2api, winclip)
-else:
-	from lib import (st2api, winclip)
+from sublime_overlord.lib import st2api, winclip
 # ------------------------------
 from os import urandom
-# ------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 PASS_CHARS = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789abcdefghjkmnpqrstuvwxyz23456789'
-# ------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 VOWELS = 'AEU' + 'aeiu'
 CONSONANTS = 'BCDFGHJKLMNPQRSTVWXYZ' + 'bcdfghjkmnpqrstvwxyz'
 DIGITS = '123456789'
-# ------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 class overlord_pass_generate(sublime_plugin.WindowCommand):
 	'''
 	Window Command: генерация пароля с запросом длины.
@@ -42,7 +40,7 @@ class overlord_pass_generate(sublime_plugin.WindowCommand):
 				password = password + ''.join(DIGITS[i % len(DIGITS)] for i in urandom(1))
 
 		return password[:length]
-# ------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 class overlord_pass_generate2(sublime_plugin.WindowCommand):
 	'''
 	Window Command: генерация пароля с запросом длины.
@@ -58,4 +56,4 @@ class overlord_pass_generate2(sublime_plugin.WindowCommand):
 		password = ''.join(PASS_CHARS[i % len(PASS_CHARS)] for i in urandom(int(length)))
 		# winclip.Paste(password)
 		st2api.insert_in_active_view(self, password)
-# ------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------

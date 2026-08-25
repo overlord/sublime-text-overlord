@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 import sublime_plugin
 
-# --------------------------------------------------------------------------------------------------------------
-
+# ----------------------------------!---------------------------------------------
 def show_scope_name(view):
 	return
 	sel = view.sel()
@@ -17,12 +16,9 @@ def show_scope_name(view):
 	sel.add(view.extract_scope(point))
 	view.prev_point = point
 
-# --------------------------------------------------------------------------------------------------------------
-
+# ----------------------------------!---------------------------------------------
 class ScopeObserverEventListener(sublime_plugin.EventListener):
-
-	def on_selection_modified(self, view): # -> None | Called after the selection has been modified in a view.
+	# -> None | Called after the selection has been modified in a view.
+	def on_selection_modified(self, view):
 		view.prev_point = 0
 		show_scope_name(view)
-
-# --------------------------------------------------------------------------------------------------------------

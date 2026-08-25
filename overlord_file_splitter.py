@@ -11,9 +11,9 @@ import collections
 import json
 import os
 import re
-# ------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 SPLITTER = '--[ SPLITTER ]--'
-# ------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 class overlord_split_file(sublime_plugin.TextCommand):
 	'''
 	View Command: разделяет файл на кусочки
@@ -40,7 +40,7 @@ class overlord_split_file(sublime_plugin.TextCommand):
 			else:
 				content.append(line)
 		self.dump_content(is_scratch, content, splitter)
-# ------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 class overlord_concat_files(sublime_plugin.WindowCommand):
 	'''
 	Window Command: объединяет выбраные файлы в новое окно.
@@ -67,4 +67,4 @@ class overlord_concat_files(sublime_plugin.WindowCommand):
 	# ------------------------------
 	def is_visible(self, files = None):
 		return True if files or [] else False
-# ------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------

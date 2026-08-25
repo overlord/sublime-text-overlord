@@ -11,16 +11,9 @@ else:
 	import indentation
 	from urllib import unquote_plus as unquote
 # ------------------------------
-import collections
-from datetime import datetime, timedelta
-import json
-import os
-import re
-import shutil
 import subprocess
-# ------------------------------------------------------------------------------------------------------------------------
-# Привет, друзья! Я обычный русский букв!
-# ------------------------------------------------------------------------------------------------------------------------
+
+# ----------------------------------!---------------------------------------------
 OVR_SETTINGS_FILE = "overlord.sublime-settings"
 USER_SETTINGS_FILE = "Preferences.sublime-settings"
 
@@ -29,7 +22,7 @@ def _trace(s):
 	if DEBUG:
 		print(f'[OVERLORD_DIFF] {s}')
 
-# ------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 class overlord_diff(sublime_plugin.WindowCommand):
 	'''
 	Window Command: launches external diff tool to show diff between CURRENT and NEXT view.

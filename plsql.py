@@ -8,13 +8,13 @@ else:
 	from lib import (st2api)
 # ------------------------------
 import re
-# ------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 def first_or_default(p_list, p_default):
 	return p_list[0] if p_list else p_default
-# ------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 def trace(s):
 	print(s)
-# ------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 REX_FLIP_EQUAL = re.compile(r'''(?xi)
 	^
 	( [ \t]* (?: -- [ \t]* | --!!! [ \t]* | --!_! [ \t]* )? )
@@ -24,8 +24,7 @@ REX_FLIP_EQUAL = re.compile(r'''(?xi)
 	( [^\=\n]+ )
 	$
 ''')
-
-# ------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 class overlord_goto_definition_plsql(sublime_plugin.WindowCommand):
 	PLSQL_PATTERN = r'''(?xi)
 		^[ \t]*
@@ -68,7 +67,7 @@ class overlord_goto_definition_plsql(sublime_plugin.WindowCommand):
 					if item:
 						st2api.select_region_begin(view, item)
 						st2api.goto_region_begin(view, item)
-# ------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 class overlord_goto_line_plsql(sublime_plugin.TextCommand):
 	PLSQL_PATTERN = r'(?xi) create \s+ or \s+ replace \s+ (package) \s+ body'
 	# ------------------------------
@@ -85,7 +84,7 @@ class overlord_goto_line_plsql(sublime_plugin.TextCommand):
 				row, _ = view.rowcol(rg0.begin())
 				line_number = line_number + row
 			view.run_command("goto_line", { "line": line_number })
-# ------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 class overlord_plsql_select_keywords(sublime_plugin.TextCommand):
 	PATTERN = r'''(?xi)
 		\b
@@ -254,7 +253,7 @@ class overlord_plsql_select_keywords(sublime_plugin.TextCommand):
 			view.sel().clear()
 			for r in regions:
 				view.sel().add(r)
-# ------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 class overlord_plsql_flip_equal(sublime_plugin.TextCommand):
 	# ------------------------------
 	def run(self, edit):
@@ -266,7 +265,7 @@ class overlord_plsql_flip_equal(sublime_plugin.TextCommand):
 				if found:
 					flipped = found.group(1) + found.group(2) + found.group(4).strip() + " = " + found.group(3).strip() + "\n"
 					view.replace(edit, sel_line, flipped)
-# ------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 class overlord_sql_outline(sublime_plugin.TextCommand):
 	C_KEY = 'overlord_sql_outline'
 	C_START = '--{'
@@ -288,9 +287,7 @@ class overlord_sql_outline(sublime_plugin.TextCommand):
 
 	def find_mark(self, mark, start_point):
 		return self.view.find(mark, start_point)
-# ------------------------------------------------------------------------------------------
-
-
+# ----------------------------------!---------------------------------------------
 # sublime.DRAW_EMPTY
 # sublime.DRAW_EMPTY_AS_OVERWRITE
 # sublime.DRAW_NO_FILL
@@ -301,3 +298,4 @@ class overlord_sql_outline(sublime_plugin.TextCommand):
 # sublime.HIDDEN
 # sublime.HIDE_ON_MINIMAP
 # sublime.PERSISTENT
+# ----------------------------------!---------------------------------------------

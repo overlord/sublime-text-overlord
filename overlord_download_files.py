@@ -10,10 +10,10 @@ else:
 	from urllib import (URLopener)
 # ------------------------------
 import os
-# ------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 class overlord_URLopener(URLopener):
 	version = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36'
-# ------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 class overlord_download_files(sublime_plugin.WindowCommand):
 	folder = None
 	opener = overlord_URLopener()
@@ -57,4 +57,4 @@ class overlord_download_files(sublime_plugin.WindowCommand):
 				# ------------------------------
 		except Exception as e:
 			sublime.error_message("%s" % e)
-# ------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------

@@ -195,7 +195,7 @@ contexts:
         3: markup.heading.plaintext entity.name.section.plaintext
 
     # cmd and bash commands
-    - match: (?xi) ^ {{space}}* ( > ) {{space}}* ( .*? ) $
+    - match: (?xi) ^ {{space}}* ( >+ ) {{space}}* ( .*? ) $
       scope: meta.command-line.plaintext
       captures:
         1: support.type.plaintext markup.bold.plaintext

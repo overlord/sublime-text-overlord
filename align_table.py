@@ -6,7 +6,8 @@ if sublime.version() >= '3000':
 	from sublime_overlord.lib import (st2api)
 else:
 	from lib import (st2api)
-# ------------------------------------------------------------------------------------------------------------------------
+
+# ----------------------------------!---------------------------------------------
 class overlord_align_table(sublime_plugin.TextCommand):
 	# ------------------------------
 	def run(self, edit):
@@ -32,6 +33,8 @@ class overlord_align_table(sublime_plugin.TextCommand):
 		value = value.replace('\t', ' ' * (max_index - tab_index) + ' | ', 1)
 		return value
 	# ------------------------------
+
+# ----------------------------------!---------------------------------------------
 class overlord_transpose_table(sublime_plugin.TextCommand):
 	# ------------------------------
 	def run(self, edit):

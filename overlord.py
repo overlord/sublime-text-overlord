@@ -18,17 +18,17 @@ import os
 import re
 import shutil
 import subprocess
-# ------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 # Привет, друзья! Я обычный русский букв!
-# ------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 SETTINGS_FILE = "overlord.sublime-settings"
 
-# ------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 class overlord_insert_xyz(sublime_plugin.TextCommand):
 	def run(self, edit, content, index):
 		self.view.insert(edit, index, content)
 
-# ------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 class ShowEncodingEventListener(sublime_plugin.EventListener):
 	'''
 	Listener: shows current file encoding in status bar on activation of view.
@@ -36,7 +36,7 @@ class ShowEncodingEventListener(sublime_plugin.EventListener):
 	def on_activated(self, view):
 		sublime.status_message(view.encoding())
 
-# ------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 class overlord_tab(sublime_plugin.TextCommand):
 	'''
 	Text Command: aligns selected regions with TAB or SPACE character in one vertical line.
@@ -64,7 +64,7 @@ class overlord_tab(sublime_plugin.TextCommand):
 
 				self.view.insert(edit, r.a, char * int(round(count, 1)))
 
-# ------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 class overlord_number_items(sublime_plugin.TextCommand):
 	'''
 	Text Command: Вставляет нумерацию в текущие положения курсоров.
@@ -79,7 +79,7 @@ class overlord_number_items(sublime_plugin.TextCommand):
 			self.view.insert(edit, r.a, str(i).zfill(width))
 			i += 1
 
-# ------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 class overlord_insert_timestamp(sublime_plugin.TextCommand):
 	FORMAT, DESC = '%Y%m%d%H%M%S', 'Insert timestamp'
 	def description(self):
@@ -94,7 +94,7 @@ class overlord_insert_time_ymd(overlord_insert_timestamp):
 class overlord_insert_time_ymd_hms(overlord_insert_timestamp):
 	FORMAT, DESC = '%Y-%m-%d %H:%M:%S', 'Insert datetime'
 
-# ------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 class overlord_insert_stairs(sublime_plugin.TextCommand):
 	# ------------------------------
 	def run(self, edit):
@@ -102,7 +102,7 @@ class overlord_insert_stairs(sublime_plugin.TextCommand):
 		for r in self.view.sel():
 			self.view.insert(edit, r.a, '\t' * i)
 			i += 1
-# ------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 class overlord_clear_regions(sublime_plugin.TextCommand):
 	'''
 	Text Command: убирает в каждой строке символы, удовлетворяющие regex-у в pattern. По умолчанию удаляет пробелы в конце строк.
@@ -114,12 +114,12 @@ class overlord_clear_regions(sublime_plugin.TextCommand):
 				self.view.sel().add(rs)
 		self.view.run_command("right_delete")
 
-# ------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 class overlord_open_custom_file(sublime_plugin.WindowCommand):
 	def run(self, file_name):
 		self.window.open_file(st2api.apply_custom_replace(file_name))
 
-# ------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 class overlord_insert_string(sublime_plugin.TextCommand):
 	'''
 	Text Command: вставляет указанную строчку в текущие курсоры
@@ -129,7 +129,7 @@ class overlord_insert_string(sublime_plugin.TextCommand):
 			self.view.erase(edit, r)
 			self.view.insert(edit, r.begin(), st2api.apply_custom_replace(s) if mutate else s)
 
-# ------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 class overlord_testregex(sublime_plugin.TextCommand):
 	def run(self, edit):
 		r_content = sublime.Region(0, self.view.size())
@@ -144,7 +144,7 @@ class overlord_testregex(sublime_plugin.TextCommand):
 		self.view.erase(edit, r_content)
 		self.view.insert(edit, 0, content)
 
-# ------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 class overlord_rename_path(sublime_plugin.WindowCommand):
 	'''
 	Window Command: переименовывает текущий файл, запрашивая имя у пользователя
@@ -156,7 +156,7 @@ class overlord_rename_path(sublime_plugin.WindowCommand):
 		sheet = self.window.active_sheet()
 		return True if sheet and sheet.file_name() else False
 
-# ------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 class overlord_duplicate_file(sublime_plugin.WindowCommand):
 	'''
 	Window Command: создает копию текущего файла, запрашивая имя у пользователя
@@ -185,7 +185,7 @@ class overlord_duplicate_file(sublime_plugin.WindowCommand):
 		except Exception as e:
 			sublime.error_message("%s" % e)
 
-# ------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 class overlord_duplicate_file2(overlord_duplicate_file):
 	'''
 	Window Command: создает копию текущего файла, запрашивая имя у пользователя
@@ -201,7 +201,7 @@ class overlord_duplicate_file2(overlord_duplicate_file):
 			return files[0]
 		return None
 
-# ------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 class overlord_close(sublime_plugin.WindowCommand):
 	'''
 	Window Command: Заменяет штатный [close] по ctrl+w. Исправляет последовательность закрытий. Закрываются [все view] -> [folders] -> [st2].
@@ -215,7 +215,7 @@ class overlord_close(sublime_plugin.WindowCommand):
 		else:
 			window.run_command('close')
 
-# ------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 class overlord_close_all_force(sublime_plugin.WindowCommand):
 	'''
 	Window Command: Закрывает все открытые view без сохранения.
@@ -226,7 +226,7 @@ class overlord_close_all_force(sublime_plugin.WindowCommand):
 				view.set_scratch(True)
 			self.window.run_command('close_all')
 
-# ------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 class overlord_save_all(sublime_plugin.WindowCommand):
 	'''
 	Window Command: Умеет массово сохранять все открытые view.
@@ -236,7 +236,7 @@ class overlord_save_all(sublime_plugin.WindowCommand):
 			# if view.is_dirty():
 			view.run_command('save', { "encoding": encoding })
 
-# ------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 class overlord_find_all(sublime_plugin.TextCommand):
 	'''
 	Text Command: делает find all для всех выделененых фрагментов
@@ -261,83 +261,7 @@ class overlord_find_all(sublime_plugin.TextCommand):
 					self.view.sel().add(r)
 				self.view.show(initial)
 
-# ------------------------------------------------------------------------------------------------------------------------
-GLOBAL_LAST_DIR_TO = ''
-
-class overlord_copy_active_file_to(sublime_plugin.WindowCommand):
-	'''
-	Window Command: копирует текущий файл в выбраную папку.
-	'''
-	def run(self):
-		global GLOBAL_LAST_DIR_TO
-		self.window.show_input_panel('Target directory:', GLOBAL_LAST_DIR_TO, self.on_target_path_selected, None, None)
-
-	def on_target_path_selected(self, target_dir):
-		global GLOBAL_LAST_DIR_TO
-		file_name = self.window.active_view().file_name()
-		if os.path.isdir(target_dir) and os.path.exists(target_dir) and os.path.exists(file_name):
-			GLOBAL_LAST_DIR_TO = target_dir
-			folder, file_name = os.path.split(file_name)
-			shutil.copyfile(os.path.join(folder, file_name), os.path.join(target_dir, file_name))
-
-class overlord_copy_open_file_to(sublime_plugin.WindowCommand):
-	'''
-	Window Command: копирует открытые файлы в выбраную папку.
-	'''
-	def run(self):
-		global GLOBAL_LAST_DIR_TO
-		self.window.show_input_panel('Target directory:', GLOBAL_LAST_DIR_TO, self.on_target_path_selected, None, None)
-
-	def on_target_path_selected(self, target_dir):
-		global GLOBAL_LAST_DIR_TO
-		if os.path.isdir(target_dir) and os.path.exists(target_dir):
-			GLOBAL_LAST_DIR_TO = target_dir
-			for (folder, file_name) in [os.path.split(view.file_name()) for view in self.window.views() if view.file_name()]:
-				shutil.copyfile(os.path.join(folder, file_name), os.path.join(target_dir, file_name))
-
-# ------------------------------------------------------------------------------------------------------------------------
-class overlord_copy_open_file_path(sublime_plugin.WindowCommand):
-	'''
-	Window Command: копирует список открытых файлов в clipboard.
-	'''
-	def run(self):
-		data = '\n'.join([view.file_name() for view in self.window.views() if view.file_name()])
-		#!_!st2api.new_file(self.window, data, True)
-		if data:
-			sublime.set_clipboard(data)
-
-# ------------------------------------------------------------------------------------------------------------------------
-class overlord_copy_file_path(sublime_plugin.WindowCommand):
-	'''
-	Window Command: копирует пути к выбранным объектам в clipboard.
-	'''
-	def get_paths(self, files = None, dirs = None):
-		return (files or []) + (dirs or [])
-
-	def run(self, files = None, dirs = None):
-		paths = self.get_paths(files, dirs)
-		if paths:
-			sublime.set_clipboard('\n'.join(paths))
-
-	def is_visible(self, files = None, dirs = None):
-		return len(self.get_paths(files, dirs)) > 0
-
-class overlord_copy_file_name(sublime_plugin.WindowCommand):
-	'''
-	Window Command: копирует названия выбраннх объектов в clipboard.
-	'''
-	def get_paths(self, files = None, dirs = None):
-		return (files or []) + (dirs or [])
-
-	def run(self, files = None, dirs = None):
-		paths = self.get_paths(files, dirs)
-		if paths:
-			names = [os.path.basename(path) for path in paths]
-			sublime.set_clipboard('\n'.join(names))
-
-	def is_visible(self, files = None, dirs = None) -> bool:
-		return len(self.get_paths(files, dirs)) > 0
-
+# ----------------------------------!---------------------------------------------
 class overlord_list_dir(sublime_plugin.WindowCommand):
 	'''
 	Window Command: выводит все файлы в папке в новое окно.
@@ -354,14 +278,14 @@ class overlord_list_dir(sublime_plugin.WindowCommand):
 	def is_visible(self, dirs = None):
 		return len(dirs or []) > 0
 
-# ------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 class overlord_navigate_to_file(sublime_plugin.WindowCommand):
 	def run(self):
 		view = self.window.active_view()
 		if view and view.file_name():
 			subprocess.Popen(st2api.to_os_encoding('explorer /e, /select, "' + view.file_name() + '"'))
 
-# ------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 class overlord_show_file_list(sublime_plugin.WindowCommand):
 	'''
 	Window Command: показывает панель с открытыми файлами, позволяет перейти на выбраный.
@@ -377,7 +301,7 @@ class overlord_show_file_list(sublime_plugin.WindowCommand):
 	def view_selected(self, view):
 		self.window.focus_view(view)
 
-# ------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 class overlord_mark_region(sublime_plugin.WindowCommand):
 	'''
 	Window Command: позволяет размечать цветом выбраные элементы
@@ -422,7 +346,7 @@ class overlord_mark_region(sublime_plugin.WindowCommand):
 		regions = [r for r in view.sel()] + current
 		view.add_regions(self.KEY, regions, scope, '', sublime.PERSISTENT)
 
-# ------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 class overlord_input_panel_test(sublime_plugin.WindowCommand):
 	def on_change(self, s):
 		print("changed to: %s" % s)
@@ -433,7 +357,7 @@ class overlord_input_panel_test(sublime_plugin.WindowCommand):
 	def run(self):
 		panel = self.window.show_input_panel('caption', 'initial text', self.on_done, self.on_change, self.on_cancel)
 
-# ------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 class overlord_goto_selected_symbol(sublime_plugin.WindowCommand):
 	def run(self):
 		window = self.window
@@ -441,7 +365,7 @@ class overlord_goto_selected_symbol(sublime_plugin.WindowCommand):
 		text = st2api.get_first_selected_text(view).strip()
 		st2api.show_overlay(window, '@' + text)
 
-# ------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 class overlord_goto_selected_file(sublime_plugin.WindowCommand):
 	def run(self):
 		window = self.window
@@ -449,7 +373,7 @@ class overlord_goto_selected_file(sublime_plugin.WindowCommand):
 		text = st2api.get_first_selected_text(view).strip()
 		st2api.show_file_overlay(window, text)
 
-# ------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 class overlord_to_camel_case(sublime_plugin.TextCommand):
 	def to_camel_case(self, content, capitalize):
 		if content.find(' ') >= 0 or content.find('_') >= 0:
@@ -484,7 +408,7 @@ class overlord_to_snake_case(sublime_plugin.TextCommand):
 			if initial_content != content:
 				view.replace(edit, sel, content)
 
-# ------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 class overlord_unquote_url(sublime_plugin.TextCommand):
 	def run(self, edit):
 		view = self.view
@@ -494,7 +418,7 @@ class overlord_unquote_url(sublime_plugin.TextCommand):
 			if initial_content != content:
 				view.replace(edit, sel, content.replace(' ', '%20'))
 
-# ------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 class overlord_sum_timespan(sublime_plugin.TextCommand):
 	def run(self, edit, rxpattern, format, max_length):
 		view = self.view
@@ -511,7 +435,7 @@ class overlord_sum_timespan(sublime_plugin.TextCommand):
 				delta += timedelta(hours=t.hour, minutes=t.minute, seconds=t.second, microseconds=t.microsecond)
 
 		view.insert(edit, selection[0].end(), '\n' + str(delta))
-# ------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 class overlord_calc_elapsed(sublime_plugin.TextCommand):
 
 	def get_item(self, items, index):
@@ -556,12 +480,12 @@ class overlord_calc_elapsed(sublime_plugin.TextCommand):
 		if deltas:
 			for (region, line, delta) in list(reversed(deltas)):
 				view.replace(edit, region, "[%s] %s" % (str(delta), line))
-# ------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 class overlord_test(sublime_plugin.WindowCommand):
 	def run(self):
 		print(__name__)
 
-# ------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 class InsertionListener(sublime_plugin.EventListener):
 	# def on_text_command(self, view, command_name, args):
 	# 	print(command_name)
@@ -572,7 +496,7 @@ class InsertionListener(sublime_plugin.EventListener):
 			text = st2api.get_first_selected_text(window.active_view()).strip()
 			window.run_command("insert", {"characters": text})
 
-# ------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
 # class AnyListener(sublime_plugin.EventListener):
 # 	def on_new(self, view): # None	Called when a new buffer is created.
 # 		print("on_new")
@@ -597,4 +521,4 @@ class InsertionListener(sublime_plugin.EventListener):
 # 	def on_query_context(self, view, key, operator, operand, match_all): # bool or None
 # 		print("on_query_context")
 
-# ------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------

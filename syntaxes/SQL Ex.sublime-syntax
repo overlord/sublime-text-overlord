@@ -43,7 +43,7 @@ contexts:
         (?xi)
         ( Q )
         ( ' )
-        ( \[ | \( | \{ | \$ )
+        ( \[ | \( | \{ | \$ | \# )
       captures:
         1: string.quoted.sql constant.language.sql
         2: string.quoted.single.sql
@@ -53,7 +53,7 @@ contexts:
         - meta_scope: markup.quote.sql
         - match: >-
             (?xi)
-            ( \] | \) | \} | \$ )
+            ( \] | \) | \} | \$ | \# )
             ( ' )
           captures:
             # 1: comment.line.double-dash.sql
@@ -337,7 +337,7 @@ contexts:
           )
           (
             (?:
-              \$? @? (?: cl?_ | lc?_ )
+              \$? @? (?: c[lg]?_ | [lg]c?_ )
             )
             {{xid}}
           )
@@ -385,7 +385,7 @@ contexts:
           (
             aggregate | conversion | database | domain | function | procedure | proc | group | index | routine |
             language | operator\s+class | operator | rule | schema | sequence | synonym | tablespace | table |
-            trigger | type | user | view | column
+            package | trigger | type | user | view | column
           )
           (
             (?: \s+ if (?: \s+ not )? \s+ exists )
@@ -591,11 +591,12 @@ contexts:
         (?xi)
           \b
           (
-            returning | return \s+ query | returns | return | open | close | deallocate | fetch | distinct | schemabinding | language |
-            for (all)? (\s+ each \s+ row)? | while | loop | exit | continue | (start \s+ )? with | case | if (\s+ not)? |
-            when ( (\s+ not)? \s+ matched )? (\s + by \s+ ( target | source) )? | offset | rows | only |
-            then | elsif | else | end | goto | break | exception | persisted | tablespace |
-            deterministic | to | waitfor | delay | add | modify | enable | disable | perform | immutable
+            returning | return \s+ query | returns | return | open | close | deallocate | fetch | distinct |
+            schemabinding | language | increment \s+ by | for (all)? (\s+ each \s+ row)? | while | loop |
+            exit | continue | (start \s+ )? with | case | if (\s+ not)? |
+            when ( (\s+ not)? \s+ matched )? (\s + by \s+ ( target | source) )? | offset | rows | only | then |
+            elsif | else | end | goto | break | exception | persisted | tablespace | deterministic | to |
+            waitfor | delay | add | modify | enable | disable | perform | immutable | interval | format \s+ json
           )
           \b
       scope: keyword.other.dml.sql

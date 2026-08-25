@@ -1,15 +1,10 @@
 # -*- coding: utf-8 -*-
+# ----------------------------------!---------------------------------------------
 import sublime
 import sublime_plugin
 # ------------------------------
-if sublime.version() >= '3000':
-	from sublime_overlord.lib import (st2api)
-else:
-	from lib import (st2api)
-# ------------------------------------------------------------------------------------------
-def trace(s):
-	print(s)
-# ------------------------------------------------------------------------------------------
+from sublime_overlord.lib import (st2api)
+# ----------------------------------!---------------------------------------------
 class overlord_line_stats(sublime_plugin.WindowCommand):
 	# ------------------------------
 	def run(self):
@@ -27,4 +22,4 @@ class overlord_line_stats(sublime_plugin.WindowCommand):
 				content = "\n".join(["% 6d\t%s" % (counter[key], key) for key in counter])
 
 				st2api.new_file(window, content, is_scratch=True, name=None)
-# ------------------------------------------------------------------------------------------
+# ----------------------------------!---------------------------------------------
