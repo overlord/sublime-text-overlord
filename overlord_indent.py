@@ -65,22 +65,20 @@ class overlord_indent(sublime_plugin.TextCommand):
 # ------------------------------
 class overlord_auto_indent(overlord_indent):
 	def get_text_type(self, s):
-		if self.language == 'xml':
-			return 'xml', s
-		if self.language == 'json':
-			return 'json', s
 		# ------------------------------
-		if not s:
-			return 'unknown', s
-		# ------------------------------
-		if s.startswith('<'):
+		if s and s.startswith('<'):
 			return 'xml', s
 		# ------------------------------
-		s1, ok1 = overlord_json.try_json_unescape(s)
-		if ok1 and s1.startswith('<'):
+		s1, ok = overlord_json.try_json_unescape(s)
+		if ok and s1.startswith('<'):
 			return 'xml', s1
 		# ------------------------------
-		return 'json', s
+		if 'xml' in self.language:
+			return 'xml', s
+		if 'json' in self.language:
+			return 'json', s
+		# ------------------------------
+		return 'json' if s else 'unknown', s
 		# ------------------------------
 	# ------------------------------
 	def indent(self, s):
