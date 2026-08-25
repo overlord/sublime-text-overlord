@@ -30,6 +30,7 @@
 		[
 			{ "caption": "Auto Indent (XML/JSON)", "command": "overlord_auto_indent" },
 			{ "caption": "-" },
+			{ "caption": "JSON Escape", "command": "overlord_json_escape" },
 			{ "caption": "JSON Unescape", "command": "overlord_json_unescape" },
 			{ "caption": "JSON Indent Mixed", "command": "overlord_indent_json_mixed" },
 			{ "caption": "-" },

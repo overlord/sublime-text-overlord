@@ -1,18 +1,21 @@
+# -*- coding: utf-8 -*-
 import sublime
 import sublime_plugin
-# ------------------------------
+# --
 import json
 import os
 import re
 import xml.dom.minidom
-# ------------------------------
+# --
 from sublime_overlord import overlord_json
-# ------------------------------
+# ----------------------------------!---------------------------------------------
 DEBUG = False
-def _trace(s):
-	if DEBUG:
-		print(f'[OVERLORD_INDENT] {s}')
-# ------------------------------
+def _trace(s, verbose=False):
+	if DEBUG or verbose:
+		print('[OVERLORD_INDENT]', s)
+# ----------------------------------!---------------------------------------------
+JSON_DECODER = json.JSONDecoder()
+# ----------------------------------!---------------------------------------------
 class overlord_indent(sublime_plugin.TextCommand):
 	def __init__(self, view):
 		self.view = view
@@ -62,44 +65,45 @@ class overlord_indent(sublime_plugin.TextCommand):
 			s = self.indent(s)
 			view.replace(edit, alltextreg, s)
 		view.show(first_line)
-# ------------------------------
+# ----------------------------------!---------------------------------------------
 class overlord_auto_indent(overlord_indent):
 	def get_text_type(self, s):
-		# ------------------------------
+		# --
 		if s and s.startswith('<'):
 			return 'xml', s
-		# ------------------------------
+		# --
 		s1, ok = overlord_json.try_json_unescape(s)
 		if ok and s1.startswith('<'):
 			return 'xml', s1
-		# ------------------------------
+		# --
 		if 'xml' in self.language:
 			return 'xml', s
 		if 'json' in self.language:
 			return 'json', s
-		# ------------------------------
+		# --
 		return 'json' if s else 'unknown', s
-		# ------------------------------
 	# ------------------------------
 	def indent(self, s):
-		# ------------------------------
+		# --
 		text_type, s = self.get_text_type(s)
-		# ------------------------------
+		# --
 		if text_type == 'unknown':
 			return s
-		# ------------------------------
+		# --
 		if text_type == 'xml':
 			command = overlord_indent_xml(self.view)
 		if text_type == 'json':
 			command = overlord_indent_json(self.view)
-		# ------------------------------
+		# --
 		return command.indent(s)
 	# ------------------------------
 	def check_enabled(self, lang):
 		return True
-# ------------------------------
+# ----------------------------------!---------------------------------------------
 class overlord_indent_xml(overlord_indent):
-
+	def check_enabled(self, language):
+		return ("xml" in language) or ("plain text" in language)
+	# ------------------------------
 	def indent(self, s):
 		xmlheader = re.compile("<\?.*\?>").match(s)
 		# convert to plain string without indents and spaces
@@ -119,40 +123,33 @@ class overlord_indent_xml(overlord_indent):
 			s = xmlheader.group() + "\n" + s
 
 		return s
-
-	def check_enabled(self, language):
-		return (language == "xml") or ("plain text" in language)
-# ------------------------------
+# ----------------------------------!---------------------------------------------
 class overlord_indent_json(overlord_indent):
 	def check_enabled(self, language):
-		return ((language == "json") or ("plain text" in language))
-
+		return ("json" in language) or ("plain text" in language)
+	# ------------------------------
 	def indent(self, s):
-		parsed = json.loads(s)
-		pretty = json.dumps(parsed, sort_keys=False, indent=4, separators=(',', ': '), ensure_ascii=False)
+		json_data, ok = overlord_json.try_json_unescape(s)
+		if not ok:
+			json_data = json.loads(s)
 
-		try:
-			inner_string = json.loads(s)
-			if isinstance(inner_string, str):
-				return inner_string
-		except:
-			pass
+		if isinstance(json_data, str) or isinstance(json_data, int):
+			return json_data
 
-		return pretty
-# ------------------------------
+		json_str = overlord_json.to_json_str(json_data)
+
+		return json_str
+# ----------------------------------!---------------------------------------------
 class overlord_indent_json_mixed(overlord_indent):
-
-	DECODER = json.JSONDecoder()
-
 	def check_enabled(self, language):
-		return ((language == "json") or ("plain text" in language))
-
+		return ("json" in language) or ("plain text" in language)
+	# ------------------------------
 	def indent(self, s):
-		parsed = json.loads(s)
-		processed = self.__extract(parsed)
-		pretty = json.dumps(processed, sort_keys=False, indent=4, separators=(',', ': '), ensure_ascii=False)
-		return pretty
-
+		json_data = json.loads(s)
+		json_data = self.__extract(json_data)
+		json_str = overlord_json.to_json_str(json_data)
+		return json_str
+	# ------------------------------
 	def __extract(self, obj):
 		if isinstance(obj, dict):
 			return {k:self.__extract(v) for k, v in obj.items()}
@@ -162,7 +159,7 @@ class overlord_indent_json_mixed(overlord_indent):
 			for i, c in enumerate(obj):
 				if c == "{":
 					try:
-						p, e = self.DECODER.raw_decode(obj, i)
+						p, e = JSON_DECODER.raw_decode(obj, i)
 						pre = obj[:i].strip()
 						if pre:
 							return { "*text": pre, "*json": self.__extract(p) }
@@ -171,4 +168,4 @@ class overlord_indent_json_mixed(overlord_indent):
 						continue
 		else:
 			return obj
-# ------------------------------
+# ----------------------------------!---------------------------------------------

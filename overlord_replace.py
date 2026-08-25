@@ -1,23 +1,19 @@
 # -*- coding: utf-8 -*-
-# ----------------------------------!---------------------------------------------
 import sublime
 import sublime_plugin
-# ------------------------------
-if sublime.version() >= '3000':
-	from sublime_overlord.lib import (st2api)
-else:
-	from lib import (st2api)
-# ------------------------------
+# --
 import json
 import os
 import re
+# --
+from sublime_overlord.lib import st2api
 # ----------------------------------!---------------------------------------------
 SEP_PLAIN = '--R->'
-DEBUG = True
 # ----------------------------------!---------------------------------------------
+DEBUG = False
 def _trace(s, verbose=False):
 	if DEBUG or verbose:
-		print(f'[OVERLORD_REPLACE] {s}')
+		print('[OVERLORD_REPLACE]', s)
 # ----------------------------------!---------------------------------------------
 class overlord_replace_core(sublime_plugin.WindowCommand):
 	# ------------------------------

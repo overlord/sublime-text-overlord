@@ -38,13 +38,12 @@ import json
 # TODO Get the settings below from a sublime-settings file?
 
 GLOBAL_MAX_ENTRIES=250
-PRINT_DEBUG = False
-
-# Helper methods for "logging" to the console.
-def debug(text):
-	if PRINT_DEBUG:
-		print('[%s] %s' % ('FileHistory', text))
-
+# ----------------------------------!---------------------------------------------
+DEBUG = False
+def _trace(s, verbose=False):
+	if DEBUG or verbose:
+		print('[FileHistory]', s)
+# ----------------------------------!---------------------------------------------
 # Class to read and write the file-access history.
 class FileHistory(object):
 
@@ -56,7 +55,7 @@ class FileHistory(object):
 		self.__load_history()
 
 	def __load_history(self):
-		debug('Loading the history from file ' + self.history_file)
+		_trace('Loading the history from file ' + self.history_file)
 		if not os.path.exists(self.history_file):
 			return
 
@@ -68,7 +67,7 @@ class FileHistory(object):
 			f.close()
 
 	def __save_history(self):
-		debug('Saving the history to file ' + self.history_file)
+		_trace('Saving the history to file ' + self.history_file)
 		f = open(self.history_file, mode='w+')
 		try:
 			json.dump(self.history, f, indent=2)

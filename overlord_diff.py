@@ -1,27 +1,20 @@
 # -*- coding: utf-8 -*-
 import sublime
 import sublime_plugin
-# ------------------------------
-if sublime.version() >= '3000':
-	from sublime_overlord.lib import (st2api)
-	import Default.indentation as indentation
-	from urllib.parse import unquote as unquote
-else:
-	from lib import (st2api)
-	import indentation
-	from urllib import unquote_plus as unquote
-# ------------------------------
+# --
 import subprocess
-
+from urllib.parse import unquote
+# --
+from sublime_overlord.lib import st2api
+import Default.indentation as indentation
 # ----------------------------------!---------------------------------------------
 OVR_SETTINGS_FILE = "overlord.sublime-settings"
 USER_SETTINGS_FILE = "Preferences.sublime-settings"
-
-DEBUG = True
-def _trace(s):
-	if DEBUG:
-		print(f'[OVERLORD_DIFF] {s}')
-
+# ----------------------------------!---------------------------------------------
+DEBUG = False
+def _trace(s, verbose=False):
+	if DEBUG or verbose:
+		print('[OVERLORD_DIFF]', s)
 # ----------------------------------!---------------------------------------------
 class overlord_diff(sublime_plugin.WindowCommand):
 	'''
