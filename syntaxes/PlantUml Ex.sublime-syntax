@@ -1,0 +1,254 @@
+%YAML 1.2
+---
+# See http://www.sublimetext.com/docs/3/syntax.html
+name: PlantUml Ex
+scope: source.puml
+version: 2
+file_extensions: [puml, uml, wsd]
+
+variables:
+  sp: '[ \t]'
+  obj_name: '[\w][\w_0-9\.]*'
+  component_name: '(?:(?xi) \[ \w [\w_0-9\\\(\)\., ]* \])'
+  var_name: '(?xi) [a-z_] [a-z_0-9]*'
+  known_color_x: >-
+    (?: AliceBlue | AntiqueWhite | Aqua | Aquamarine | Azure | Beige | Bisque | Black | BlanchedAlmond | Blue | BlueViolet |
+    Brown | BurlyWood | CadetBlue | Chartreuse | Chocolate | Coral | CornflowerBlue | Cornsilk | Crimson | Cyan | DarkBlue |
+    DarkCyan | DarkGoldenRod | DarkGray | DarkGreen | DarkGrey | DarkKhaki | DarkMagenta | DarkOliveGreen | DarkOrchid | DarkRed |
+    DarkSalmon | DarkSeaGreen | DarkSlateBlue | DarkSlateGray | DarkSlateGrey | DarkTurquoise | DarkViolet | Darkorange | DeepPink |
+    DeepSkyBlue | DimGray | DimGrey | DodgerBlue | FireBrick | FloralWhite | ForestGreen | Fuchsia | Gainsboro | GhostWhite | Gold |
+    GoldenRod | Gray | Green | GreenYellow | Grey | HoneyDew | HotPink | IndianRed | Indigo | Ivory | Khaki | Lavender | LavenderBlush |
+    LawnGreen | LemonChiffon | LightBlue | LightCoral | LightCyan | LightGoldenRodYellow | LightGray | LightGreen | LightGrey |
+    LightPink | LightSalmon | LightSeaGreen | LightSkyBlue | LightSlateGray | LightSlateGrey | LightSteelBlue | LightYellow | Lime |
+    LimeGreen | Linen | Magenta | Maroon | MediumAquaMarine | MediumBlue | MediumOrchid | MediumPurple | MediumSeaGreen |
+    MediumSlateBlue | MediumSpringGreen | MediumTurquoise | MediumVioletRed | MidnightBlue | MintCream | MistyRose | Moccasin |
+    NavajoWhite | Navy | OldLace | Olive | OliveDrab | Orange | OrangeRed | Orchid | PaleGoldenRod | PaleGreen | PaleTurquoise |
+    PaleVioletRed | PapayaWhip | PeachPuff | Peru | Pink | Plum | PowderBlue | Purple | Red | RosyBrown | RoyalBlue | SaddleBrown |
+    Salmon | SandyBrown | SeaGreen | SeaShell | Sienna | Silver | SkyBlue | SlateBlue | SlateGray | SlateGrey | Snow | SpringGreen |
+    SteelBlue | Tan | Teal | Thistle | Tomato | Turquoise | Violet | Wheat | White | WhiteSmoke | Yellow | YellowGreen )
+  color_x: >-
+    (?: \# (?: \d+ | [0-9a-f]{6} | {{obj_name}} ) )
+  arrow: >-
+    (?xi) (?:
+      --> | -> | \.\.> | -\[ {{color_x}} \]> |
+      <-- | <- | <\.\. | <\[ {{color_x}} \]- |
+      --
+    )
+  endl: '(?:\n|$)'
+  quoted: '(?:\[.*?\]|\(.*?\))'
+
+contexts:
+  main:
+    - include: comments
+
+    - match: >-
+        (?xi) \b (
+        abstract |
+        actor |
+        artifact |
+        class |
+        cloud |
+        component |
+        database |
+        entity |
+        enum |
+        folder |
+        interface |
+        node |
+        object |
+        package |
+        participant |
+        state |
+        usecase
+        ) \b
+      scope: support.function.puml
+
+    - match: ^title\s
+      scope: keyword.puml
+      push:
+        - meta_content_scope: string.quoted.double.puml
+        - match: '{{endl}}'
+          pop: true
+
+    # start/end keywords
+    - match: (?x) @enduml | @startuml
+      scope: keyword.block.puml
+
+    # control keywords
+    - match: >-
+        (?xi) \b (
+        activate | again | also | alt | as | autonumber | bottom | box | break |
+        center | create | critical | deactivate | destroy | down | else | end | endif | endwhile | footbox |
+        footer | fork | group | hide | if | is | left | link | loop | namespace |
+        newpage | note | of | on | opt | over | page | par | partition | ref | repeat |
+        return | right | rotate | show | skinparam | skin | start | stop | title |
+        top to bottom direction | top | up | while
+        ) \b
+      scope: keyword.control.puml
+
+    - match: header
+      scope: keyword.puml
+      push:
+        - meta_content_scope: string.puml
+        - match: endheader
+          scope: keyword.puml
+          pop: true
+
+    - include: colors
+    - include: link-context
+    - include: class-members
+    - include: strings
+
+    - match: (?xi) {{component_name}}
+      scope: constant.string.puml
+
+    - match: (?xi) \b {{obj_name}} \b
+      scope: constant.string.puml
+
+    - match: (?xi) \b {{var_name}} \b
+      scope: variable.parameter.puml
+
+  # ------------------------------
+  comments:
+    - match: (?xi) ^ {{sp}}* ' .* {{endl}}
+      scope: comment.line.puml
+    - match: "/'"
+      scope: comment.block.puml
+      push:
+        - meta_content_scope: comment.block.puml
+        - match: "'/"
+          scope: comment.block.puml
+          pop: true
+
+  # ------------------------------
+  colors:
+    # known colors
+    - match: (?xi) \#? {{known_color_x}}
+      scope: meta.color-1.puml storage.puml
+    - match: '{{color_x}}'
+      scope: meta.color-2.puml storage.puml
+
+  # ------------------------------
+  link-context:
+    - match: >-
+        (?xi) ^
+        ( {{obj_name}} | {{component_name}} ) \s
+        ( ".*?" \s )?
+        ( {{arrow}} ) \s
+        ( ".*?" \s )?
+        ( {{obj_name}} | {{component_name}} ) \s?
+        ( : )
+      scope: meta.link.puml
+      captures:
+        1: constant.string.puml
+        2: string.quoted.double.puml
+        3: keyword.control.puml
+        4: string.quoted.double.puml
+        5: constant.string.puml
+        6: keyword.control.puml
+      push: link-comment-context
+
+  link-comment-context:
+    - meta_content_scope: string.puml
+    - match: '{{endl}}'
+      pop: true
+    - match: \\[nt]
+      scope: constant.character.escape.puml
+
+  # ------------------------------
+  strings:
+    - match: \"
+      scope: string.quoted.double.puml
+      push:
+        - meta_content_scope: string.quoted.double.puml
+        - match: \"
+          scope: string.quoted.double.puml
+          pop: true
+        - match: \\[nt]
+          scope: constant.character.escape.puml
+
+    - match: \'
+      scope: string.quoted.single.puml
+      push:
+        - meta_content_scope: string.quoted.single.puml
+        - match: \'
+          scope: string.quoted.single.puml
+          pop: true
+        - match: \\[nt]
+          scope: constant.character.escape.puml
+
+  # ------------------------------
+  class-members:
+    - include: class-member-context
+
+  class-member-context:
+    - match: (?xi) ^ {{sp}}* ( -- | == ) {{endl}}
+      scope: keyword.other.sep.puml
+    - match: >-
+        (?xi) ^ {{sp}}*
+        ( \- | \+ | \* | \# )? {{sp}}*
+        ( {{obj_name}} | \.\.\. ) {{sp}}*
+      scope: meta.class.member.puml
+      captures:
+        1: punctuation.member-modifier.puml
+        2: entity.other.member.puml
+      push:
+        - match: '{{endl}}'
+          pop: true
+        - match: ':'
+          scope: punctuation.colon.puml
+          push: class-member-type-context
+
+  class-member-type-context:
+    - meta_content_scope: meta.class.member.type.puml
+    - match: '{{endl}}'
+      pop: true
+    - include: class-member-modifier
+    - include: types
+
+  class-member-modifier:
+    - match: <<.*?>>
+      scope: constant.other.class.member.modifier.puml
+
+  # ------------------------------
+  types:
+    - include: type-integer
+    - include: type-number
+    - include: type-float
+    - include: type-date
+    - include: type-string
+    - include: type-raw
+
+  type-integer:
+    - match: (?xi) \b ( integer | int | long )
+      scope: keyword.type.puml
+
+  type-number:
+    - match: (?xi) \b ( number ) ( {{quoted}} )?
+      captures:
+        1: keyword.type.puml
+        2: punctuation.puml
+
+  type-float:
+    - match: (?xi) \b ( float | double ) ( {{quoted}} )?
+      captures:
+        1: keyword.type.puml
+        2: punctuation.puml
+
+  type-date:
+    - match: (?xi) \b ( date | timestamp ) ( {{quoted}} )?
+      captures:
+        1: keyword.type.puml
+        2: punctuation.puml
+
+  type-string:
+    - match: (?xi) \b ( string | text | n? clob | n? (?:var)? char 2? ) ( {{quoted}} )?
+      captures:
+        1: keyword.type.puml
+        2: punctuation.puml
+
+  type-raw:
+    - match: (?xi) \b ( b? lob | raw | rowid ) ( {{quoted}} )?
+      captures:
+        1: keyword.type.puml
+        2: punctuation.puml

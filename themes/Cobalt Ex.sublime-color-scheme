@@ -7,6 +7,7 @@
 	"variables":
 	{
 		"c_comment": "#0088FF",
+		"c_link": "#0055FF",
 
 		"c_entity": "#FFDD00",
 		"c_keyword": "#FF9D00",
@@ -290,7 +291,6 @@
 			"background": "#003550",
 		},
 		{
-			"name": "List",
 			"scope": "markup.list",
 			"background": "#130D26",
 		},
@@ -311,6 +311,21 @@
 			"font_style": "italic",
 		},
 		{
+			"scope": "markup.simple-underline",
+			"font_style": "underline",
+		},
+		{
+			"scope": "markup.underline",
+			"font_style": "underline",
+		},
+
+		{
+			"scope": "markup.underline.link",
+			"font_style": "underline italic",
+			"foreground": "var(c_link)",
+		},
+
+		{
 			"scope": "markup.heading",
 			"font_style": "bold",
 			"background": "#001221",
@@ -329,6 +344,11 @@
 		{ "scope": "punctuation.definition.bullet.completed.todo", "foreground": "var(c_string)", "font_style": "bold" },
 		{ "scope": "punctuation.definition.bullet.cancelled.todo", "foreground": "var(c_exception)", "font_style": "bold" },
 		{ "scope": "meta.item.todo.cancelled",                     "foreground": "SlateGray" },
+
+		// Markdown support
+		{ "scope": "punctuation.definition.heading",   "foreground": "var(c_exception)", "font_style": "bold" },
+		{ "scope": "punctuation.definition.list_item", "foreground": "var(c_support_function)", "font_style": "bold" },
+		{ "scope": "markup.list.numbered.bullet",      "foreground": "var(c_support_function)", "font_style": "bold" },
 
 		// Background colors, see http://www.w3schools.com/html/html_colornames.asp
 		{ "scope": "markup.bgcolor.AliceBlue",            "background": "#F0F8FF" },

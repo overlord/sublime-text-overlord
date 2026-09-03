@@ -1,0 +1,140 @@
+%YAML 1.2
+---
+# See http://www.sublimetext.com/docs/3/syntax.html
+name: SyntaxTest
+file_extensions: [syntax-test]
+scope: source.syntax-test
+
+variables:
+  endl: '(?:\n|$)'
+
+contexts:
+  main:
+    - { match: '^(<comment.block.documentation>)(.*?)$'                                                 , scope: comment.block.documentation }
+    - { match: '^(<comment.block>)(.*?)$'                                                               , scope: comment.block }
+    - { match: '^(<comment.line.character>)(.*?)$'                                                      , scope: comment.line.character }
+    - { match: '^(<comment.line.double-dash.sql punctuation.definition.comment.sql markup.bold>)(.*?)$' , scope: comment.line.double-dash.sql punctuation.definition.comment.sql markup.bold }
+    - { match: '^(<comment.line.double-dash>)(.*?)$'                                                    , scope: comment.line.double-dash }
+    - { match: '^(<comment.line.double-slash>)(.*?)$'                                                   , scope: comment.line.double-slash }
+    - { match: '^(<comment.line.number-sign>)(.*?)$'                                                    , scope: comment.line.number-sign }
+    - { match: '^(<comment.line.percentage>)(.*?)$'                                                     , scope: comment.line.percentage }
+    - { match: '^(<comment.line>)(.*?)$'                                                                , scope: comment.line }
+    - { match: '^(<comment>)(.*?)$'                                                                     , scope: comment }
+    - { match: '^(<constant.character.escape.slash>)(.*?)$'                                             , scope: constant.character.escape.slash }
+    - { match: '^(<constant.character.escape>)(.*?)$'                                                   , scope: constant.character.escape }
+    - { match: '^(<constant.character>)(.*?)$'                                                          , scope: constant.character }
+    - { match: '^(<constant.language>)(.*?)$'                                                           , scope: constant.language }
+    - { match: '^(<constant.numeric>)(.*?)$'                                                            , scope: constant.numeric }
+    - { match: '^(<constant.other>)(.*?)$'                                                              , scope: constant.other }
+    - { match: '^(<constant>)(.*?)$'                                                                    , scope: constant }
+    - { match: '^(<entity.name.function.sql markup.bold>)(.*?)$'                                        , scope: entity.name.function.sql markup.bold }
+    - { match: '^(<entity.name.function.xid3.sql markup.bold>)(.*?)$'                                   , scope: entity.name.function.xid3.sql markup.bold }
+    - { match: '^(<entity.name.function>)(.*?)$'                                                        , scope: entity.name.function }
+    - { match: '^(<entity.name.label>)(.*?)$'                                                           , scope: entity.name.label }
+    - { match: '^(<entity.name.section>)(.*?)$'                                                         , scope: entity.name.section }
+    - { match: '^(<entity.name.tag>)(.*?)$'                                                             , scope: entity.name.tag }
+    - { match: '^(<entity.name.type>)(.*?)$'                                                            , scope: entity.name.type }
+    - { match: '^(<entity.name>)(.*?)$'                                                                 , scope: entity.name }
+    - { match: '^(<entity.other.attribute-name>)(.*?)$'                                                 , scope: entity.other.attribute-name }
+    - { match: '^(<entity.other.inherited-class>)(.*?)$'                                                , scope: entity.other.inherited-class }
+    - { match: '^(<entity.other>)(.*?)$'                                                                , scope: entity.other }
+    - { match: '^(<entity>)(.*?)$'                                                                      , scope: entity }
+    - { match: '^(<invalid.deprecated>)(.*?)$'                                                          , scope: invalid.deprecated }
+    - { match: '^(<invalid.illegal>)(.*?)$'                                                             , scope: invalid.illegal }
+    - { match: '^(<invalid>)(.*?)$'                                                                     , scope: invalid }
+    - { match: '^(<keyword.control>)(.*?)$'                                                             , scope: keyword.control }
+    - { match: '^(<keyword.notify>)(.*?)$'                                                              , scope: keyword.notify }
+    - { match: '^(<keyword.operator.comparison>)(.*?)$'                                                 , scope: keyword.operator.comparison }
+    - { match: '^(<keyword.operator.concatenator>)(.*?)$'                                               , scope: keyword.operator.concatenator }
+    - { match: '^(<keyword.operator.math>)(.*?)$'                                                       , scope: keyword.operator.math }
+    - { match: '^(<keyword.operator.star>)(.*?)$'                                                       , scope: keyword.operator.star }
+    - { match: '^(<keyword.operator>)(.*?)$'                                                            , scope: keyword.operator }
+    - { match: '^(<keyword.other.alias>)(.*?)$'                                                         , scope: keyword.other.alias }
+    - { match: '^(<keyword.other.authorization>)(.*?)$'                                                 , scope: keyword.other.authorization }
+    - { match: '^(<keyword.other.collate>)(.*?)$'                                                       , scope: keyword.other.collate }
+    - { match: '^(<keyword.other.create>)(.*?)$'                                                        , scope: keyword.other.create }
+    - { match: '^(<keyword.other.DDL.create.II>)(.*?)$'                                                 , scope: keyword.other.DDL.create.II }
+    - { match: '^(<keyword.other.dml>)(.*?)$'                                                           , scope: keyword.other.dml }
+    - { match: '^(<keyword.other.LUW>)(.*?)$'                                                           , scope: keyword.other.LUW }
+    - { match: '^(<keyword.other.object-comments>)(.*?)$'                                               , scope: keyword.other.object-comments }
+    - { match: '^(<keyword.other.order>)(.*?)$'                                                         , scope: keyword.other.order }
+    - { match: '^(<keyword.other>)(.*?)$'                                                               , scope: keyword.other }
+    - { match: '^(<keyword.type.name>)(.*?)$'                                                           , scope: keyword.type.name }
+    - { match: '^(<keyword>)(.*?)$'                                                                     , scope: keyword }
+    - { match: '^(<markup.bold>)(.*?)$'                                                                 , scope: markup.bold }
+    - { match: '^(<markup.heading>)(.*?)$'                                                              , scope: markup.heading }
+    - { match: '^(<markup.italic>)(.*?)$'                                                               , scope: markup.italic }
+    - { match: '^(<markup.list.numbered>)(.*?)$'                                                        , scope: markup.list.numbered }
+    - { match: '^(<markup.list.unnumbered>)(.*?)$'                                                      , scope: markup.list.unnumbered }
+    - { match: '^(<markup.list>)(.*?)$'                                                                 , scope: markup.list }
+    - { match: '^(<markup.other>)(.*?)$'                                                                , scope: markup.other }
+    - { match: '^(<markup.quote.sql comment.block>)(.*?)$'                                              , scope: markup.quote.sql comment.block }
+    - { match: '^(<markup.quote>)(.*?)$'                                                                , scope: markup.quote }
+    - { match: '^(<markup.raw>)(.*?)$'                                                                  , scope: markup.raw }
+    - { match: '^(<markup.underline.link>)(.*?)$'                                                       , scope: markup.underline.link }
+    - { match: '^(<markup.underline>)(.*?)$'                                                            , scope: markup.underline }
+    - { match: '^(<markup>)(.*?)$'                                                                      , scope: markup }
+    - { match: '^(<meta.comment-header>)(.*?)$'                                                         , scope: meta.comment-header }
+    - { match: '^(<meta.ddl-create-simple>)(.*?)$'                                                      , scope: meta.ddl-create-simple }
+    - { match: '^(<meta.ddl-create>)(.*?)$'                                                             , scope: meta.ddl-create }
+    - { match: '^(<meta.ddl-drop>)(.*?)$'                                                               , scope: meta.ddl-drop }
+    - { match: '^(<meta.declare>)(.*?)$'                                                                , scope: meta.declare }
+    - { match: '^(<meta.dml-from>)(.*?)$'                                                               , scope: meta.dml-from }
+    - { match: '^(<meta.dml-insert-merge>)(.*?)$'                                                       , scope: meta.dml-insert-merge }
+    - { match: '^(<meta.dml-simple-from>)(.*?)$'                                                        , scope: meta.dml-simple-from }
+    - { match: '^(<meta.dml-truncate>)(.*?)$'                                                           , scope: meta.dml-truncate }
+    - { match: '^(<meta.function-call>)(.*?)$'                                                          , scope: meta.function-call }
+    - { match: '^(<meta.notify>)(.*?)$'                                                                 , scope: meta.notify }
+    - { match: '^(<meta.use-database>)(.*?)$'                                                           , scope: meta.use-database }
+    - { match: '^(<meta>)(.*?)$'                                                                        , scope: meta }
+    - { match: '^(<punctuation.definition.brace>)(.*?)$'                                                , scope: punctuation.definition.brace }
+    - { match: '^(<punctuation.definition.comment>)(.*?)$'                                              , scope: punctuation.definition.comment }
+    - { match: '^(<punctuation.definition.dot>)(.*?)$'                                                  , scope: punctuation.definition.dot }
+    - { match: '^(<punctuation.definition.string.begin.sql string.quoted>)(.*?)$'                       , scope: punctuation.definition.string.begin.sql string.quoted }
+    - { match: '^(<punctuation.definition.string.begin>)(.*?)$'                                         , scope: punctuation.definition.string.begin }
+    - { match: '^(<punctuation.definition.string.end.sql string.quoted>)(.*?)$'                         , scope: punctuation.definition.string.end.sql string.quoted }
+    - { match: '^(<punctuation.definition.string.end>)(.*?)$'                                           , scope: punctuation.definition.string.end }
+    - { match: '^(<punctuation.definition>)(.*?)$'                                                      , scope: punctuation.definition }
+    - { match: '^(<punctuation>)(.*?)$'                                                                 , scope: punctuation }
+    - { match: '^(<source>)(.*?)$'                                                                      , scope: source }
+    - { match: '^(<storage.modifier>)(.*?)$'                                                            , scope: storage.modifier }
+    - { match: '^(<storage.object.name.xid3>)(.*?)$'                                                    , scope: storage.object.name.xid3 }
+    - { match: '^(<storage.object.name.xid>)(.*?)$'                                                     , scope: storage.object.name.xid }
+    - { match: '^(<storage.type>)(.*?)$'                                                                , scope: storage.type }
+    - { match: '^(<storage>)(.*?)$'                                                                     , scope: storage }
+    - { match: '^(<string.interpolated>)(.*?)$'                                                         , scope: string.interpolated }
+    - { match: '^(<string.other>)(.*?)$'                                                                , scope: string.other }
+    - { match: '^(<string.quoted.double>)(.*?)$'                                                        , scope: string.quoted.double }
+    - { match: '^(<string.quoted.other>)(.*?)$'                                                         , scope: string.quoted.other }
+    - { match: '^(<string.quoted.single>)(.*?)$'                                                        , scope: string.quoted.single }
+    - { match: '^(<string.quoted.sql constant.language>)(.*?)$'                                         , scope: string.quoted.sql constant.language }
+    - { match: '^(<string.quoted.triple>)(.*?)$'                                                        , scope: string.quoted.triple }
+    - { match: '^(<string.quoted>)(.*?)$'                                                               , scope: string.quoted }
+    - { match: '^(<string.regexp.modr>)(.*?)$'                                                          , scope: string.regexp.modr }
+    - { match: '^(<string.regexp>)(.*?)$'                                                               , scope: string.regexp }
+    - { match: '^(<string.unquoted>)(.*?)$'                                                             , scope: string.unquoted }
+    - { match: '^(<string>)(.*?)$'                                                                      , scope: string }
+    - { match: '^(<support.class.alias.name>)(.*?)$'                                                    , scope: support.class.alias.name }
+    - { match: '^(<support.class.instance.name.xid3>)(.*?)$'                                            , scope: support.class.instance.name.xid3 }
+    - { match: '^(<support.class.schema.name.xid3>)(.*?)$'                                              , scope: support.class.schema.name.xid3 }
+    - { match: '^(<support.class>)(.*?)$'                                                               , scope: support.class }
+    - { match: '^(<support.constant.column.name>)(.*?)$'                                                , scope: support.constant.column.name }
+    - { match: '^(<support.constant.variable>)(.*?)$'                                                   , scope: support.constant.variable }
+    - { match: '^(<support.constant>)(.*?)$'                                                            , scope: support.constant }
+    - { match: '^(<support.function.aggregate>)(.*?)$'                                                  , scope: support.function.aggregate }
+    - { match: '^(<support.function.collection>)(.*?)$'                                                 , scope: support.function.collection }
+    - { match: '^(<support.function.scalar>)(.*?)$'                                                     , scope: support.function.scalar }
+    - { match: '^(<support.function.string>)(.*?)$'                                                     , scope: support.function.string }
+    - { match: '^(<support.function>)(.*?)$'                                                            , scope: support.function }
+    - { match: '^(<support.other>)(.*?)$'                                                               , scope: support.other }
+    - { match: '^(<support.type.exception>)(.*?)$'                                                      , scope: support.type.exception }
+    - { match: '^(<support.type>)(.*?)$'                                                                , scope: support.type }
+    - { match: '^(<support.variable>)(.*?)$'                                                            , scope: support.variable }
+    - { match: '^(<support>)(.*?)$'                                                                     , scope: support }
+    - { match: '^(<variable.language.global>)(.*?)$'                                                    , scope: variable.language.global }
+    - { match: '^(<variable.language>)(.*?)$'                                                           , scope: variable.language }
+    - { match: '^(<variable.other.placeholder.sql markup.italic>)(.*?)$'                                , scope: variable.other.placeholder.sql markup.italic }
+    - { match: '^(<variable.other>)(.*?)$'                                                              , scope: variable.other }
+    - { match: '^(<variable.parameter.sql>)(.*?)$'                                                      , scope: variable.parameter.sql }
+    - { match: '^(<variable.parameter>)(.*?)$'                                                          , scope: variable.parameter }
+    - { match: '^(<variable>)(.*?)$'                                                                    , scope: variable }

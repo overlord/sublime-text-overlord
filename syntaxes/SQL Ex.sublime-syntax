@@ -337,11 +337,11 @@ contexts:
         1: keyword.other.sql
         2: entity.name.function.sql markup.bold.sql
 
-    # l_ p_ v_ cr_ pti_ variables
+    # l_ p_ v_ cr_ pti_ x_ variables
     - match: >-
         (?xi)
         ( ^ | \s | \, | \. | \: | \( )
-        ( \$? @? (?: l_ | p_ | v_ | cr_ | pti_ ) {{xid}} )
+        ( \$? @? (?: x_ | l_ | p_ | v_ | cr_ | pti_ ) {{xid}} )
         \b
       captures:
         2: variable.parameter.sql
@@ -481,7 +481,8 @@ contexts:
             (?:ci?t_)?date | datetime2 |datetime | decimal | cursor | double \s precision | inet |
             (?:pls_ | binary_)? integer | line | lseg | macaddr | money | oid | path | point |
             polygon | real | serial | smallint | (?:ci)?text | sysname | sys_refcursor | clob | blob |
-            xmltype | xml | float | sql_variant | varbinary | geography | int8 | int | record | uuid
+            xmltype | xml | float | sql_variant | varbinary | geography | int8 | int | record | uuid |
+            json_object_t | json_array_t
           )\b
 
           # numeric suffix, capture 2 + 3i
@@ -745,11 +746,19 @@ contexts:
           pop: true
 
     # bang header-comment: --# Header
-    - match: '(?xi) ^ {{space}} ( -- \#+ ) {{space}} ( .*? ) ( $ | \n )'
+    - match: >-
+        (?xi) ^ {{space}}
+        ( -- )
+        ( \#+ )
+        ( {{space}}+ )
+        ( .*? )
+        ( $ | \n )
       scope: meta.comment-header.sql
       captures:
         1: punctuation.definition.bullet.cancelled.todo.plaintext
-        2: markup.heading.plaintext entity.name.section.plaintext
+        2: markup.heading.plaintext punctuation.definition.bullet.cancelled.todo.plaintext
+        3: markup.heading.plaintext
+        4: markup.heading.plaintext entity.name.section.plaintext
 
       # captures:
       #   0: markup.heading.plaintext

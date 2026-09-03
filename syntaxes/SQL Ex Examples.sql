@@ -1,5 +1,3 @@
-// SYNTAX TEST "SQL Ex.sublime-syntax"
-
 --simple comment
 --!_! bang! comment 1
 --!!! bang! comment 2

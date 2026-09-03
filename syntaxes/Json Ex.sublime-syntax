@@ -14,7 +14,8 @@ contexts:
   # bang header-comment: //# Header
   header-line-comments:
     - meta_include_prototype: false
-    - match: "(?xi) ( // ) \s* ( \#+ ) (.*) $"
+    - match: |-
+        (?xi) ( // ) \s* ( \#+ ) (.*) $
       captures:
         1: comment.line.double-slash.json
         2: markup.heading.json punctuation.definition.bullet.cancelled.todo.json
