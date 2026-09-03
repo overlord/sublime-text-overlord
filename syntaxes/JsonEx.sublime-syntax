@@ -1,0 +1,21 @@
+%YAML 1.2
+---
+name: Json Ex
+scope: source.json
+version: 2
+extends: Packages/JSON/JSON.sublime-syntax
+
+contexts:
+
+  line-comments:
+    - meta_prepend: true
+    - include: header-line-comments
+
+  # bang header-comment: //# Header
+  header-line-comments:
+    - meta_include_prototype: false
+    - match: "(?xi) ( // ) \s* ( \#+ ) (.*) $"
+      captures:
+        1: comment.line.double-slash.json
+        2: markup.heading.json punctuation.definition.bullet.cancelled.todo.json
+        3: markup.heading.json entity.name.section.json

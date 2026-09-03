@@ -2,12 +2,12 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: SQL Ex
+scope: source.sql
 file_extensions:
   - sql
   - pck
   - ddl
   - dml
-scope: source.sql
 
 variables:
   space: '[ \t]*'
@@ -257,10 +257,25 @@ contexts:
         6: entity.name.function.xid3.sql markup.bold.sql # xid3.db_object_name
         7: keyword.other.sql # actions for a_l_t_e_r statement
 
+    # Simple FROM clause
+    - match: |-
+        (?xi)
+          \b
+          ( from ) \s+ # keyword 1
+          {{xid3}} \s+
+          ( where | order \s+ by | group \s+ by ) # keyword 2
+      scope: meta.dml-simple-from.sql
+      captures:
+        1: keyword.other.dml.sql # keyword 1
+        2: support.class.instance.name.xid3.sql # xid3.db_instance_name
+        3: support.class.schema.name.xid3.sql # xid3.db_schema_name
+        4: storage.object.name.xid3.sql # xid3.db_object_name
+        5: keyword.other.alias.sql # keyword 2
+
     # FROM clause
     - match: |-
         (?xi)
-          \s*
+          \b
           (
             # keyword 1
             from |

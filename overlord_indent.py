@@ -102,7 +102,7 @@ class overlord_auto_indent(overlord_indent):
 # ----------------------------------!---------------------------------------------
 class overlord_indent_xml(overlord_indent):
 	def check_enabled(self, language):
-		return ("xml" in language) or ("plain text" in language)
+		return ("xml" in language) or ("text" in language)
 	# ------------------------------
 	def indent(self, s):
 		xmlheader = re.compile("<\?.*\?>").match(s)
@@ -126,7 +126,7 @@ class overlord_indent_xml(overlord_indent):
 # ----------------------------------!---------------------------------------------
 class overlord_indent_json(overlord_indent):
 	def check_enabled(self, language):
-		return ("json" in language) or ("plain text" in language)
+		return ("json" in language) or ("text" in language)
 	# ------------------------------
 	def indent(self, s):
 		json_data, ok = overlord_json.try_json_unescape(s)
@@ -141,9 +141,6 @@ class overlord_indent_json(overlord_indent):
 		return json_str
 # ----------------------------------!---------------------------------------------
 class overlord_indent_json_mixed(overlord_indent):
-	def check_enabled(self, language):
-		return ("json" in language) or ("plain text" in language)
-	# ------------------------------
 	def indent(self, s):
 		json_data = json.loads(s)
 		json_data = self.__extract(json_data)

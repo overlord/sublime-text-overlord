@@ -2,7 +2,7 @@
 <plist version="1.0">
 <dict>
 	<key>scope</key>
-	<string>markup.heading.plaintext</string>
+	<string>markup.heading.plaintext, markup.heading.json</string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>

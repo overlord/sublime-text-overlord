@@ -6,6 +6,7 @@ file_extensions: [wsd, uml, puml]
 scope: source.wsd
 
 variables:
+  sp: '[ \t]'
   obj_name: '(?xi) [a-z]  [a-z_0-9]*'
   var_name: '(?xi) [a-z_] [a-z_0-9]*'
   known_color: |-
@@ -34,7 +35,7 @@ variables:
 
 contexts:
   main:
-    - match: (?xi) ^ ( \# | ' )
+    - match: (?xi) ^ {{sp}}* ( ' )
       scope: comment.line.source.wsd
       push:
         - meta_scope: comment.line.source.wsd
@@ -53,7 +54,7 @@ contexts:
     - match: (?xi) ^ \b title \b
       scope: string.quoted.double.source.wsd
       push:
-        - match: '\n'
+        - match: \n
           scope: keyword.control.source.wsd
           pop: true
 
@@ -66,7 +67,7 @@ contexts:
         (?xi) \b (
           activate | again | also | alt | as | autonumber | bottom | box | break |
           center | create | critical | deactivate | destroy | down | else | end | endif | endwhile | footbox |
-          footer | fork | group | header | hide | if | is | left | link | loop | namespace |
+          footer | fork | group | endheader | header | hide | if | is | left | link | loop | namespace |
           newpage | note | of | on | opt | over | page | par | partition | ref | repeat |
           return | right | rotate | show | skin | skinparam | start | stop | title |
           top to bottom direction | top | up | while
@@ -77,7 +78,8 @@ contexts:
     - match: '{{known_color}}'
       scope: variable.source.wsd
 
-    - match: (?xi) ( {{obj_name}} ) \s ( {{arrow}} ) \s ( {{obj_name}} ) [ \t]* (:)?
+    # link
+    - match: (?xi) ( {{obj_name}} ) \s ( {{arrow}} ) \s ( {{obj_name}} ) {{sp}}* (:)?
       captures:
         1: constant.string.source.wsd
         2: keyword.control.source.wsd
@@ -88,10 +90,12 @@ contexts:
         - match: \n
           pop: true
 
-    - match: (?xi) ^ ( {{obj_name}} ) [ \t]* (:)
+    - match: |-
+        (?xi) ^ {{sp}}* ( \* | - | \# )? {{sp}}* ( {{obj_name}} ) {{sp}}* (:)
       captures:
-        1: constant.string.source.wsd
-        2: keyword.control.source.wsd
+        1: punctuation.source.wsd
+        2: constant.string.source.wsd
+        3: punctuation.source.wsd
       push:
         - meta_scope: string.quoted.double.source.wsd
         - match: \n
@@ -113,5 +117,6 @@ contexts:
 
     - match: (?xi) \b {{obj_name}} \b
       scope: constant.string.source.wsd
+
     - match: (?xi) \b {{var_name}} \b
       scope: variable.parameter.source.wsd
