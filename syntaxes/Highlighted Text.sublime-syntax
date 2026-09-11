@@ -152,12 +152,16 @@ contexts:
         2: variable.parameter.plaintext markup.quote.plaintext markup.bold.plaintext
 
     # quoted with back-tick
-    - match: (?xi) ( ` ) ( .*? ) ( ` )
-      scope: meta.back-tick.quoted.plaintext
-      captures:
-        1: punctuation.plaintext
-        2: variable.parameter.plaintext markup.quote.plaintext markup.bold.plaintext
-        3: punctuation.plaintext
+    - match: '`'
+      scope: punctuation.plaintext
+      push:
+        - meta_content_scope: variable.parameter.plaintext markup.quote.plaintext markup.bold.plaintext
+        - match: \n
+          scope: invalid.plaintext
+          pop: true
+        - match: '`'
+          scope: punctuation.plaintext
+          pop: true
 
     # @reference
     - match: '(?xi) ( @ ) ( (?: \d | \w | _ | - | \. )+ )'
@@ -208,23 +212,7 @@ contexts:
         3: punctuation.definition.bullet.completed.todo
         4: punctuation.definition.bullet.cancelled.todo
 
-    # ------------------------------
-    # BLABLA (dot) BLABLA
-    - match: >-
-        (?xi)
-        \b
-        ( [\w_\-]+ )
-        (?: \. ( [\w_\-]+ ) )
-        (?: \. ( [\w_\-]+ ) )?
-        (?: \. ( [\w_\-]+ ) )?
-        (?: \. ( [\w_\-]+ ) )?
-        \b
-      captures:
-        1: support.type.plaintext
-        2: support.constant.plaintext
-        3: support.constant.plaintext
-        4: support.constant.plaintext
-        5: support.constant.plaintext
+    - include: blabla-dot-blabla
 
     - match: '(?xi) \b ( localhost ) \b'
       scope: support.type.plaintext
@@ -311,3 +299,22 @@ contexts:
     # warn markers
     - match: '(?xi) ( \[? (?: warning | \b warn ) \]? ) '
       scope: invalid.illegal.4.plaintext
+
+  # ------------------------------
+  # BLABLA (dot) BLABLA
+  blabla-dot-blabla:
+    - match: '(?xi) \b ( [\w_\-]+ ) ( (?= \. [\w_\-]+ ) )'
+      scope: support.type.plaintext meta.blabla.plaintext
+      set: blabla-dot-blabla-context
+
+  blabla-dot-blabla-context:
+    - match: '[\n\b\s]'
+      pop: true
+    - match: '[^\.\w_\-]'
+      pop: true
+    - match: (\.)([\w_\-]+)
+      captures:
+        0: meta.blabla-context.plaintext
+        1: punctuation.plaintext
+        2: support.constant.plaintext
+      set: blabla-dot-blabla-context

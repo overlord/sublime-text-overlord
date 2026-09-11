@@ -162,7 +162,7 @@ class overlord_indent_json_mixed(overlord_indent):
 							return { "*text": pre, "*json": self.__extract(p) }
 						return self.__extract(p)
 					except:
-						continue
+						return obj
 		else:
 			return obj
 # ----------------------------------!---------------------------------------------
