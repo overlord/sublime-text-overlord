@@ -153,6 +153,7 @@ class overlord_indent_json_mixed(overlord_indent):
 		elif isinstance(obj, list):
 			return [self.__extract(v)for v in obj]
 		elif isinstance(obj, str) and ("{" in obj and "}" in obj):
+			obj = obj.replace('\r\n', '\n')
 			for i, c in enumerate(obj):
 				if c == "{":
 					try:
