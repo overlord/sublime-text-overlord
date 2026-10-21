@@ -8,6 +8,7 @@ file_extensions: [puml, uml, wsd]
 
 variables:
   sp: '[ \t]'
+  endl: '(?:\n|$)'
   obj_name: '[\w][\w_0-9\.]*'
   component_name: '(?:(?xi) \[ \w [\w_0-9\\\(\)\., ]* \])'
   var_name: '(?xi) [a-z_] [a-z_0-9]*'
@@ -28,75 +29,52 @@ variables:
     SteelBlue | Tan | Teal | Thistle | Tomato | Turquoise | Violet | Wheat | White | WhiteSmoke | Yellow | YellowGreen )
   color_x: >-
     (?: \# (?: \d+ | [0-9a-f]{6} | {{obj_name}} ) )
+  arrow_body_x: >-
+    (?: -[DULR]?- | \.[DULR]?\. | -\[ {{color_x}} \]- )
   arrow: >-
     (?xi) (?:
-      --> | -> | \.\.> | -\[ {{color_x}} \]> |
-      <-- | <- | <\.\. | <\[ {{color_x}} \]- |
+      {{arrow_body_x}} > | -> |
+      < {{arrow_body_x}} | <- |
+      }o--o{ |
+      \|+--\|+ |
+      \|+--o{ |
+      \|+--o\| |
       --
     )
-  endl: '(?:\n|$)'
-  quoted: '(?:\[.*?\]|\(.*?\))'
+  brace_quoted_x: >-
+    (?: \[ .*? \] | \( .*? \) )
+  double_quoted_x: '(?: " .*? " )'
 
 contexts:
   main:
     - include: comments
+    - include: skin-params
+
+    - include: blocks
+    - include: links
+    - include: class-members
 
     - match: >-
         (?xi) \b (
-        abstract |
-        actor |
-        artifact |
-        class |
-        cloud |
-        component |
-        database |
-        entity |
-        enum |
-        folder |
-        interface |
-        node |
-        object |
-        package |
-        participant |
-        state |
+        abstract | actor | artifact | class | cloud | component | database | entity |
+        enum | folder | interface | node | object | package | participant | state |
         usecase
         ) \b
       scope: support.function.puml
 
-    - match: ^title\s
-      scope: keyword.puml
-      push:
-        - meta_content_scope: string.quoted.double.puml
-        - match: '{{endl}}'
-          pop: true
-
-    # start/end keywords
-    - match: (?x) @enduml | @startuml
-      scope: keyword.block.puml
-
     # control keywords
     - match: >-
         (?xi) \b (
-        activate | again | also | alt | as | autonumber | bottom | box | break |
-        center | create | critical | deactivate | destroy | down | else | end | endif | endwhile | footbox |
-        footer | fork | group | hide | if | is | left | link | loop | namespace |
-        newpage | note | of | on | opt | over | page | par | partition | ref | repeat |
-        return | right | rotate | show | skinparam | skin | start | stop | title |
-        top to bottom direction | top | up | while
+        activate | again | also | alt | as | autonumber | bottom | box | break | center |
+        create | critical | deactivate | destroy | down | else | end | endif | endwhile | footbox |
+        footer | fork | group | hide | if | is | left | link | loop | namespace | newpage |
+        note | of | on | opt | over | page | par | partition | ref | repeat | return | right |
+        rotate | show | skinparam | skin | start | stop | title | top to bottom direction |
+        top | up | while
         ) \b
       scope: keyword.control.puml
 
-    - match: header
-      scope: keyword.puml
-      push:
-        - meta_content_scope: string.puml
-        - match: endheader
-          scope: keyword.puml
-          pop: true
-
     - include: colors
-    - include: link-context
-    - include: class-members
     - include: strings
 
     - match: (?xi) {{component_name}}
@@ -121,6 +99,34 @@ contexts:
           pop: true
 
   # ------------------------------
+  skin-param-block:
+    - match: (?xi) ^ \s* ( skinparam ) ( \s {{obj_name}} )? \s ( \{ )
+      captures:
+        1: keyword.control.puml
+        2: constant.string.puml
+        3: punctuation.skin-param.begin.puml
+      push:
+        - match: \}
+          scope: punctuation.skin-param.end.puml
+          pop: true
+        - match: (?xi) ^ \s* ( {{obj_name}} ) \b
+          scope: entity.other.skin-param.key.puml
+          push:
+            - meta_content_scope: string.other.skin-param.value.puml
+            - match: '{{endl}}'
+              pop: true
+
+  skin-param-inline:
+    - match: (?xi) ^ \s* ( skinparam ) \s ( {{obj_name}} ) \s
+      captures:
+        1: keyword.control.puml
+        2: entity.other.skin-param.key.puml
+      push:
+        - meta_content_scope: string.other.skin-param.value.puml
+        - match: '{{endl}}'
+          pop: true
+
+  # ------------------------------
   colors:
     # known colors
     - match: (?xi) \#? {{known_color_x}}
@@ -129,7 +135,7 @@ contexts:
       scope: meta.color-2.puml storage.puml
 
   # ------------------------------
-  link-context:
+  links:
     - match: >-
         (?xi) ^
         ( {{obj_name}} | {{component_name}} ) \s
@@ -146,9 +152,9 @@ contexts:
         4: string.quoted.double.puml
         5: constant.string.puml
         6: keyword.control.puml
-      push: link-comment-context
+      push: link-comment
 
-  link-comment-context:
+  link-comment:
     - meta_content_scope: string.puml
     - match: '{{endl}}'
       pop: true
@@ -178,12 +184,117 @@ contexts:
           scope: constant.character.escape.puml
 
   # ------------------------------
+  skin-params:
+    - include: skin-param-block
+    - include: skin-param-inline
+
+  # ------------------------------
+  blocks:
+    - match: (?x) ^ ( @enduml | @startuml )
+      scope: keyword.block.puml
+    - match: >-
+        (?xi) ^
+        ( note )
+        (?: \s+ ( as ) \s+ ( {{obj_name}} ) )
+      captures:
+        1: keyword.puml
+        2: keyword.puml
+        3: constant.string.puml
+      push:
+        - meta_content_scope: string.quoted.double.puml
+        - match: 'end note'
+          scope: keyword.puml
+          pop: true
+    - match: header
+      scope: keyword.puml
+      push:
+        - meta_content_scope: string.puml
+        - match: endheader
+          scope: keyword.puml
+          pop: true
+    - match: (?xi) ^ title \s
+      scope: keyword.puml
+      push:
+        - meta_content_scope: string.quoted.double.puml
+        - match: '{{endl}}'
+          pop: true
+    - include: container-block
+    - include: item-block
+
+  container-block:
+    - match: >-
+        (?xi) ^
+        \s*
+        (?: ( package | folder | node ) \s+ )
+        (?: ( {{double_quoted_x}} ) \s+ ( as ) \s+ ( {{obj_name}} ) \s+ )?
+        (?: ( {{double_quoted_x}} ) \s+ )?
+        (?: ( {{obj_name}} ) \s+ )?
+        (?: ( {{color_x}} ) \s+ )?
+        ( { )
+      captures:
+        1: keyword.puml
+        2: string.quoted.double.puml
+        3: keyword.puml
+        4: constant.string.puml
+        5: string.quoted.double.puml
+        6: constant.string.puml
+        7: meta.color-2.puml storage.puml
+        8: punctuation.begin.puml
+      push:
+        - include: container-block
+        - include: item-block
+        - include: class-members
+        - match: '}'
+          scope: punctuation.end.puml
+          pop: true
+
+  item-block:
+    - match: >-
+        (?xi) ^
+        \s*
+        (?: ( entity | class ) \s+ )
+        (?: ( {{double_quoted_x}} ) \s+ ( as ) \s+ ( {{obj_name}} ) \s+ )?
+        (?: ( {{double_quoted_x}} ) \s+ )?
+        (?: ( {{obj_name}} ) \s+ )?
+        (?: ( {{color_x}} ) \s+ )?
+        ( { )
+      captures:
+        1: keyword.puml
+        2: string.quoted.double.puml
+        3: keyword.puml
+        4: constant.string.puml
+        5: string.quoted.double.puml
+        6: constant.string.puml
+        7: meta.color-2.puml storage.puml
+        8: punctuation.begin.puml
+      push:
+        - include: class-members
+        - match: '}'
+          scope: punctuation.end.puml
+          pop: true
+
+  # ------------------------------
   class-members:
     - include: class-member-context
 
   class-member-context:
-    - match: (?xi) ^ {{sp}}* ( -- | == ) {{endl}}
-      scope: keyword.other.sep.puml
+    - match: >-
+        (?xi) ^
+        {{sp}}*
+        ( -- | == | \.\. )
+        {{endl}}
+      scope: comment.splitter.puml
+    - match: >-
+        (?xi) ^
+        {{sp}}*
+        ( -- | == | \.\. )
+        ( .*? )
+        ( -- | == | \.\. )
+        {{endl}}
+      captures:
+        1: comment.splitter.puml
+        2: comment.block.puml
+        3: comment.splitter.puml
     - match: >-
         (?xi) ^ {{sp}}*
         ( \- | \+ | \* | \# )? {{sp}}*
@@ -214,41 +325,54 @@ contexts:
   types:
     - include: type-integer
     - include: type-number
+    - include: type-bool
     - include: type-float
     - include: type-date
     - include: type-string
     - include: type-raw
 
   type-integer:
-    - match: (?xi) \b ( integer | int | long )
+    - match: (?xi) \b ( bigint | integer | int | long )
       scope: keyword.type.puml
 
   type-number:
-    - match: (?xi) \b ( number ) ( {{quoted}} )?
+    - match: (?xi) \b ( number ) ( {{brace_quoted_x}} )?
+      captures:
+        1: keyword.type.puml
+        2: punctuation.puml
+
+  type-bool:
+    - match: (?xi) \b ( boolean | bool )
       captures:
         1: keyword.type.puml
         2: punctuation.puml
 
   type-float:
-    - match: (?xi) \b ( float | double ) ( {{quoted}} )?
+    - match: >-
+        (?xi) \b ( float (?: 8 )? | double ) ( {{brace_quoted_x}} )?
       captures:
         1: keyword.type.puml
         2: punctuation.puml
 
   type-date:
-    - match: (?xi) \b ( date | timestamp ) ( {{quoted}} )?
+    - match: (?xi) \b ( date | timestamptz | timestamp ) ( {{brace_quoted_x}} )?
       captures:
         1: keyword.type.puml
         2: punctuation.puml
 
   type-string:
-    - match: (?xi) \b ( string | text | n? clob | n? (?:var)? char 2? ) ( {{quoted}} )?
+    - match: >-
+        (?xi) \b (
+        string | text | json b? |
+        n? clob | n? (?:var)? char 2?
+        )
+        ( {{brace_quoted_x}} )?
       captures:
         1: keyword.type.puml
         2: punctuation.puml
 
   type-raw:
-    - match: (?xi) \b ( b? lob | raw | rowid ) ( {{quoted}} )?
+    - match: (?xi) \b ( b? lob | raw | rowid ) ( {{brace_quoted_x}} )?
       captures:
         1: keyword.type.puml
         2: punctuation.puml

@@ -1,6 +1,7 @@
 [
 	// ------------------------------ overlord commands ------------------------------
-	{ "keys": ["ctrl+t"],            "command": "overlord_tab", "args": { "indent_type": "tab" } },
+	// { "keys": ["ctrl+t"],  "command": "overlord_tab", "args": { "indent_type": "tab" } },
+	{ "keys": ["ctrl+t", "ctrl+t"],  "command": "unexpand_tabs", "args": {"set_translate_tabs": true} },
 	{ "keys": ["ctrl+alt+shift+t"],  "command": "overlord_tab", "args": { "indent_type": "space" } },
 	{ "keys": ["ctrl+-"],            "command": "overlord_total_recall", "args": { "mode": "back" } },
 	{ "keys": ["ctrl+="],            "command": "overlord_total_recall", "args": { "mode": "forw" } },

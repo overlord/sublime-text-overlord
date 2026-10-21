@@ -1,0 +1,27 @@
+%YAML 1.2
+---
+name: GraphQL Ex
+scope: source.graphql
+version: 1
+extends: Packages/GraphQL/GraphQL.sublime-syntax
+
+contexts:
+  prototype:
+    - meta_prepend: true
+    - match: (?=#)
+      push:
+        - meta_scope: comment.line.graphql
+        - include: markers
+        - include: pop-endl
+
+  markers:
+    - match: '(?xi) ( \# \s? )? ( \bERR\b )'
+      scope: comment.marker.error.graphql
+    - match: '(?xi) ( \# \s? )? ( \?\?\? )'
+      scope: comment.marker.question.graphql
+    - match: '(?xi) ( \# \s? )? ( !!! | !_! )'
+      scope: comment.marker.graphql
+
+  pop-endl:
+    - match: '[\n$]'
+      pop: true

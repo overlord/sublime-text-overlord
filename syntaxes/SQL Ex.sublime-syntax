@@ -104,7 +104,10 @@ contexts:
     - match: |-
         (?xi)
         \b(
-          column_value | currval | dual | force \s+ order | level | max | min | nextval | nolock | option | rowid | rownum | sqlcode | sqlerrm | sysdate | systimestamp
+          column_value | currval | dual | force \s+ order |
+          level | max | min | nextval | nolock | option |
+          rowid | rownum | sqlcode | sqlerrm | sysdate |
+          systimestamp
         )\b
       scope: variable.language.sql
     - match: (?xi) \b ( dbcc | logspace | truncateonly | sp_who2? | sp_lock | sp_helptext | sp_helpdb ) \b
@@ -146,14 +149,15 @@ contexts:
         (?xi)
           \b
           {{xid_br}}
-          %
+          (%)
           (
             found | isopen | notfound | rowcount | rowtype | type
           )
           \b
       captures:
-        1: variable.language.sql
-        2: variable.language.sql
+        1: support.constant.column.name.sql
+        2: punctuation.sql
+        3: variable.language.sql
     - match: '(?xi) & & {{xid}}'
       scope: variable.language.sql
     - match: |-
@@ -203,12 +207,14 @@ contexts:
             {{br_1}}? ( {{xid}} | \* ) {{br_2}}?
           )
           (?:
-            % ( found | isopen | notfound | rowcount | rowtype | type )
+            ( % )
+            ( found | isopen | notfound | rowcount | rowtype | type )
           )?
       captures:
         1: support.class.alias.name.sql
         2: support.constant.column.name.sql
-        3: variable.language.sql
+        3: punctuation.sql
+        4: variable.language.sql
 
     # CREATE clause
     - match: |-

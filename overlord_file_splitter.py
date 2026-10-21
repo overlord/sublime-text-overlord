@@ -13,6 +13,7 @@ import os
 import re
 # ----------------------------------!---------------------------------------------
 SPLITTER = '--[ SPLITTER ]--'
+ENCODINGS = ["utf-8-sig", "utf-8", 'cp1251']
 # ----------------------------------!---------------------------------------------
 class overlord_split_file(sublime_plugin.TextCommand):
 	'''
@@ -46,8 +47,8 @@ class overlord_concat_files(sublime_plugin.WindowCommand):
 	Window Command: объединяет выбраные файлы в новое окно.
 	'''
 	# ------------------------------
-	def append_file_content(self, view, path, encodings):
-		for encoding in encodings:
+	def append_file_content(self, view, path):
+		for encoding in ENCODINGS:
 			try:
 				with open(path, 'r', encoding=encoding) as file:
 					content = file.read()
@@ -58,12 +59,10 @@ class overlord_concat_files(sublime_plugin.WindowCommand):
 				print("Unable to open [%s] in [%s] encoding")
 	# ------------------------------
 	def run(self, files = None):
-		# settings = sublime.load_settings('Preferences.sublime-settings')
-		encodings = ["utf-8-sig", "utf-8", 'cp1251']
 		if files:
 			view = st2api.new_file(self.window, None, True)
 			for path in files:
-				self.append_file_content(view, path, encodings)
+				self.append_file_content(view, path)
 	# ------------------------------
 	def is_visible(self, files = None):
 		return True if files or [] else False

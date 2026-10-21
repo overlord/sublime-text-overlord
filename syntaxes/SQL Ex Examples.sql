@@ -53,6 +53,7 @@ c_constant
 p_procedure_argument
 
 rownum
+
 ------------------------------
 select alias.row_name%found
 select alias.row_name%isopen
@@ -60,6 +61,13 @@ select alias.row_name%notfound
 select alias.row_name%rowcount
 select alias.row_name%rowtype
 select alias.row_name%type
+--
+select column_name%found
+select column_name%isopen
+select column_name%notfound
+select column_name%rowcount
+select column_name%rowtype
+select column_name%type
 ------------------------------------------------------------
 
 select alias.row_name%type
