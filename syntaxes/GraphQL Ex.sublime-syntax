@@ -19,7 +19,7 @@ contexts:
       scope: comment.marker.error.graphql
     - match: '(?xi) ( \# \s? )? ( \?\?\? )'
       scope: comment.marker.question.graphql
-    - match: '(?xi) ( \# \s? )? ( !!! | !_! )'
+    - match: '(?xi) ( \# \s? )? ( !!! | !_! | \+\+\+ )'
       scope: comment.marker.graphql
 
   pop-endl:

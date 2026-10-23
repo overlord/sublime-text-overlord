@@ -10,7 +10,7 @@ variables:
   sp: '[ \t]'
   endl: '(?:\n|$)'
   obj_name: '[\w][\w_0-9\.]*'
-  component_name: '(?:(?xi) \[ \w [\w_0-9\\\(\)\., ]* \])'
+  component_name_x: '(?: \[ \w [\w_0-9\\\(\)\., ]* \] )'
   var_name: '(?xi) [a-z_] [a-z_0-9]*'
   known_color_x: >-
     (?: AliceBlue | AntiqueWhite | Aqua | Aquamarine | Azure | Beige | Bisque | Black | BlanchedAlmond | Blue | BlueViolet |
@@ -46,6 +46,11 @@ variables:
   double_quoted_x: '(?: " .*? " )'
 
 contexts:
+
+  pop-endl:
+    - match: $
+      pop: true
+
   main:
     - include: comments
     - include: skin-params
@@ -77,7 +82,7 @@ contexts:
     - include: colors
     - include: strings
 
-    - match: (?xi) {{component_name}}
+    - match: (?xi) {{component_name_x}}
       scope: constant.string.puml
 
     - match: (?xi) \b {{obj_name}} \b
@@ -88,8 +93,11 @@ contexts:
 
   # ------------------------------
   comments:
-    - match: (?xi) ^ {{sp}}* ' .* {{endl}}
+    - match: (?xi) ^ {{sp}}* '
       scope: comment.line.puml
+      push:
+        - meta_content_scope: comment.line.puml
+        - include: pop-endl
     - match: "/'"
       scope: comment.block.puml
       push:
@@ -113,8 +121,7 @@ contexts:
           scope: entity.other.skin-param.key.puml
           push:
             - meta_content_scope: string.other.skin-param.value.puml
-            - match: '{{endl}}'
-              pop: true
+            - include: pop-endl
 
   skin-param-inline:
     - match: (?xi) ^ \s* ( skinparam ) \s ( {{obj_name}} ) \s
@@ -123,8 +130,7 @@ contexts:
         2: entity.other.skin-param.key.puml
       push:
         - meta_content_scope: string.other.skin-param.value.puml
-        - match: '{{endl}}'
-          pop: true
+        - include: pop-endl
 
   # ------------------------------
   colors:
@@ -138,26 +144,28 @@ contexts:
   links:
     - match: >-
         (?xi) ^
-        ( {{obj_name}} | {{component_name}} ) \s
+        ( {{obj_name}} | {{component_name_x}} ) \s
         ( ".*?" \s )?
         ( {{arrow}} ) \s
         ( ".*?" \s )?
-        ( {{obj_name}} | {{component_name}} ) \s?
-        ( : )
+        ( {{obj_name}} | {{component_name_x}} ) \s?
       scope: meta.link.puml
       captures:
+        0: azaza
         1: constant.string.puml
         2: string.quoted.double.puml
         3: keyword.control.puml
         4: string.quoted.double.puml
         5: constant.string.puml
-        6: keyword.control.puml
-      push: link-comment
+      push:
+        - include: pop-endl
+        - match: ':'
+          scope: keyword.control.puml
+          set: link-comment
 
   link-comment:
     - meta_content_scope: string.puml
-    - match: '{{endl}}'
-      pop: true
+    - include: pop-endl
     - match: \\[nt]
       scope: constant.character.escape.puml
 
@@ -216,21 +224,18 @@ contexts:
       scope: keyword.puml
       push:
         - meta_content_scope: string.quoted.double.puml
-        - match: '{{endl}}'
-          pop: true
+        - include: pop-endl
     - include: container-block
-    - include: item-block
 
   container-block:
     - match: >-
         (?xi) ^
         \s*
-        (?: ( package | folder | node ) \s+ )
+        (?: ( package | folder | node | database | component | entity | class | partition | queue | actor | participant | rectangle ) \s+ )
         (?: ( {{double_quoted_x}} ) \s+ ( as ) \s+ ( {{obj_name}} ) \s+ )?
         (?: ( {{double_quoted_x}} ) \s+ )?
         (?: ( {{obj_name}} ) \s+ )?
         (?: ( {{color_x}} ) \s+ )?
-        ( { )
       captures:
         1: keyword.puml
         2: string.quoted.double.puml
@@ -239,39 +244,18 @@ contexts:
         5: string.quoted.double.puml
         6: constant.string.puml
         7: meta.color-2.puml storage.puml
-        8: punctuation.begin.puml
       push:
-        - include: container-block
-        - include: item-block
-        - include: class-members
-        - match: '}'
-          scope: punctuation.end.puml
-          pop: true
+        - match: '{'
+          scope: punctuation.begin.puml
+          push: container-block-body
+        - include: pop-endl
 
-  item-block:
-    - match: >-
-        (?xi) ^
-        \s*
-        (?: ( entity | class ) \s+ )
-        (?: ( {{double_quoted_x}} ) \s+ ( as ) \s+ ( {{obj_name}} ) \s+ )?
-        (?: ( {{double_quoted_x}} ) \s+ )?
-        (?: ( {{obj_name}} ) \s+ )?
-        (?: ( {{color_x}} ) \s+ )?
-        ( { )
-      captures:
-        1: keyword.puml
-        2: string.quoted.double.puml
-        3: keyword.puml
-        4: constant.string.puml
-        5: string.quoted.double.puml
-        6: constant.string.puml
-        7: meta.color-2.puml storage.puml
-        8: punctuation.begin.puml
-      push:
-        - include: class-members
-        - match: '}'
-          scope: punctuation.end.puml
-          pop: true
+  container-block-body:
+    - include: container-block
+    - include: class-members
+    - match: '}'
+      scope: punctuation.end.puml
+      pop: true
 
   # ------------------------------
   class-members:
@@ -304,16 +288,14 @@ contexts:
         1: punctuation.member-modifier.puml
         2: entity.other.member.puml
       push:
-        - match: '{{endl}}'
-          pop: true
+        - include: pop-endl
         - match: ':'
           scope: punctuation.colon.puml
           push: class-member-type-context
 
   class-member-type-context:
     - meta_content_scope: meta.class.member.type.puml
-    - match: '{{endl}}'
-      pop: true
+    - include: pop-endl
     - include: class-member-modifier
     - include: types
 
