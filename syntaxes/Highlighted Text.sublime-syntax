@@ -24,6 +24,23 @@ contexts:
     - include: comments
     - include: dates
 
+    # url
+    - match: '(?xi) \b ( https? | ftp ) ( : // )'
+      captures:
+        0: meta.link.plaintext markup.underline.link.plaintext
+        2: punctuation.separator.url.plaintext
+      push:
+        - meta_scope: meta.link.plaintext markup.underline.link.plaintext
+        # Конец ссылки: пробел, кавычки или угловые скобки
+        - match: >-
+            (?=\s|["'<>])
+          pop: true
+        # Разделители внутри URL (красим отдельно)
+        - match: '[/?=&.]'
+          scope: punctuation.separator.url.plaintext
+        # Любые другие символы внутри URL
+        - match: '[^\s"''<>/?=&.]+'
+
     # @reference
     - match: >-
         (?xi)

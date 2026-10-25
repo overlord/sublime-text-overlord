@@ -11,7 +11,8 @@
 		"c_comment_marker_error": "#FF3344",
 		"c_comment_marker_question": "#B380FF",
 
-		"c_link": "#0055FF",
+		// "c_link": "#0055FF", // !!! слишком темно-синий
+		"c_link": "#66A3FF",
 
 		"c_entity": "#FFDD00",
 		"c_keyword": "#FF9D00",
@@ -341,7 +342,8 @@
 
 		{
 			"scope": "markup.underline.link",
-			"font_style": "underline italic",
+			// "font_style": "underline italic",
+			"font_style": "italic",
 			"foreground": "var(c_link)",
 		},
 

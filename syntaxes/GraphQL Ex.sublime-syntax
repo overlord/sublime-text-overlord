@@ -23,5 +23,5 @@ contexts:
       scope: comment.marker.graphql
 
   pop-endl:
-    - match: '[\n$]'
+    - match: $
       pop: true
