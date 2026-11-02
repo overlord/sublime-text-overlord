@@ -10,7 +10,7 @@ file_extensions:
   - dml
 
 variables:
-  space: '[ \t]*'
+  space: '[\ \t]*'
   br_1: '(?: \[ | '' | " )'
   br_2: '(?: \] | '' | " )'
   xid: '[\w_][\w\d_\$]*' # identifier
@@ -35,7 +35,6 @@ variables:
     )
 
 contexts:
-
   main:
 
     # Oracle Dynamic-SQL literal
@@ -743,13 +742,23 @@ contexts:
       scope: support.function.string.sql
     - match: \*
       scope: keyword.operator.star.sql
+  pop-endl:
+    - match: $
+      pop: true
+  comment_markers:
+    - match: '(?xi) ( -- \s? )? ( \bERR\b )'
+      scope: comment.marker.error.sql
+    - match: '(?xi) ( -- \s? )? ( TODO | \?\?\? | !\?! )'
+      scope: comment.marker.question.sql
+    - match: '(?xi) ( -- \s? )? ( !!! | !_! )'
+      scope: comment.marker.sql
   comments:
-    # bang comments: --TODO --!_! --!?! --!!! --???
-    - match: '(?xi) -- {{space}} ( TODO | !_! | !\?! | !!! | \?\?\? )'
+    # bang comments: --TODO --!_! --!?! --!!! --??? --ERR
+    - match: '(?xi) (?= -- {{space}} ( ERR | TODO | !_! | !\?! | !!! | \?\?\? ))'
       push:
         - meta_scope: comment.line.double-dash.sql punctuation.definition.comment.sql markup.bold.sql
-        - match: '(?xi) $ | \n'
-          pop: true
+        - include: comment_markers
+        - include: pop-endl
 
     # bang header-comment: --# Header
     - match: >-
@@ -757,24 +766,22 @@ contexts:
         ( -- )
         ( \#+ )
         ( {{space}}+ )
-        ( .*? )
-        ( $ | \n )
       scope: meta.comment-header.sql
       captures:
         1: punctuation.definition.bullet.cancelled.todo.plaintext
         2: markup.heading.plaintext punctuation.definition.bullet.cancelled.todo.plaintext
         3: markup.heading.plaintext
-        4: markup.heading.plaintext entity.name.section.plaintext
+      push:
+        - meta_scope: markup.heading.plaintext entity.name.section.plaintext
+        - include: pop-endl
 
-      # captures:
-      #   0: markup.heading.plaintext
-      #   1: punctuation.definition.bullet.cancelled.todo.plaintext
-      #   2: entity.name.section.plaintext
-
-    - match: (--).*$\n?
+    - match: --
       scope: comment.line.double-dash.sql
-      captures:
-        1: punctuation.definition.comment.sql
+      push:
+        - meta_content_scope: comment.line.double-dash.sql
+        - include: comment_markers
+        - include: pop-endl
+
     - match: /\*\+
       captures:
         0: punctuation.definition.comment.sql

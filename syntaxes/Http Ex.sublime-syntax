@@ -1,0 +1,130 @@
+%YAML 1.2
+---
+# See https://sublimetext.com
+name: Http Ex
+version: 2
+file_extensions:
+  - http
+  - rest
+scope: source.http
+
+variables:
+  method: '\b(?:GET|POST|PUT|DELETE|PATCH|HEAD|OPTIONS|CONNECT|TRACE)\b'
+  identifier: '[A-Za-z_][A-Za-z0-9_-]*'
+
+contexts:
+  pop-endl:
+    - match: $
+      pop: true
+
+  # Переменные вида {{host}}, {{$guid}} или {{req.response.body.$.*.name}}
+  template-var:
+    - match: '(?=\{\{)'
+      push:
+        - clear_scopes: 1
+        - meta_scope: meta.interpolation.http
+        - match: '\{\{'
+          scope: constant.character.escape.interpolation.begin.http
+        - match: '\}\}'
+          scope: constant.character.escape.interpolation.end.http
+          pop: true
+        # Системные переменные ({{$guid}}, {{$timestamp}}, {{$dotenv ...}})
+        - match: '(\$)(guid|timestamp|datetime|localDatetime|randomInt|processEnv|dotenv|aadToken)\b'
+          captures:
+            1: keyword.operator.system-var.http
+            2: support.function.builtin.http
+        # Любые прочие переменные со знаком $ в начале
+        - match: '(\$)[A-Za-z0-9_-]+'
+          scope: support.variable.system.http
+        - match: '\.'
+          scope: punctuation.accessor.dot.http
+        - match: '\$|\*'
+          scope: keyword.operator.jsonpath.http
+        - match: '[A-Za-z0-9_-]+'
+          scope: variable.other.readwrite.http
+        - match: '\s+'
+          scope: meta.whitespace.http
+
+  main:
+    # 1. Разделитель запросов ### и описание после него
+    - match: '^(###)(.*)$'
+      captures:
+        # 0: markup.heading.section.http
+        0: markup.quote.http
+        1: punctuation.definition.heading.http
+        # 2: entity.name.section.http
+        2: entity.name.function.http comment.heading.http
+
+    # 2. Специальный комментарий с директивой (# @name my_request)
+    - match: '^\s*(#)\s*(@name)\s+({{identifier}})'
+      captures:
+        1: comment.line.http
+        2: storage.type.annotation.http
+        3: entity.name.function.http
+
+    # 3. Обычные комментарии (# или //)
+    - match: '(?:#|//)'
+      scope: comment.line.http
+      push: line_comment
+
+    # 4. Объявление переменной (@host=...)
+    - match: '^(@)({{identifier}})\s*(=)'
+      captures:
+        # 1: punctuation.definition.variable.http
+        1: constant.character.sigil.http
+        2: variable.other.assignment.http
+        3: keyword.operator.assignment.http
+      push: variable_value
+
+    # 5. Строка HTTP-запроса (GET {{host}}/...)
+    - match: '(?xi)^{{method}}(?=\s|$)'
+      scope: keyword.control.method.http
+      push: request_line
+
+    # 6. Вставка тела из внешнего файла (< ./file.json)
+    - match: '^(<)\s*(.+)$'
+      captures:
+        1: keyword.operator.import.http
+        2: string.unquoted.path.http
+
+    # 7. HTTP-заголовки (Content-Type: application/json)
+    - match: '^([A-Za-z0-9-]+)(:)\s*'
+      captures:
+        1: meta.mapping.key.http string.unquoted.key.http
+        2: punctuation.separator.key-value.http
+      push: header_value
+
+    # 8. Встроенный JSON для тела запроса (если начинается с { или [)
+    - match: '^(?=\s*[\{\[])'
+      push: scope:source.json
+      with_prototype:
+        - match: '^(?=###)'
+          pop: true
+        - include: template-var
+
+  line_comment:
+    - meta_scope: comment.line.http
+    - include: pop-endl
+
+  variable_value:
+    - meta_content_scope: string.unquoted.value.http
+    - include: template-var
+    - include: pop-endl
+
+  request_line:
+    - meta_content_scope: meta.request.http
+    - include: template-var
+    # Query-параметры (?expand=status)
+    - match: '(\?|&)({{identifier}})(=)'
+      captures:
+        1: punctuation.separator.query.http
+        2: variable.parameter.query.http
+        3: keyword.operator.assignment.http
+    - match: '[^\s\{\}\?&]+'
+      scope: markup.underline.link.url.http
+    - include: pop-endl
+
+  header_value:
+    - meta_content_scope: string.unquoted.header.http
+    - include: template-var
+    - include: pop-endl

@@ -1,0 +1,7 @@
+# SYNTAX TEST "Packages/sublime_overlord/syntaxes/Http Ex.sublime-syntax"
+
+@host=http://localhost:8083
+#<- constant.character.sigil.http
+#^^^^ variable.other.assignment.http
+#    ^ keyword.operator.assignment.http
+#     ^^^^^^^^^^^^^^^^^^^^^ string.unquoted.value.http

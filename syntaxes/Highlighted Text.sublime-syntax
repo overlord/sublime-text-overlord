@@ -289,6 +289,7 @@ contexts:
           ( {{todo_completed}} ) |
           ( {{todo_cancelled}} )
         )
+        ( {{space}}+ )
         (?: ( [^@]+? ) ( : [\s$] )  )?
       captures:
         0: meta.simple-todo
@@ -296,8 +297,8 @@ contexts:
         2: punctuation.definition.bullet.pending.todo
         3: punctuation.definition.bullet.completed.todo
         4: punctuation.definition.bullet.cancelled.todo
-        5: markup.sub-heading.plaintext
-        6: punctuation.plaintext
+        6: markup.sub-heading.plaintext
+        7: punctuation.plaintext
       push:
         - include: pop-endl
         - include: main

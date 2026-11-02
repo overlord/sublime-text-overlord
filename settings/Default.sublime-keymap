@@ -1,6 +1,6 @@
 [
 	// ------------------------------ overlord commands ------------------------------
-	// { "keys": ["ctrl+t"],  "command": "overlord_tab", "args": { "indent_type": "tab" } },
+//	{ "keys": ["ctrl+t"],            "command": "overlord_tab", "args": { "indent_type": "tab" } },
 	{ "keys": ["ctrl+t", "ctrl+t"],  "command": "unexpand_tabs", "args": {"set_translate_tabs": true} },
 	{ "keys": ["ctrl+alt+shift+t"],  "command": "overlord_tab", "args": { "indent_type": "space" } },
 	{ "keys": ["ctrl+-"],            "command": "overlord_total_recall", "args": { "mode": "back" } },
@@ -9,7 +9,7 @@
 	{ "keys": ["ctrl+alt+shift+d"],  "command": "overlord_find_all" },
 	{ "keys": ["ctrl+w"],            "command": "overlord_close" },
 	{ "keys": ["ctrl+alt+shift+-"],  "command": "overlord_insert_string", "args": { "s": "--[ SPLITTER ]--" } },
-	{ "keys": ["ctrl+alt+shift+0"],  "command": "overlord_insert_string", "args": { "s": "●" } },
+	{ "keys": ["ctrl+alt+shift+1"],  "command": "overlord_insert_string", "args": { "s": "●" } },
 	{ "keys": ["ctrl+shift+-"],      "command": "overlord_insert_string", "args": { "s": "------------------------------" } },
 	{ "keys": ["ctrl+shift+="],      "command": "overlord_insert_string", "args": { "s": "----------------------------------!---------------------------------------------" } },
 	{ "keys": ["ctrl+alt+shift+;"],  "command": "overlord_insert_timestamp" },
@@ -17,8 +17,8 @@
 	{ "keys": ["ctrl+shift+'"],      "command": "overlord_insert_time_ymd_hms" },
 	{ "keys": ["ctrl+shift+o"],      "command": "overlord_switch_project" },
 	{ "keys": ["ctrl+shift+q"],      "command": "overlord_switch_project_file" },
-	// { "keys": ["alt+d"],             "command": "overlord_diff", "args": { "tool": "TortoiseSVN" } },
-	// { "keys": ["alt+d"],             "command": "overlord_diff", "args": { "tool": "smerge" } },
+// { "keys": ["alt+d"],             "command": "overlord_diff", "args": { "tool": "TortoiseSVN" } },
+// { "keys": ["alt+d"],             "command": "overlord_diff", "args": { "tool": "smerge" } },
 	{ "keys": ["alt+d"],             "command": "overlord_diff" },
 	{ "keys": ["ctrl+alt+shift+o"],  "command": "overlord_open_recently_closed_file" },
 	{ "keys": ["ctrl+k", "ctrl+f"],  "command": "overlord_auto_indent" },
@@ -26,7 +26,7 @@
 	{ "keys": ["ctrl+shift+h"],      "command": "overlord_replace_plain", "args": { "scratch": false } },
 	{ "keys": ["ctrl+e", "ctrl+x"],  "command": "overlord_replace_plain", "args": { "config_path": "${packages}/sublime_overlord/replacers/stack-trace-plain.replace", "scratch": false } },
 	{ "keys": ["ctrl+m", "ctrl+o"],  "command": "overlord_sql_outline" },
-	//!_!{ "keys": ["ctrl+l"],       "command": "overlord_show_file_list" },
+//	{ "keys": ["ctrl+l"],            "command": "overlord_show_file_list" },
 	{ "keys": ["f2"],                "command": "overlord_rename_path" },
 	{ "keys": ["ctrl+1"],            "command": "overlord_mark_region", "args": { "command": "add" } },
 	{ "keys": ["ctrl+2"],            "command": "overlord_mark_region", "args": { "command": "remove" } },
@@ -38,7 +38,7 @@
 	{ "keys": ["ctrl+g"],            "command": "overlord_goto_line_plsql", "context": [ { "key": "selector", "operator": "equal", "operand": "source.sql" } ] },
 	{ "keys": ["ctrl+l", "ctrl+f"],  "command": "overlord_plsql_flip_equal", "context": [ { "key": "selector", "operator": "equal", "operand": "source.sql" } ] },
 	// ------------------------------ test commands ------------------------------
-	//!_!{ "keys": ["ctrl+t"],       "command": "overlord_test" },
+//	{ "keys": ["ctrl+t"],            "command": "overlord_test" },
 	// ------------------------------ system commands ------------------------------
 	{ "keys": ["alt+up"],            "command": "swap_line_up" },
 	{ "keys": ["alt+down"],          "command": "swap_line_down" },
@@ -50,5 +50,4 @@
 	{ "keys": ["shift+f1"],          "command": "find_under_prev" },
 	{ "keys": ["ctrl+p"],            "command": "overlord_goto_selected_file" },
 	{ "keys": ["ctrl+r"],            "command": "overlord_goto_selected_symbol" },
-	// { /* dummy last item */ }
 ]
