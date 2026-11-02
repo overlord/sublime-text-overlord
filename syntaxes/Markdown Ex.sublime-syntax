@@ -27,5 +27,5 @@ contexts:
       embed_scope:
         meta.code-fence.body.markdown-gfm
         markup.raw.code-fence.plantuml.markdown-gfm
-        source.cs
+        source.puml
       escape: (?!)
