@@ -263,6 +263,8 @@ contexts:
         2: markup.heading.plaintext
       push:
         - meta_content_scope: markup.heading.plaintext entity.name.section.plaintext
+        - match: '!!+'
+          scope: markup.underline.plaintext
         - include: pop-endl
 
     # sub-headings

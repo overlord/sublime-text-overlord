@@ -100,6 +100,7 @@
 			{ "caption": "Insert numbers",             "command": "overlord_number_items" },
 			{ "command": "overlord_insert_timestamp" },
 			{ "command": "overlord_insert_time_ymd" },
+			{ "command": "overlord_insert_time_ymd_hms" },
 			{ "caption": "Insert guid",                "command": "overlord_insert_string", "args": { "s": "${guid}", "mutate": true } },
 			{ "caption": "Clear trailing whitespaces", "command": "overlord_clear_regions" },
 			{ "caption": "Auto Indent (XML/JSON)",     "command": "overlord_auto_indent" },

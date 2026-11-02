@@ -12,6 +12,7 @@
 	{ "keys": ["ctrl+alt+shift+0"],  "command": "overlord_insert_string", "args": { "s": "●" } },
 	{ "keys": ["ctrl+shift+-"],      "command": "overlord_insert_string", "args": { "s": "------------------------------" } },
 	{ "keys": ["ctrl+shift+="],      "command": "overlord_insert_string", "args": { "s": "----------------------------------!---------------------------------------------" } },
+	{ "keys": ["ctrl+alt+shift+;"],  "command": "overlord_insert_timestamp" },
 	{ "keys": ["ctrl+shift+;"],      "command": "overlord_insert_time_ymd" },
 	{ "keys": ["ctrl+shift+'"],      "command": "overlord_insert_time_ymd_hms" },
 	{ "keys": ["ctrl+shift+o"],      "command": "overlord_switch_project" },
